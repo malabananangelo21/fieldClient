@@ -1,0 +1,50 @@
+ .nav-icon{
+    background-color: #1b5ea0!important;
+    margin-right: 5px!important;
+    width: 40px!important;
+    height: 40px!important;
+  }
+  .nav-icon-span {
+    display: none;  
+    font-size: small;
+  }
+  .nav-icon:hover{
+    /* background-color: #fff !important; */
+    border-radius:20px;
+    color: #fff !important;
+    width: 150px!important;
+    transition: width 0.4s;
+    content: attr(data-employeename);
+  }
+  .nav-icon:hover .nav-icon-span {
+    display: inline;
+  }
+  .navigation-list-settings{
+    display:flex;
+    width:100%;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+.account-list-slider{
+    width: 40%;
+    height: 100vh;
+    background-color: rgb(252, 252, 252);
+    position: absolute;
+    left: -50%;
+    transition: 2s;
+  }
+  .font-color-title{
+      color:#fff
+  }
+  .nav-option{
+      /* background-color: red; */
+      display: flex;
+      width: 100%;
+      padding-bottom: 5px;
+      align-items: center;
+      justify-content: space-between;
+  }
+  .account-list-card{
+    /* background-color:rgba(46, 45, 49, 0.498)!important ; */
+  }

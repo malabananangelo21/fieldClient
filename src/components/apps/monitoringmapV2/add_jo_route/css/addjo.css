@@ -1,0 +1,27 @@
+.jo-slider{
+    width: 30%;
+    height: 100vh;
+    /* background-color: rgba(0,0,0,0.4); */
+    /* background-color: #222; */
+    /* opacity: 0.30; */
+    /* background-color: rgb(252, 252, 252); */
+    position: absolute;
+    /* left: -50%; */
+    transition: 2s;
+    overflow-y: auto;
+  }
+  .card-color-data-summary{
+    background-color:rgba(0,0,0,0.7)!important;
+    /* opacity:  0.78 */
+}
+.text-color-white{
+    color:#fff!important;
+    font-weight:bold!important;
+}
+.text-color-gray{
+    color:rgb(150, 150, 150)!important;
+    font-weight:bold!important;
+}
+.fieldman-details-history{
+    background-color: rgba(0,0,0,0.7)!important;
+}

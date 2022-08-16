@@ -1,0 +1,7 @@
+.buttontable {
+    visibility: hidden
+}
+
+.buttontable:hover {
+    visibility: visible
+}
