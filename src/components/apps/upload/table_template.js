@@ -77,7 +77,6 @@ function InputData({ edit, refreshRemove, val, onChangeText }) {
   }, [refreshRemove]);
 
   return (
-
     <input
       // disabled={!edit ? true : false}
       value={inputValue}
@@ -86,7 +85,6 @@ function InputData({ edit, refreshRemove, val, onChangeText }) {
         onChangeText(e);
       }}
     />
-
   );
 }
 function SelectData({
@@ -138,7 +136,7 @@ function Index({
   jo_type,
   cancelTemplate,
   date_start_val,
-  file_name
+  file_name,
 }) {
   const home_reducer = useSelector((state) => state.home_reducer);
   const classes = styles();
@@ -180,21 +178,23 @@ function Index({
     getHeaderData();
   }, [refresh_table_template]);
   const getHeaderData = () => {
-    getData("tracking/GetUploadHeaderCategories2", { branch_id: branch_id, jo_type: jo_type, ba: ba }).then((res) => {
+    getData("tracking/GetUploadHeaderCategories2", {
+      branch_id: branch_id,
+      jo_type: jo_type,
+      ba: ba,
+    }).then((res) => {
       let header = [];
       let edit = false;
-      let dynamicHeaderData = []
+      let dynamicHeaderData = [];
       for (let index = 0; index < res.headers.length; index++) {
-        dynamicHeaderData = JSON.parse(res.headers[index].header_details)
+        dynamicHeaderData = JSON.parse(res.headers[index].header_details);
       }
       if (dynamicHeaderData.length > 0) {
-        console.log(dynamicHeaderData.length)
-        console.log(upload_data)
-
+        console.log(dynamicHeaderData.length);
+        console.log(upload_data);
 
         if (upload_data.length > 0) {
           if (dynamicHeaderData.length !== upload_data[0].length) {
-
             edit = true;
             upload_data.map((row, index) => {
               if (index === 1) {
@@ -230,7 +230,7 @@ function Index({
 
       res.data.sort(function (a, b) {
         return a["category_details"].localeCompare(b["category_details"]);
-      })
+      });
       setState({
         ...state,
         hearderFields: res.data,
@@ -250,13 +250,13 @@ function Index({
       date_added: moment(new Date()).format("YYYY-MM-DD HH:mm"),
       jo_type: jo_type,
     };
-    dispatch_data("LoadingIndex", true)
+    dispatch_data("LoadingIndex", true);
     getData("Schedule/saveHeader", data).then((res) => {
       setState({ ...state, edit: false });
-      dispatch_data("LoadingIndex", false)
+      dispatch_data("LoadingIndex", false);
     });
   };
-  const saveHeader = () => { };
+  const saveHeader = () => {};
   const onSelect = (e, index) => {
     state.header[index]["header"] = e.target.value;
     setState({ ...state });
@@ -276,26 +276,25 @@ function Index({
   };
   const UploadFile = () => {
     let new_upload_data = [];
-    let upload = true
+    let upload = true;
     let data_file = {
       file_name: file_name,
-      user_id: localStorage.getItem('u'),
+      user_id: localStorage.getItem("u"),
       branch_id: branch_id,
       upload_type: jo_type,
-      date_implement: moment(date_start_val).format('YYYY-MM-DD')
-    }
-    console.log(upload_data)
-    console.log(state.header)
+      date_implement: moment(date_start_val).format("YYYY-MM-DD"),
+    };
+    console.log(upload_data);
+    console.log(state.header);
 
     upload_data.map((val, index) => {
       if (index > 0) {
         let data = {};
-        data['bid'] = branch_id;
-        data['BA'] = ba;
-        data['upload_type'] = jo_type;
-        data['date_filter'] = moment(date_start_val).format('YYYY-MM-DD');
+        data["bid"] = branch_id;
+        data["BA"] = ba;
+        data["upload_type"] = jo_type;
+        data["date_filter"] = moment(date_start_val).format("YYYY-MM-DD");
         state.header.map((row, index_row) => {
-
           let column_value = "";
           let header = row.header;
           if (row.type === "") {
@@ -304,7 +303,7 @@ function Index({
             column_value = row.column_value;
           }
           if (header === "") {
-            upload = false
+            upload = false;
           }
 
           if (header !== "excluded") {
@@ -315,18 +314,20 @@ function Index({
       }
     });
     if (upload) {
-      dispatch_data("LoadingIndex", true)
-      getData("Schedule/uploadDynamicData", { file: data_file, data: new_upload_data, type: 'Job Orders' }).then((res) => {
+      dispatch_data("LoadingIndex", true);
+      getData("Schedule/uploadDynamicData", {
+        file: data_file,
+        data: new_upload_data,
+        type: "Job Orders",
+      }).then((res) => {
         if (res === true) {
           cancelTemplate();
         }
-        dispatch_data("LoadingIndex", false)
-
-      })
+        dispatch_data("LoadingIndex", false);
+      });
     } else {
-      alert('Please create a template')
+      alert("Please create a template");
     }
-
   };
 
   return (
@@ -398,7 +399,7 @@ function Index({
                               return (
                                 <TableCell component="th" scope="row">
                                   {index === 1 ? (
-                                    state.edit ?
+                                    state.edit ? (
                                       <InputData
                                         edit={state.edit}
                                         refreshRemove={state.refreshRemove}
@@ -407,7 +408,10 @@ function Index({
                                           val.column_value = e.target.value;
                                           setState({ ...state });
                                         }}
-                                      /> : val.column_value
+                                      />
+                                    ) : (
+                                      val.column_value
+                                    )
                                   ) : undefined}
                                 </TableCell>
                               );

@@ -187,10 +187,10 @@ const CustomTooltip = ({ active, payload, label, checkState }) => {
                   justifyContent: "space-between",
                 }}
               >
-                <p className="label" style={{ fontSize: 16 }}>
+                <p className="label" style={{ fontSize: 14 }}>
                   APF
                 </p>
-                <p className="label" style={{ fontSize: 16 }}>
+                <p className="label" style={{ fontSize: 14 }}>
                   <span style={{ fontWeight: "bold" }}>{`${formatNumber(
                     payload[0].payload.average_assign
                   )}`}</span>
@@ -208,10 +208,10 @@ const CustomTooltip = ({ active, payload, label, checkState }) => {
                   justifyContent: "space-between",
                 }}
               >
-                <p className="label" style={{ fontSize: 16 }}>
+                <p className="label" style={{ fontSize: 14 }}>
                   FIELDMAN
                 </p>
-                <p className="label" style={{ fontSize: 16 }}>
+                <p className="label" style={{ fontSize: 14 }}>
                   <span style={{ fontWeight: "bold" }}>{`${formatNumber(
                     payload[0].payload.fieldman
                   )}`}</span>
@@ -220,7 +220,7 @@ const CustomTooltip = ({ active, payload, label, checkState }) => {
             </Card>
           </Grid>
           <Grid item xs={4} md={4}>
-            <Card variant={"outlined"} style={{ backgroundColor: "#9b59b6" }}>
+            <Card variant={"outlined"} style={{ backgroundColor: "#1abc9c" }}>
               <div
                 style={{
                   padding: 10,
@@ -231,13 +231,13 @@ const CustomTooltip = ({ active, payload, label, checkState }) => {
               >
                 <p
                   className="label"
-                  style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                  style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                 >
                   TOTAL
                 </p>
                 <p
                   className="label"
-                  style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                  style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                 >
                   <span style={{ fontWeight: "bold" }}>{`${formatNumber(
                     payload[0].payload.total_jo
@@ -259,13 +259,13 @@ const CustomTooltip = ({ active, payload, label, checkState }) => {
                 >
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     Assigned
                   </p>
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     <span style={{ fontWeight: "bold" }}>{`${formatNumber(
                       payload[0].payload.assigned
@@ -288,13 +288,13 @@ const CustomTooltip = ({ active, payload, label, checkState }) => {
                 >
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     Unassigned
                   </p>
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     <span style={{ fontWeight: "bold" }}>{`${formatNumber(
                       payload[0].payload.unassigned
@@ -317,13 +317,13 @@ const CustomTooltip = ({ active, payload, label, checkState }) => {
                 >
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     Accomplished
                   </p>
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     <span style={{ fontWeight: "bold" }}>{`${formatNumber(
                       payload[0].payload.accomplishment
@@ -346,13 +346,13 @@ const CustomTooltip = ({ active, payload, label, checkState }) => {
                 >
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     Re-out Assigned
                   </p>
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     <span style={{ fontWeight: "bold" }}>{`${formatNumber(
                       payload[0].payload.re_out_assigned
@@ -375,13 +375,13 @@ const CustomTooltip = ({ active, payload, label, checkState }) => {
                 >
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     Re-out Unssigned
                   </p>
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     <span style={{ fontWeight: "bold" }}>{`${formatNumber(
                       payload[0].payload.re_out_unassigned
@@ -404,16 +404,45 @@ const CustomTooltip = ({ active, payload, label, checkState }) => {
                 >
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     Delay
                   </p>
                   <p
                     className="label"
-                    style={{ fontSize: 16, color: "#fff", fontWeight: "bold" }}
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
                   >
                     <span style={{ fontWeight: "bold" }}>{`${formatNumber(
                       payload[0].payload.remaining
+                    )}`}</span>
+                  </p>
+                </div>
+              </Card>
+            </Grid>
+          ) : undefined}
+          {checkState.findings ? (
+            <Grid item xs={4} md={4}>
+              <Card variant={"outlined"} style={{ backgroundColor: "#9b59b6" }}>
+                <div
+                  style={{
+                    padding: 10,
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <p
+                    className="label"
+                    style={{ fontSize: 12, color: "#fff", fontWeight: "bold" }}
+                  >
+                    Lack of Time And Others
+                  </p>
+                  <p
+                    className="label"
+                    style={{ fontSize: 14, color: "#fff", fontWeight: "bold" }}
+                  >
+                    <span style={{ fontWeight: "bold" }}>{`${formatNumber(
+                      payload[0].payload.findings
                     )}`}</span>
                   </p>
                 </div>
@@ -508,6 +537,14 @@ export default function Barline({
               type="monotone"
               dataKey="accomplishment"
               stroke="#2bad62"
+            />
+          ) : undefined}
+          {checkState.findings ? (
+            <Line
+              strokeWidth={3}
+              type="monotone"
+              dataKey="findings"
+              stroke="#9b59b6"
             />
           ) : undefined}
         </ComposedChart>

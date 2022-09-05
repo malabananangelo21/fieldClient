@@ -169,7 +169,6 @@ const Map = forwardRef((props, ref) => {
     newMap =
       trackAccom &&
       trackAccom.map((location, index) => {
-        console.log(location);
         let image_pic = undefined;
         if (pin_img.length > 0) {
           let findIndexJo_type = jo_type.findIndex(
@@ -177,8 +176,6 @@ const Map = forwardRef((props, ref) => {
           );
           image_pic = pin_img[findIndexJo_type];
         }
-        console.log(pin_img);
-        console.log(image_pic);
 
         let image = require("../../../assets/map image/online.png");
         if (image_pic != undefined) {

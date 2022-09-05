@@ -15,7 +15,7 @@ import {
   DialogContentText,
   DialogTitle,
   Slide,
-  Checkbox
+  Checkbox,
 } from "@material-ui/core";
 import moment from "moment";
 import Map from "./monitoringMap";
@@ -49,15 +49,15 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import ClearIcon from "@material-ui/icons/Clear";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import RotateRightIcon from "@material-ui/icons/RotateRight";
-import ValidationFieldman from "./validation/validation_fieldman"
-import PDF from '../mapMonitoring/pdf'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ValidationFieldman from "./validation/validation_fieldman";
+import PDF from "../mapMonitoring/pdf";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import FieldmanHistory from './fieldman_history/index'
-import AverageLineGraph from './initial/charts/average_line'
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import FieldmanHistory from "./fieldman_history/index";
+import AverageLineGraph from "./initial/charts/average_line";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -75,7 +75,7 @@ const useStyles = makeStyles({
 });
 let trackAccom = [];
 let refreshMap = false;
-let refreshMapFDetails = false
+let refreshMapFDetails = false;
 let playButton = false;
 let clearCLuster = false;
 let markerCluster = [];
@@ -93,7 +93,7 @@ const MapComponents = React.memo(
     trackAccomSpan,
     pathCoordinates,
     midPoint,
-    openMapSelectedFieldman
+    openMapSelectedFieldman,
   }) => {
     return (
       <Map
@@ -112,7 +112,6 @@ const MapComponents = React.memo(
         pathCoordinates={pathCoordinates}
         midPoint={midPoint}
         openMapSelectedFieldman={openMapSelectedFieldman}
-
       />
     );
   },
@@ -126,7 +125,6 @@ const MapComponents = React.memo(
 );
 
 export default function Home() {
-
   const childRef = React.useRef();
   const childRefValidation = React.useRef();
   const childRefDashboard = React.useRef();
@@ -138,7 +136,7 @@ export default function Home() {
   const home_reducer = useSelector((state) => state.home_reducer);
   const timerRef = React.useRef(null);
   const speeds = React.useRef(1);
-  const matches = useMediaQuery('(min-width:600px)');
+  const matches = useMediaQuery("(min-width:600px)");
 
   const [mapOption, setmapOption] = React.useState({
     zoom: 12,
@@ -171,7 +169,7 @@ export default function Home() {
     new_pickIndex: 0,
     openModalDetails: false,
     degree: 0,
-    fieldman_id: '',
+    fieldman_id: "",
     field_findings: [],
     refreshOnClickFieldman: false,
     new_trackAccom: [],
@@ -201,10 +199,10 @@ export default function Home() {
       //   color: '#487eb0'
       // },
       {
-        type: 'ABSENT',
+        type: "ABSENT",
         value: [],
-        color: '#e74c3c'
-      }
+        color: "#e74c3c",
+      },
     ],
     //Google Map
     refreshMap: false,
@@ -216,7 +214,7 @@ export default function Home() {
     excel_invalid_data: [],
     Selected_branch: "",
     Selectedcompany: "",
-    date_selected_fieldman: '',
+    date_selected_fieldman: "",
     single_history: "",
     actual_reading: [],
     comparison: [],
@@ -227,8 +225,8 @@ export default function Home() {
     display_ave_accom: true,
     display_valid: true,
     display_invalid: true,
-
-
+    get_lack_of_time: [],
+    get_lack_of_time_list: [],
   });
   const [isOpen, setIsOpen] = React.useState([]);
   const [loadingImage, setLoadingImage] = React.useState(true);
@@ -238,9 +236,8 @@ export default function Home() {
     // if (counter.current >= urls.length) {
     setLoadingImage(false);
     // }
-  }
+  };
   function openHome() {
-
     if (width < 600) {
       document.getElementById("dashboard").style.cssText =
         "transition: 0.5s;left:0;width:100%";
@@ -259,11 +256,9 @@ export default function Home() {
         "transition: 0.5s;left:-50%;";
     }
 
-
     setState((prev) => ({ ...prev, gridSize: 12, showProfile: "none" }));
   }
   function closeHome() {
-
     document.getElementById("dashboard").style.cssText =
       "transition: 0.5s;left:-50%;";
     document.getElementById("fieldman-list").style.cssText =
@@ -274,22 +269,20 @@ export default function Home() {
       setState((prev) => ({ ...prev, gridSize: 12, lineShow: false }));
     }, 1000);
   }
-  function onClickFieldman(data, date,initial) {
+  function onClickFieldman(data, date, initial, get_lack_of_time) {
     document.getElementById("line-graph").style.cssText =
       "transition: 0.5s;left:-50%;";
-    if(!initial){
-      
-    if (width < 600) {
-      document.getElementById("fieldman-list").style.cssText =
-        "transition: 0.5s;left:0; width:100%";
-      document.getElementById("dashboard").style.cssText =
-        "transition: 0.5s;left:-100%;width:100%";
-    } else {
-      document.getElementById("fieldman-list").style.cssText =
-        "transition: 0.5s;left:50%;";
+    if (!initial) {
+      if (width < 600) {
+        document.getElementById("fieldman-list").style.cssText =
+          "transition: 0.5s;left:0; width:100%";
+        document.getElementById("dashboard").style.cssText =
+          "transition: 0.5s;left:-100%;width:100%";
+      } else {
+        document.getElementById("fieldman-list").style.cssText =
+          "transition: 0.5s;left:50%;";
+      }
     }
-    }
-  
 
     setTimeout(() => {
       setState((prev) => ({
@@ -298,6 +291,7 @@ export default function Home() {
         fieldman_map: data,
         lineShow: false,
         date,
+        get_lack_of_time: get_lack_of_time,
       }));
     }, 100);
   }
@@ -314,21 +308,29 @@ export default function Home() {
       let res = await getData("HumanResource/getHandleBranch", {
         user_id: localStorage.getItem("u"),
       });
-      let selectedData = []
-      let match_branch = []
-      let onSelectData = sessionStorage.getItem("onSelectSingleDateGraph")
-      let onSelectDataLocalStorage = localStorage.getItem("onSelectSingleDateGraph")
+      let selectedData = [];
+      let match_branch = [];
+      let onSelectData = sessionStorage.getItem("onSelectSingleDateGraph");
+      let onSelectDataLocalStorage = localStorage.getItem(
+        "onSelectSingleDateGraph"
+      );
       if (onSelectDataLocalStorage !== null) {
-        onSelectData = onSelectDataLocalStorage
+        onSelectData = onSelectDataLocalStorage;
       }
       if (onSelectData === null) {
         match_branch = res.response.filter(
-          (val, index) => (parseInt(val.company_id) === 6 && (val.branch_field_work) !== "" && (val.branch_field_work) !== null)
+          (val, index) =>
+            parseInt(val.company_id) === 6 &&
+            val.branch_field_work !== "" &&
+            val.branch_field_work !== null
         );
       } else {
-        let bid = JSON.parse(onSelectData)
+        let bid = JSON.parse(onSelectData);
         match_branch = res.response.filter(
-          (val, index) => (parseInt(val.company_id) === parseInt(bid.company_id) && (val.branch_field_work) !== "" && (val.branch_field_work) !== null)
+          (val, index) =>
+            parseInt(val.company_id) === parseInt(bid.company_id) &&
+            val.branch_field_work !== "" &&
+            val.branch_field_work !== null
         );
       }
 
@@ -348,11 +350,11 @@ export default function Home() {
         }
       });
 
-      let branch_id = ''
-      let company_id = ''
-      let branch_name = ''
-      let jo_type_val = []
-      let jo_type_data = []
+      let branch_id = "";
+      let company_id = "";
+      let branch_name = "";
+      let jo_type_val = [];
+      let jo_type_data = [];
       let job_position = "";
       match_branch.sort(function (a, b) {
         return a["branch_name"].localeCompare(b["branch_name"]);
@@ -360,41 +362,41 @@ export default function Home() {
       if (onSelectData === null) {
         if (match_branch.length > 0) {
           match_branch.forEach((val, index) => {
-            if ((val.branch_field_work) !== "") {
+            if (val.branch_field_work !== "") {
               if (branch_id == "") {
-                branch_id = val.branch_id
-                company_id = 6
-                branch_name = val.branch_name
-                let jo_type = JSON.parse(val.branch_field_work)
-                jo_type_val = [jo_type[0]]
-                jo_type_data = jo_type
+                branch_id = val.branch_id;
+                company_id = 6;
+                branch_name = val.branch_name;
+                let jo_type = JSON.parse(val.branch_field_work);
+                jo_type_val = [jo_type[0]];
+                jo_type_data = jo_type;
                 if (val.branch_field_personnel !== "") {
                   let user_pos = JSON.parse(val.branch_field_personnel);
                   job_position = user_pos[0];
                 }
               }
             }
-          })
+          });
         } else {
-
-          res.response.forEach(
-            (val, index) => {
-              if ((val.branch_field_work) !== "" && (val.branch_field_work) !== null) {
-                if (branch_id == "") {
-                  branch_id = val.branch_id
-                  company_id = parseInt(val.company_id)
-                  branch_name = val.branch_name
-                  let jo_type = JSON.parse(val.branch_field_work)
-                  jo_type_val = [jo_type[0]]
-                  jo_type_data = jo_type
-                  if (val.branch_field_personnel !== "") {
-                    let user_pos = JSON.parse(val.branch_field_personnel);
-                    job_position = user_pos[0];
-                  }
+          res.response.forEach((val, index) => {
+            if (
+              val.branch_field_work !== "" &&
+              val.branch_field_work !== null
+            ) {
+              if (branch_id == "") {
+                branch_id = val.branch_id;
+                company_id = parseInt(val.company_id);
+                branch_name = val.branch_name;
+                let jo_type = JSON.parse(val.branch_field_work);
+                jo_type_val = [jo_type[0]];
+                jo_type_data = jo_type;
+                if (val.branch_field_personnel !== "") {
+                  let user_pos = JSON.parse(val.branch_field_personnel);
+                  job_position = user_pos[0];
                 }
               }
             }
-          );
+          });
         }
         let data = {
           parameter: "branch_id",
@@ -402,43 +404,55 @@ export default function Home() {
           from: moment(new Date()).format("YYYY-MM-DD"),
           to: moment(new Date()).format("YYYY-MM-DD"),
           company_id: company_id,
-          jo_type: jo_type_val
-        }
-        sessionStorage.setItem('onSelectSingleDateGraph', JSON.stringify(data))
-
+          jo_type: jo_type_val,
+        };
+        sessionStorage.setItem("onSelectSingleDateGraph", JSON.stringify(data));
       } else {
-
-        selectedData = JSON.parse(onSelectData)
-        let data_match = match_branch.filter((val) => (parseInt(val.branch_id) === parseInt(selectedData.selection[0])))
+        selectedData = JSON.parse(onSelectData);
+        let data_match = match_branch.filter(
+          (val) =>
+            parseInt(val.branch_id) === parseInt(selectedData.selection[0])
+        );
         if (data_match.length > 0) {
-          jo_type_val = selectedData.jo_type
-          let jo_type = JSON.parse(data_match[0].branch_field_work)
-          jo_type_data = jo_type
+          jo_type_val = selectedData.jo_type;
+          let jo_type = JSON.parse(data_match[0].branch_field_work);
+          jo_type_data = jo_type;
           if (data_match[0].branch_field_personnel !== "") {
             let user_pos = JSON.parse(data_match[0].branch_field_personnel);
             job_position = user_pos[0];
           }
         }
-        sessionStorage.setItem('onSelectSingleDateGraph', JSON.stringify(selectedData))
+        sessionStorage.setItem(
+          "onSelectSingleDateGraph",
+          JSON.stringify(selectedData)
+        );
       }
-      dispatch({ 'type': 'JobOrderType_position', job_position: job_position, jo_type: jo_type_data, jo_type_val: jo_type_val })
+      dispatch({
+        type: "JobOrderType_position",
+        job_position: job_position,
+        jo_type: jo_type_data,
+        jo_type_val: jo_type_val,
+      });
       setTimeout(() => {
-        childRefDashboard.current.get_nitial_data()
-      }, 500)
+        childRefDashboard.current.get_nitial_data();
+      }, 500);
       // dispatch_data("JobOrderType", jo_type_data);
       // map_reducer.job_position = job_position
       // map_reducer.jo_type = jo_type_data
       // map_reducer.selected_jo = jo_type_val
 
       dispatch({
-        type:'onChangeHomeReducer',
-        data:{
-          handleBranch:res.response,
-          company_name:company,
-          SelectedBranches:match_branch
-        }
-      })
-      setState((prev) => ({ ...prev, validation_priviledge: res.validation[0].validation_priviledge }));
+        type: "onChangeHomeReducer",
+        data: {
+          handleBranch: res.response,
+          company_name: company,
+          SelectedBranches: match_branch,
+        },
+      });
+      setState((prev) => ({
+        ...prev,
+        validation_priviledge: res.validation[0].validation_priviledge,
+      }));
 
       // dispatch_data("loading_map", false);
     } catch (error) {
@@ -485,32 +499,33 @@ export default function Home() {
   const onShow = (data) => {
     closeHome();
     trackAccom = data.trackAccom;
-    let new_attendance = []
+    let new_attendance = [];
     for (let index = 0; index < data.attendance.length; index++) {
       if (new_attendance.length == 0) {
         if (data.attendance[index].att_type === "Time-in") {
-          new_attendance.push(data.attendance[index])
+          new_attendance.push(data.attendance[index]);
         }
       } else {
-        if (new_attendance[new_attendance.length - 1].att_type === data.attendance[index].att_type) {
-          let type = "Time-in"
+        if (
+          new_attendance[new_attendance.length - 1].att_type ===
+          data.attendance[index].att_type
+        ) {
+          let type = "Time-in";
           if (data.attendance[index].att_type === "Time-in") {
-            type = "Time-out"
+            type = "Time-out";
           }
           new_attendance.push({
             att_class: "Office",
             att_type: type,
             date_added: "--:--",
             user_id: data.attendance[index].user_id,
-          })
-          new_attendance.push(data.attendance[index])
+          });
+          new_attendance.push(data.attendance[index]);
         } else {
-          new_attendance.push(data.attendance[index])
+          new_attendance.push(data.attendance[index]);
         }
-
       }
     }
-
     setState((prev) => ({
       ...prev,
       fieldman_delivery_type: data.fieldman_delivery_type,
@@ -520,26 +535,28 @@ export default function Home() {
       trackAccom: data.trackAccom,
       fieldman_details: [data],
       fieldman_id: data.single_user_id,
-      date_selected_fieldman: moment(data.date_history).format('LL'),
-      single_history: data.singele_history
-
+      date_selected_fieldman: moment(data.date_history).format("LL"),
+      single_history: data.singele_history,
+      get_lack_of_time_list: data.get_lack_of_time,
     }));
     setTimeout(() => {
       document.getElementById("fieldmanDeatils-slider-left").style.cssText =
         "transition: 0.5s;left:0%;";
-      getfield_findings(data.trackAccom)
+      getfield_findings(data.trackAccom);
     }, 100);
   };
   async function getfield_findings(trackAccom) {
     try {
-      let onSelectDataLocalStorage = sessionStorage.getItem("onSelectSingleDateGraph")
-      let type = "Delivery"
+      let onSelectDataLocalStorage = sessionStorage.getItem(
+        "onSelectSingleDateGraph"
+      );
+      let type = "Delivery";
 
       if (onSelectDataLocalStorage !== null) {
-        let new_type = JSON.parse(onSelectDataLocalStorage).jo_type
+        let new_type = JSON.parse(onSelectDataLocalStorage).jo_type;
         if (new_type.length > 0) {
           if (new_type[0] === "Audit Reading") {
-            type = new_type[0]
+            type = new_type[0];
           }
         }
       }
@@ -551,13 +568,11 @@ export default function Home() {
         branch_id: map_reducer.branch_id,
         company_id: map_reducer.company_id,
       };
-      let res = await getData("tracking/getfield_findings", data)
+      let res = await getData("tracking/getfield_findings", data);
       let stringArray = JSON.stringify(trackAccom);
       let new_track = JSON.parse(stringArray).reverse();
       getDurationInterval(new_track, res.field_findings, 5, trackAccom);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
   function degreesToRadians(degrees) {
     return (degrees * Math.PI) / 180;
@@ -570,9 +585,9 @@ export default function Home() {
     let a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(degreesToRadians(lat1)) *
-      Math.cos(degreesToRadians(lat1)) *
-      Math.sin(dLong / 2) *
-      Math.sin(dLong / 2);
+        Math.cos(degreesToRadians(lat1)) *
+        Math.sin(dLong / 2) *
+        Math.sin(dLong / 2);
 
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     let distance = R * c;
@@ -672,7 +687,9 @@ export default function Home() {
 
       new_trackAccom_data.push(new_trackAccom_array);
     });
-    let percent = parseInt(trackAccom.length * (map_reducer.count_validation_logs / 100));
+    let percent = parseInt(
+      trackAccom.length * (map_reducer.count_validation_logs / 100)
+    );
     if (trackAccom.length <= 50) {
       percent = trackAccom.length;
     }
@@ -695,9 +712,9 @@ export default function Home() {
       interval_array.push(index_val);
     }
     refreshMap = !refreshMap;
-    refreshMapFDetails = !refreshMapFDetails
+    refreshMapFDetails = !refreshMapFDetails;
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       field_findings: field_findings,
       new_trackAccom: new_trackAccom_data,
@@ -707,9 +724,7 @@ export default function Home() {
       refreshOnClickFieldman: !state.refreshOnClickFieldman,
       showGraph: true,
       showProfile: "contents",
-
     }));
-
 
     // setState((prev) => ({
     //   ...prev,
@@ -718,29 +733,25 @@ export default function Home() {
     // }));
   };
   const onChecked = (e, value) => {
-    setState(prev => ({ ...prev, [e.target.name]: value }))
-  }
+    setState((prev) => ({ ...prev, [e.target.name]: value }));
+  };
   const HomeDashboard = () => {
     return (
       <>
         <div id="line-graph" className="line-graph">
           <div
-            style={{ overflowY: "auto", height: '99%', overflowX: "hidden" }}
+            style={{ overflowY: "auto", height: "99%", overflowX: "hidden" }}
           >
             <Grid container spacing={1}>
               <Grid item xs={12} md={12}>
                 {state.lineShow ? (
                   <div
                     style={{
-
                       marginTop: 60,
                       paddingTop: 20,
                     }}
                   >
-                    <Card
-                      elevation={4}
-                      className='card-line'
-                    >
+                    <Card elevation={4} className="card-line">
                       <CardContent>
                         <Typography
                           style={{
@@ -771,10 +782,7 @@ export default function Home() {
                       paddingTop: 20,
                     }}
                   >
-                    <Card
-                      elevation={4}
-                      className='card-line'
-                    >
+                    <Card elevation={4} className="card-line">
                       <CardContent>
                         <Typography
                           style={{
@@ -799,19 +807,15 @@ export default function Home() {
                 ) : undefined}
               </Grid>
               <Grid item xs={12} md={12}>
-                {state.lineShow ?
+                {state.lineShow ? (
                   <div
                     style={{
                       // marginTop: 10,
                       // marginTop: 60,
                       paddingTop: 20,
-
                     }}
                   >
-                    <Card
-                      elevation={4}
-                      className='card-line'
-                    >
+                    <Card elevation={4} className="card-line">
                       <CardContent>
                         <Typography
                           style={{
@@ -827,7 +831,7 @@ export default function Home() {
                       </CardContent>
                     </Card>
                   </div>
-                  : undefined}
+                ) : undefined}
               </Grid>
               <Grid item xs={12} md={12}>
                 {state.running_average.length > 0 ? (
@@ -837,10 +841,7 @@ export default function Home() {
                       paddingTop: 20,
                     }}
                   >
-                    <Card
-                      elevation={4}
-                      className='card-line'
-                    >
+                    <Card elevation={4} className="card-line">
                       <CardContent>
                         <Typography
                           style={{
@@ -853,81 +854,171 @@ export default function Home() {
                         </Typography>
                         <Grid container spacing={1}>
                           <Grid xs={12} md={3}>
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
                               <Checkbox
-                                onChange={(e) => onChecked(e, !state.display_running_assign)}
-                                name='display_running_assign'
+                                onChange={(e) =>
+                                  onChecked(e, !state.display_running_assign)
+                                }
+                                name="display_running_assign"
                                 checked={state.display_running_assign}
-                                style={{ color: '#9b59b6' }}
-                                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                style={{ color: "#9b59b6" }}
+                                inputProps={{
+                                  "aria-label": "secondary checkbox",
+                                }}
                               />
                               {/* <div style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: '#9b59b6',marginRight:5 }} /> */}
-                              <Typography style={{ fontSize: 13, color: '#fff' }}>Running Assign</Typography>
+                              <Typography
+                                style={{ fontSize: 13, color: "#fff" }}
+                              >
+                                Running Assign
+                              </Typography>
                             </div>
                           </Grid>
                           <Grid xs={12} md={3}>
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
                               <Checkbox
-                                onChange={(e) => onChecked(e, !state.display_running_accom)}
-                                name='display_running_accom'
+                                onChange={(e) =>
+                                  onChecked(e, !state.display_running_accom)
+                                }
+                                name="display_running_accom"
                                 checked={state.display_running_accom}
-                                style={{ color: '#1e9651' }}
-                                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                style={{ color: "#1e9651" }}
+                                inputProps={{
+                                  "aria-label": "secondary checkbox",
+                                }}
                               />
                               {/* <div style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: '#1e9651',marginRight:5 }} /> */}
-                              <Typography style={{ fontSize: 13, color: '#fff' }}>Running Accom</Typography>
+                              <Typography
+                                style={{ fontSize: 13, color: "#fff" }}
+                              >
+                                Running Accom
+                              </Typography>
                             </div>
                           </Grid>
                           <Grid xs={12} md={3}>
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
                               <Checkbox
-                                onChange={(e) => onChecked(e, !state.display_ave_assign)}
-                                name='display_ave_assign'
+                                onChange={(e) =>
+                                  onChecked(e, !state.display_ave_assign)
+                                }
+                                name="display_ave_assign"
                                 checked={state.display_ave_assign}
-                                style={{ color: '#3498db' }}
-                                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                style={{ color: "#3498db" }}
+                                inputProps={{
+                                  "aria-label": "secondary checkbox",
+                                }}
                               />
                               {/* <div style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: '#3498db',marginRight:5 }} /> */}
-                              <Typography style={{ fontSize: 13, color: '#fff' }}>Ave. Assign</Typography>
+                              <Typography
+                                style={{ fontSize: 13, color: "#fff" }}
+                              >
+                                Ave. Assign
+                              </Typography>
                             </div>
                           </Grid>
                           <Grid xs={12} md={3}>
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
                               <Checkbox
-                                onChange={(e) => onChecked(e, !state.display_ave_accom)}
-                                name='display_ave_accom'
+                                onChange={(e) =>
+                                  onChecked(e, !state.display_ave_accom)
+                                }
+                                name="display_ave_accom"
                                 checked={state.display_ave_accom}
-                                style={{ color: '#f1c40f' }}
-                                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                style={{ color: "#f1c40f" }}
+                                inputProps={{
+                                  "aria-label": "secondary checkbox",
+                                }}
                               />
                               {/* <div style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: '#1e9651',marginRight:5 }} /> */}
-                              <Typography style={{ fontSize: 13, color: '#fff' }}>Ave. Accom</Typography>
+                              <Typography
+                                style={{ fontSize: 13, color: "#fff" }}
+                              >
+                                Ave. Accom
+                              </Typography>
                             </div>
                           </Grid>
-                          <Grid xs={12} md={3} justify='flex-start'>
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                          <Grid xs={12} md={3} justify="flex-start">
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
                               <Checkbox
-                                onChange={(e) => onChecked(e, !state.display_valid)}
-                                name='display_valid'
+                                onChange={(e) =>
+                                  onChecked(e, !state.display_valid)
+                                }
+                                name="display_valid"
                                 checked={state.display_valid}
-                                style={{ color: '#009432' }}
-                                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                style={{ color: "#009432" }}
+                                inputProps={{
+                                  "aria-label": "secondary checkbox",
+                                }}
                               />
                               {/* <div style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: '#009432',marginRight:5 }} /> */}
-                              <Typography style={{ fontSize: 13, color: '#fff' }}>Valid</Typography>
+                              <Typography
+                                style={{ fontSize: 13, color: "#fff" }}
+                              >
+                                Valid
+                              </Typography>
                             </div>
                           </Grid>
-                          <Grid xs={12} md={3} justify='flex-start'>
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                          <Grid xs={12} md={3} justify="flex-start">
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
                               <Checkbox
-                                onChange={(e) => onChecked(e, !state.display_invalid)}
-                                name='display_invalid'
+                                onChange={(e) =>
+                                  onChecked(e, !state.display_invalid)
+                                }
+                                name="display_invalid"
                                 checked={state.display_invalid}
-                                style={{ color: '#e74c3c' }}
-                                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                style={{ color: "#e74c3c" }}
+                                inputProps={{
+                                  "aria-label": "secondary checkbox",
+                                }}
                               />
                               {/* <div style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: '#e74c3c',marginRight:5 }} /> */}
-                              <Typography style={{ fontSize: 13, color: '#fff' }}>Invalid</Typography>
+                              <Typography
+                                style={{ fontSize: 13, color: "#fff" }}
+                              >
+                                Invalid
+                              </Typography>
                             </div>
                           </Grid>
 
@@ -970,10 +1061,8 @@ export default function Home() {
                             />
                           </Grid>
                         </Grid>
-
                       </CardContent>
                     </Card>
-
                   </div>
                 ) : undefined}
               </Grid>
@@ -988,9 +1077,7 @@ export default function Home() {
               
          
             </Grid> */}
-
           </div>
-
         </div>
         <div id="fieldman-list" className="fieldman-list">
           <FieldmanList
@@ -1000,11 +1087,21 @@ export default function Home() {
             date_start={state.date}
             onShow={onShow}
             getfield_findings={getfield_findings}
-            refreshOnClickFieldman={() => { setState(prev => ({ ...prev, refreshOnClickFieldman: !state.refreshOnClickFieldman })) }}
+            refreshOnClickFieldman={() => {
+              setState((prev) => ({
+                ...prev,
+                refreshOnClickFieldman: !state.refreshOnClickFieldman,
+              }));
+            }}
             resetTrackSpan={() => {
-              clearCLuster = true
-              refreshMap = !refreshMap
-              setState((prev) => ({ ...prev, trackAccomSpan: [], midPoint: [], pathCoordinates: [] }))
+              clearCLuster = true;
+              refreshMap = !refreshMap;
+              setState((prev) => ({
+                ...prev,
+                trackAccomSpan: [],
+                midPoint: [],
+                pathCoordinates: [],
+              }));
             }}
             open_summary={() => childRefDashboard.current.open_summary()}
             excelFile={state.excelFile}
@@ -1014,16 +1111,19 @@ export default function Home() {
             logo={state.logo}
             openFiedmanHistory={openFiedmanHistory}
             getRecord={getRecord}
-            updateDashboard={(countChange) => childRefDashboard.current.updateDashboard(countChange)}
+            updateDashboard={(countChange) =>
+              childRefDashboard.current.updateDashboard(countChange)
+            }
             closemobile={() => {
               document.getElementById("dashboard").style.cssText =
                 "transition: 0.5s;left:0%; width:100%";
               document.getElementById("fieldman-list").style.cssText =
                 "transition: 0.5s;left:-100%;";
             }}
+            get_lack_of_time={state.get_lack_of_time}
           />
         </div>
-        <div className="dash-slider-button" id='dash-slider-button' >
+        <div className="dash-slider-button" id="dash-slider-button">
           <IconButton
             onClick={() => {
               if (width < 600) {
@@ -1058,20 +1158,27 @@ export default function Home() {
             closeHome={() => {
               document.getElementById("dash-slider-button").style.cssText =
                 "transition: 0.5s;left:.5%;";
-              closeHome()
+              closeHome();
             }}
             onClickFieldman={onClickFieldman}
             gridSize={state.gridSize}
             openLineHours={openLineHours}
             dash_click={dash_click}
-            onChangeLogo={(logo) => { setState(prev => ({ ...prev, logo: logo })) }}
+            onChangeLogo={(logo) => {
+              setState((prev) => ({ ...prev, logo: logo }));
+            }}
             refresh={() => {
-              let onSelectData = sessionStorage.getItem("onSelectSingleDateGraph")
-              let selectedData = JSON.parse(onSelectData)
-              selectedData.to = moment(new Date()).format('YYYY-MM-DD')
-              selectedData.from = moment(new Date()).format('YYYY-MM-DD')
-              sessionStorage.setItem('onSelectSingleDateGraph', JSON.stringify(selectedData))
-              getBranches()
+              let onSelectData = sessionStorage.getItem(
+                "onSelectSingleDateGraph"
+              );
+              let selectedData = JSON.parse(onSelectData);
+              selectedData.to = moment(new Date()).format("YYYY-MM-DD");
+              selectedData.from = moment(new Date()).format("YYYY-MM-DD");
+              sessionStorage.setItem(
+                "onSelectSingleDateGraph",
+                JSON.stringify(selectedData)
+              );
+              getBranches();
             }}
             closeList={() => {
               document.getElementById("line-graph").style.cssText =
@@ -1079,30 +1186,56 @@ export default function Home() {
               document.getElementById("fieldman-list").style.cssText =
                 "transition: 0.5s;left:-50%;";
             }}
-            onChangetrackAccom={(data, excelFile, excel_invalid_data, Selected_branch, Selectedcompany, logo) => {
-              trackAccom = data
-              refreshMap = !refreshMap
-              clearCLuster = true
-              setState(prev => ({ ...prev, excelFile: excelFile, excel_invalid_data: excel_invalid_data, Selected_branch: Selected_branch, Selectedcompany: Selectedcompany, logo }))
+            onChangetrackAccom={(
+              data,
+              excelFile,
+              excel_invalid_data,
+              Selected_branch,
+              Selectedcompany,
+              logo
+            ) => {
+              trackAccom = data;
+              refreshMap = !refreshMap;
+              clearCLuster = true;
+              setState((prev) => ({
+                ...prev,
+                excelFile: excelFile,
+                excel_invalid_data: excel_invalid_data,
+                Selected_branch: Selected_branch,
+                Selectedcompany: Selectedcompany,
+                logo,
+              }));
             }}
             passRunningAverage={(average) => {
               document.getElementById("fieldman-list").style.cssText =
                 "transition: 0.5s;left:-38%;";
               document.getElementById("line-graph").style.cssText =
                 "transition: 0.5s;left:50%;";
-              setState(prev => ({
-                ...prev, running_average: average, lineShow: false
-              }))
+              setState((prev) => ({
+                ...prev,
+                running_average: average,
+                lineShow: false,
+              }));
             }}
-            onTrackAccomplishmentsRoute={(row, date_start, assign, bulk, type) => {
-              childRefFieldmanList.current.onTrackAccomplishmentsRoute(row, date_start, assign, bulk, type)
+            onTrackAccomplishmentsRoute={(
+              row,
+              date_start,
+              assign,
+              bulk,
+              type
+            ) => {
+              childRefFieldmanList.current.onTrackAccomplishmentsRoute(
+                row,
+                date_start,
+                assign,
+                bulk,
+                type
+              );
             }}
 
-
-          // onClearCLuster={()=>{
-          //   clearCLuster = true
-          // }}
-
+            // onClearCLuster={()=>{
+            //   clearCLuster = true
+            // }}
           />
         </div>
       </>
@@ -1120,54 +1253,58 @@ export default function Home() {
       let match = data.accom_jo_type.includes("Audit");
       if (match) {
         dispatch_data("loading_map", true);
-        let reference = data.account_no
+        let reference = data.account_no;
         if (reference != "" && reference != null) {
-          reference = data.meter_number
+          reference = data.meter_number;
         }
         let details = {
           branch_id: map_reducer.branch_id,
           account_number: reference,
           jo_id: data.jo_id,
-          date: moment(data.date_accom).format('YYYY-MM-DD')
+          date: moment(data.date_accom).format("YYYY-MM-DD"),
         };
         // let res = await getData("aam/getAccountNumberRecords", details);
         let data_new = [];
-        let comparison = []
+        let comparison = [];
         // [data].forEach((val)=>{
-        data_new.push({ type: 'Fieldman', value: data.actual_fieldman_name })
-        data_new.push({ type: 'Reading', value: data.actual_reading })
-        data_new.push({ type: 'Date Accomplished', value: data.actual_reading_date })
-        comparison.push({ type: 'Previous Reading', value: data.new_previous_reading })
-        comparison.push({ type: 'Audit Reading', value: data.present_reading })
-        comparison.push({ type: 'Actual Reading', value: data.actual_reading })
+        data_new.push({ type: "Fieldman", value: data.actual_fieldman_name });
+        data_new.push({ type: "Reading", value: data.actual_reading });
+        data_new.push({
+          type: "Date Accomplished",
+          value: data.actual_reading_date,
+        });
+        comparison.push({
+          type: "Previous Reading",
+          value: data.new_previous_reading,
+        });
+        comparison.push({ type: "Audit Reading", value: data.present_reading });
+        comparison.push({ type: "Actual Reading", value: data.actual_reading });
         // })
         setState((prev) => ({
           ...prev,
           actual_reading: data_new,
-          comparison: comparison
+          comparison: comparison,
         }));
         dispatch_data("loading_map", false);
       }
     } catch (error) {
-
       // alert("Request failed.");
       // dispatch_data("loading_map", false);
     }
   }
   const FieldmanDetailsComponent = () => {
-
     const handleClose = () => {
-      childRefValidation.current.getAlert()
-    }
+      childRefValidation.current.getAlert();
+    };
     const handleOpen = (fetched_coordinates) => {
       let latlong = String(fetched_coordinates);
       let splitlatlng = latlong.split(",");
       let lat_data = splitlatlng[0];
       let lng_data = splitlatlng[1];
-      dispatch_data('latitude', (lat_data))
-      dispatch_data('longitude', (lng_data))
-      setState(prev => ({ ...prev, openModalDetails: true }))
-    }
+      dispatch_data("latitude", lat_data);
+      dispatch_data("longitude", lng_data);
+      setState((prev) => ({ ...prev, openModalDetails: true }));
+    };
     return (
       <div>
         <div style={{ display: state.showProfile }}>
@@ -1183,10 +1320,17 @@ export default function Home() {
             state={state}
             getDurationInterval={getDurationInterval}
             setState={setState}
-            onrefreshMapFDetails={(match_data) => { refreshMapFDetails = !refreshMapFDetails; setState(prev => ({ ...prev, match_new_trackAccom: match_data })); }}
+            onrefreshMapFDetails={(match_data) => {
+              refreshMapFDetails = !refreshMapFDetails;
+              setState((prev) => ({
+                ...prev,
+                match_new_trackAccom: match_data,
+              }));
+            }}
             onClick_list_Duration={(val, pathCoordinates, midPoint) => {
-              document.getElementById("fieldmanDeatils-slider-left").style.cssText =
-                "transition: 0.5s;left:-50%;";
+              document.getElementById(
+                "fieldmanDeatils-slider-left"
+              ).style.cssText = "transition: 0.5s;left:-50%;";
               document.getElementById("fieldmanDeatils-open").style.cssText =
                 "transition: 0.5s;left:-50%;";
               setmapOption({
@@ -1194,8 +1338,8 @@ export default function Home() {
                 lat: pathCoordinates[0].lat,
                 lng: pathCoordinates[0].lng,
               });
-              refreshMap = !refreshMap
-              clearCLuster = true
+              refreshMap = !refreshMap;
+              clearCLuster = true;
               setState({
                 ...state,
                 trackAccomSpan: val,
@@ -1205,13 +1349,19 @@ export default function Home() {
               });
             }}
             resetTrackSpan={() => {
-              clearCLuster = true
-              refreshMap = !refreshMap
-              setState((prev) => ({ ...prev, trackAccomSpan: [], midPoint: [], pathCoordinates: [] }))
+              clearCLuster = true;
+              refreshMap = !refreshMap;
+              setState((prev) => ({
+                ...prev,
+                trackAccomSpan: [],
+                midPoint: [],
+                pathCoordinates: [],
+              }));
             }}
             resetSelected={() => {
-              setState((prev) => ({ ...prev, selectedDetails: [] }))
+              setState((prev) => ({ ...prev, selectedDetails: [] }));
             }}
+            get_lack_of_time_list={state.get_lack_of_time_list}
           />
         </div>
         <div
@@ -1219,23 +1369,37 @@ export default function Home() {
           className="fieldmanDeatils-slider-left"
         >
           <div
-            style={{ overflowY: "auto", maxHeight: '98%', overflowX: "hidden" }}
+            style={{ overflowY: "auto", maxHeight: "98%", overflowX: "hidden" }}
           >
             <div className="card-color-delivery-type-fieldman">
               <Grid container spacing={1}>
                 <Grid item xs={12} md={12}>
-                  <div style={{ display: 'flex', marginTop: 60, alignItems: 'center', justifyContent: 'space-between' }}>
-                    {state.single_history === 'History' ?
+                  <div
+                    style={{
+                      display: "flex",
+                      marginTop: 60,
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    {state.single_history === "History" ? (
                       <IconButton
                         onClick={() => {
                           removeFielmanMarker();
-                          document.getElementById("fieldmanHistory-slider-left").style.cssText =
-                            "transition: 0.5s;left:0";
-                          document.getElementById("fieldmanDeatils-slider-left").style.cssText =
-                            "transition: 0.5s;left:-50%;";
-                          document.getElementById("fieldmanDeatils-open").style.cssText =
-                            "transition: 0.5s;left:-50%;";
-                          setState((prev) => ({ ...prev, gridSize: 12, showProfile: "none" }));
+                          document.getElementById(
+                            "fieldmanHistory-slider-left"
+                          ).style.cssText = "transition: 0.5s;left:0";
+                          document.getElementById(
+                            "fieldmanDeatils-slider-left"
+                          ).style.cssText = "transition: 0.5s;left:-50%;";
+                          document.getElementById(
+                            "fieldmanDeatils-open"
+                          ).style.cssText = "transition: 0.5s;left:-50%;";
+                          setState((prev) => ({
+                            ...prev,
+                            gridSize: 12,
+                            showProfile: "none",
+                          }));
                         }}
                         aria-label="delete"
                         style={{
@@ -1248,7 +1412,7 @@ export default function Home() {
                       >
                         <KeyboardBackspaceIcon style={{ color: "#000" }} />
                       </IconButton>
-                      :
+                    ) : (
                       <IconButton
                         onClick={() => {
                           removeFielmanMarker();
@@ -1265,9 +1429,11 @@ export default function Home() {
                       >
                         <KeyboardBackspaceIcon style={{ color: "#000" }} />
                       </IconButton>
-                    }
+                    )}
                     <div>
-                      <Typography style={{ color: '#fff' }}>{state.date_selected_fieldman}</Typography>
+                      <Typography style={{ color: "#fff" }}>
+                        {state.date_selected_fieldman}
+                      </Typography>
                     </div>
                   </div>
                 </Grid>
@@ -1295,7 +1461,7 @@ export default function Home() {
                     return (
                       <>
                         <Grid item xs={4} md={4} key={index}>
-                          <Card elevation={3} className='card-color-data'>
+                          <Card elevation={3} className="card-color-data">
                             <CardContent
                               className=""
                               style={{
@@ -1305,12 +1471,20 @@ export default function Home() {
                               }}
                             >
                               <Typography
-                                style={{ fontSize: 12, fontWeight: "bold", color: '#fff' }}
+                                style={{
+                                  fontSize: 12,
+                                  fontWeight: "bold",
+                                  color: "#fff",
+                                }}
                               >
                                 {val.type}
                               </Typography>
                               <Typography
-                                style={{ fontSize: 12, fontWeight: "bold", color: '#fff' }}
+                                style={{
+                                  fontSize: 12,
+                                  fontWeight: "bold",
+                                  color: "#fff",
+                                }}
                               >
                                 {val.count}
                               </Typography>
@@ -1339,13 +1513,13 @@ export default function Home() {
                   <hr />
                 </Grid>
                 {state.attendance.map((val, index) => {
-                  let date = "--:--"
+                  let date = "--:--";
                   if (val.date_added != "--:--") {
-                    date = moment(val.date_added).format("HH:mm A")
+                    date = moment(val.date_added).format("HH:mm A");
                   }
                   return (
                     <Grid item xs={4} md={4} key={index}>
-                      <Card elevation={3} className='card-color-data'>
+                      <Card elevation={3} className="card-color-data">
                         <CardContent
                           className=""
                           style={{
@@ -1356,12 +1530,20 @@ export default function Home() {
                           }}
                         >
                           <Typography
-                            style={{ fontSize: 11.5, fontWeight: "bold", color: '#fff' }}
+                            style={{
+                              fontSize: 11.5,
+                              fontWeight: "bold",
+                              color: "#fff",
+                            }}
                           >
                             {String(val.att_type).toUpperCase()}
                           </Typography>
                           <Typography
-                            style={{ fontSize: 11.5, fontWeight: "bold", color: '#fff' }}
+                            style={{
+                              fontSize: 11.5,
+                              fontWeight: "bold",
+                              color: "#fff",
+                            }}
                           >
                             {date}
                           </Typography>
@@ -1398,7 +1580,7 @@ export default function Home() {
                         marginRight: 10,
                       }}
                     />
-                    <Typography style={{ fontSize: 12.7, color: '#fff' }}>
+                    <Typography style={{ fontSize: 12.7, color: "#fff" }}>
                       Accomplishments / Hour
                     </Typography>
                   </div>
@@ -1414,7 +1596,7 @@ export default function Home() {
                         marginRight: 10,
                       }}
                     />
-                    <Typography style={{ fontSize: 12.7, color: '#fff' }}>
+                    <Typography style={{ fontSize: 12.7, color: "#fff" }}>
                       Accomplishments
                     </Typography>
                   </div>
@@ -1430,22 +1612,25 @@ export default function Home() {
                         marginRight: 10,
                       }}
                     />
-                    <Typography style={{ fontSize: 12.7, color: '#fff' }}>Battery</Typography>
+                    <Typography style={{ fontSize: 12.7, color: "#fff" }}>
+                      Battery
+                    </Typography>
                   </div>
                 </Grid>
               </Grid>
               <Grid container spacing={1}>
                 <Grid xs={12} md={12}>
                   <Card
-                    className='card-color-data'
+                    className="card-color-data"
                     elevation={4}
                     style={{ marginTop: 10, marginRight: 10, marginLeft: 10 }}
                   >
                     <CardContent
-                      style={{
-                        // backgroundColor: "rgb(59 43 60 / 50%)",
-
-                      }}
+                      style={
+                        {
+                          // backgroundColor: "rgb(59 43 60 / 50%)",
+                        }
+                      }
                     >
                       {/* <Line
                 line_data={state.state.fieldman_details.line}
@@ -1477,7 +1662,6 @@ export default function Home() {
             style={{ overflowY: "auto", height: "100%", overflowX: "hidden" }}
           >
             {state.selectedDetails.map((val, index) => {
-
               let images = [];
               let validator_remarks = "";
               let validator_remark_type = "";
@@ -1485,7 +1669,10 @@ export default function Home() {
               let validator_name = "";
               let date_validated = "";
               let validator_comment = "";
-              let percent = parseInt(state.trackAccomMasterList.length * (map_reducer.count_validation_logs / 100));
+              let percent = parseInt(
+                state.trackAccomMasterList.length *
+                  (map_reducer.count_validation_logs / 100)
+              );
               if (state.trackAccomMasterList.length <= 50) {
                 percent = state.trackAccomMasterList.length;
               }
@@ -1494,7 +1681,9 @@ export default function Home() {
                   percent = 50;
                 }
               }
-              let interval = parseInt(state.trackAccomMasterList.length / percent);
+              let interval = parseInt(
+                state.trackAccomMasterList.length / percent
+              );
               let interval_array = [];
 
               for (let index = 0; index < percent; index++) {
@@ -1523,7 +1712,8 @@ export default function Home() {
                 val.validator_remark_type_category != "" &&
                 val.validator_remark_type_category != null
               ) {
-                validator_remark_type_category = val.validator_remark_type_category;
+                validator_remark_type_category =
+                  val.validator_remark_type_category;
               }
               if (val.user_lname != null) {
                 validator_name = val.user_lname + " " + val.user_fname;
@@ -1531,46 +1721,68 @@ export default function Home() {
               if (val.date_validated != null) {
                 date_validated = val.date_validated;
               }
-              if (val.validator_comment != null && val.validator_comment != "") {
-                validator_comment = val.validator_comment
+              if (
+                val.validator_comment != null &&
+                val.validator_comment != ""
+              ) {
+                validator_comment = val.validator_comment;
               }
               let borderColor = undefined;
               let borderWidth = undefined;
               let borderStyle = undefined;
-              let display = 'none'
+              let display = "none";
               if (match_random.length > 0) {
                 borderColor = "#e67e22";
                 borderWidth = 4;
                 borderStyle = "solid";
-                display = undefined
+                display = undefined;
               }
               return (
                 <>
                   <Grid container spacing={0} style={{ marginTop: 50 }}>
                     <Grid item xs={12} md={12}>
                       <Card style={{ position: "relative" }} variant="outlined">
-                        {(val.image_path !== "" && val.image_path !== null) ? (
+                        {val.image_path !== "" && val.image_path !== null ? (
                           <div style={{ position: "relative" }}>
-                            <div style={{
-                              display: loadingImage ? "block" : "none", width: "100%",
-                              height: "40vh", position: 'absolute', backgroundColor: '#fff', zIndex: 99
-                            }}>
-                              <div style={{ display: 'flex', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
-                                <Typography style={{ fontWeight: 'bold' }}>
+                            <div
+                              style={{
+                                display: loadingImage ? "block" : "none",
+                                width: "100%",
+                                height: "40vh",
+                                position: "absolute",
+                                backgroundColor: "#fff",
+                                zIndex: 99,
+                              }}
+                            >
+                              <div
+                                style={{
+                                  display: "flex",
+                                  width: "100%",
+                                  height: "100%",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                <Typography style={{ fontWeight: "bold" }}>
                                   Loading image...
                                 </Typography>
                               </div>
                             </div>
-                            <Carousel style={{ display: loadingImage ? "none" : "block", position: 'absolute' }} autoPlay={false} >
+                            <Carousel
+                              style={{
+                                display: loadingImage ? "none" : "block",
+                                position: "absolute",
+                              }}
+                              autoPlay={false}
+                            >
                               {images.map((images, index) => {
                                 return (
                                   <img
                                     key={index}
-                                    onClick={() => { handleOpen(val.fetched_coordinates) }}
-                                    src={
-                                      serverImageMeter +
-                                      images.path
-                                    }
+                                    onClick={() => {
+                                      handleOpen(val.fetched_coordinates);
+                                    }}
+                                    src={serverImageMeter + images.path}
                                     onLoad={imageLoaded}
                                     alt="test"
                                     style={{
@@ -1579,18 +1791,25 @@ export default function Home() {
                                     }}
                                   />
                                 );
-                              })
-                              }</Carousel>
+                              })}
+                            </Carousel>
                           </div>
                         ) : (
-                          <Carousel style={{ display: loadingImage ? "none" : "block", position: 'absolute' }} autoPlay={false} >
+                          <Carousel
+                            style={{
+                              display: loadingImage ? "none" : "block",
+                              position: "absolute",
+                            }}
+                            autoPlay={false}
+                          >
                             <img
                               src={require("../../../assets/map image/no_image.png")}
                               alt="test"
                               onLoad={imageLoaded}
                               style={{ width: "100%", height: "24vh" }}
                             />
-                          </Carousel>)}
+                          </Carousel>
+                        )}
 
                         <div style={{ position: "absolute", left: 5, top: 5 }}>
                           <IconButton
@@ -1612,9 +1831,20 @@ export default function Home() {
                             <CloseIcon style={{ color: "#fff" }} />
                           </IconButton>
                         </div>
-                        {(val.image_path !== "" && val.image_path !== null) ?
-                          <div style={{ position: "absolute", right: 5, bottom: 40 }}>
-                            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        {val.image_path !== "" && val.image_path !== null ? (
+                          <div
+                            style={{
+                              position: "absolute",
+                              right: 5,
+                              bottom: 40,
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                              }}
+                            >
                               <Button
                                 style={{
                                   fontSize: "0.8125rem",
@@ -1622,9 +1852,14 @@ export default function Home() {
                                   color: "white",
                                 }}
                                 onClick={() => {
-                                  let images = JSON.parse(state.selectedDetails[0].accom_images);
-                                  getData("Audit/convertImageAccom", images).then((res) => {
-                                    setState(prev => ({
+                                  let images = JSON.parse(
+                                    state.selectedDetails[0].accom_images
+                                  );
+                                  getData(
+                                    "Audit/convertImageAccom",
+                                    images
+                                  ).then((res) => {
+                                    setState((prev) => ({
                                       ...prev,
                                       images_base_64: res.image,
                                       openPDF: true,
@@ -1637,8 +1872,7 @@ export default function Home() {
                               </Button>
                             </div>
                           </div>
-                          : undefined
-                        }
+                        ) : undefined}
                       </Card>
                     </Grid>
                     {/* <Grid item xs={12} md={12} style={{ backgroundColor: '#fff' }}>
@@ -1663,44 +1897,91 @@ export default function Home() {
                     </Grid> */}
 
                     <Grid item xs={12} md={12}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: 10 }}>
-                        {state.new_pickIndex > 0 ?
-                          <div onClick={() => {
-                            onPrevious(state.new_pickIndex - 1)
-                          }} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <ArrowLeftIcon style={{ color: '#fff' }} />
-                            <Typography style={{ fontSize: 14, color: '#fff' }}>
-                              PREVIOUS
-                            </Typography>
-                          </div> :
-                          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <ArrowLeftIcon style={{ color: '#969696' }} />
-                            <Typography style={{ fontSize: 14, color: '#969696' }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          padding: 10,
+                        }}
+                      >
+                        {state.new_pickIndex > 0 ? (
+                          <div
+                            onClick={() => {
+                              onPrevious(state.new_pickIndex - 1);
+                            }}
+                            style={{
+                              cursor: "pointer",
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <ArrowLeftIcon style={{ color: "#fff" }} />
+                            <Typography style={{ fontSize: 14, color: "#fff" }}>
                               PREVIOUS
                             </Typography>
                           </div>
-                        }
+                        ) : (
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <ArrowLeftIcon style={{ color: "#969696" }} />
+                            <Typography
+                              style={{ fontSize: 14, color: "#969696" }}
+                            >
+                              PREVIOUS
+                            </Typography>
+                          </div>
+                        )}
                         <div>
-                          <Typography style={{ fontSize: 14, color: '#fff' }}>
-                            {(state.new_pickIndex + 1) + ' / ' + trackAccom.length}
+                          <Typography style={{ fontSize: 14, color: "#fff" }}>
+                            {state.new_pickIndex +
+                              1 +
+                              " / " +
+                              trackAccom.length}
                           </Typography>
                         </div>
-                        {state.new_pickIndex < trackAccom.length - 1 ?
-                          <div onClick={() => {
-                            onNext(state.new_pickIndex + 1);
-                          }} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography style={{ fontSize: 14, color: '#fff' }}>
+                        {state.new_pickIndex < trackAccom.length - 1 ? (
+                          <div
+                            onClick={() => {
+                              onNext(state.new_pickIndex + 1);
+                            }}
+                            style={{
+                              cursor: "pointer",
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Typography style={{ fontSize: 14, color: "#fff" }}>
                               NEXT
                             </Typography>
-                            <ArrowRightIcon style={{ color: '#fff' }} />
+                            <ArrowRightIcon style={{ color: "#fff" }} />
                           </div>
-                          : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography style={{ fontSize: 14, color: '#969696' }}>
+                        ) : (
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Typography
+                              style={{ fontSize: 14, color: "#969696" }}
+                            >
                               NEXT
                             </Typography>
-                            <ArrowRightIcon style={{ color: '#969696' }} />
+                            <ArrowRightIcon style={{ color: "#969696" }} />
                           </div>
-                        }
+                        )}
                       </div>
                     </Grid>
 
@@ -1732,7 +2013,7 @@ export default function Home() {
                           fontSize: 12.5,
                           color: "rgb(247, 159, 31)",
                           fontWeight: "bold",
-                          display: display
+                          display: display,
                         }}
                       >
                         REQUIRED TO VALIDATE
@@ -1771,9 +2052,11 @@ export default function Home() {
                         );
                       })}
                     </Grid>
-                    {state.actual_reading.length > 0 ?
+                    {state.actual_reading.length > 0 ? (
                       <Grid item xs={12} md={12}>
-                        <div style={{ backgroundColor: "#1c1e247f", padding: 5 }}>
+                        <div
+                          style={{ backgroundColor: "#1c1e247f", padding: 5 }}
+                        >
                           <Typography
                             style={{
                               fontSize: 14,
@@ -1785,7 +2068,7 @@ export default function Home() {
                           </Typography>
                         </div>
                       </Grid>
-                      : undefined}
+                    ) : undefined}
 
                     <Grid container spacing={1} style={{ padding: 15 }}>
                       {state.actual_reading.map((val, index) => {
@@ -1831,7 +2114,6 @@ export default function Home() {
                         >
                           VALIDATION
                         </Typography>
-
                       </div>
                     </Grid>
                     <Grid container spacing={1} style={{ padding: 15 }}>
@@ -1999,7 +2281,6 @@ export default function Home() {
                         </div>
                       </Grid>
                     </Grid>
-
                   </Grid>
                 </>
               );
@@ -2008,7 +2289,7 @@ export default function Home() {
         </div>
         <Dialog
           fullWidth={true}
-          maxWidth={'lg'}
+          maxWidth={"lg"}
           open={state.openModalDetails}
           TransitionComponent={Transition}
           keepMounted
@@ -2031,25 +2312,30 @@ export default function Home() {
               map_reducer={map_reducer}
               field_findings={state.field_findings}
               onrefreshMap={() => {
-                refreshMapFDetails = !refreshMapFDetails
-                  ; setState(prev => ({ ...prev }))
+                refreshMapFDetails = !refreshMapFDetails;
+                setState((prev) => ({ ...prev }));
               }}
               resetSelected={() => {
-                setState((prev) => ({ ...prev, selectedDetails: [] }))
+                setState((prev) => ({ ...prev, selectedDetails: [] }));
               }}
               resetTrackSpan={() => {
-                clearCLuster = true
-                refreshMap = !refreshMap
-                setState((prev) => ({ ...prev, trackAccomSpan: [], midPoint: [], pathCoordinates: [] }))
-              }} />
+                clearCLuster = true;
+                refreshMap = !refreshMap;
+                setState((prev) => ({
+                  ...prev,
+                  trackAccomSpan: [],
+                  midPoint: [],
+                  pathCoordinates: [],
+                }));
+              }}
+            />
           </DialogContent>
           <DialogActions>
-
-            <Button onClick={handleClose} style={{ backgroundColor: '#1b5ea0' }}>
-              <Typography style={{ color: '#fff' }}>
-                Close
-              </Typography>
-
+            <Button
+              onClick={handleClose}
+              style={{ backgroundColor: "#1b5ea0" }}
+            >
+              <Typography style={{ color: "#fff" }}>Close</Typography>
             </Button>
           </DialogActions>
         </Dialog>
@@ -2058,7 +2344,7 @@ export default function Home() {
           maxWidth="lg"
           open={state.openPDF}
           onClose={() => {
-            setState(prev => ({ ...prev, openPDF: false }));
+            setState((prev) => ({ ...prev, openPDF: false }));
           }}
           aria-labelledby="responsive-dialog-title"
         >
@@ -2066,7 +2352,9 @@ export default function Home() {
           <div style={{ position: "absolute", zIndex: 2, right: 2, top: 1 }}>
             <IconButton aria-label="delete">
               <CloseIcon
-                onClick={() => setState(prev => ({ ...prev, openPDF: false }))}
+                onClick={() =>
+                  setState((prev) => ({ ...prev, openPDF: false }))
+                }
                 style={{ color: "#000" }}
               />
             </IconButton>
@@ -2095,7 +2383,7 @@ export default function Home() {
   const stopPlay = () => {
     trackAccom = state.trackAccomMasterList;
     refreshMap = !refreshMap;
-    refreshMapFDetails = !refreshMapFDetails
+    refreshMapFDetails = !refreshMapFDetails;
 
     playButton = false;
     clearTimeout(timerRef.current);
@@ -2106,7 +2394,7 @@ export default function Home() {
   const removeFielmanMarker = () => {
     trackAccom = [];
     refreshMap = !refreshMap;
-    refreshMapFDetails = !refreshMapFDetails
+    refreshMapFDetails = !refreshMapFDetails;
 
     playButton = false;
     clearCLuster = true;
@@ -2120,9 +2408,9 @@ export default function Home() {
       playButton = true;
       clearCLuster = true;
       refreshMap = !refreshMap;
-      refreshMapFDetails = !refreshMapFDetails
+      refreshMapFDetails = !refreshMapFDetails;
 
-      childRefFieldmanDetails.current.closeCountValidatioList()
+      childRefFieldmanDetails.current.closeCountValidatioList();
       setState((prev) => {
         return {
           ...prev,
@@ -2167,7 +2455,7 @@ export default function Home() {
 
           // clearCLuster = false
           refreshMap = !refreshMap;
-          refreshMapFDetails = !refreshMapFDetails
+          refreshMapFDetails = !refreshMapFDetails;
 
           setState((prev) => {
             return {
@@ -2181,7 +2469,7 @@ export default function Home() {
         speeds.current = 1;
         playButton = false;
         refreshMap = !refreshMap;
-        refreshMapFDetails = !refreshMapFDetails
+        refreshMapFDetails = !refreshMapFDetails;
 
         setState((prev) => {
           return {
@@ -2259,9 +2547,15 @@ export default function Home() {
                     return { ...prev, count_val: state.count_val++ };
                   });
                 }
-                refreshMap = !refreshMap
+                refreshMap = !refreshMap;
                 setState((prev) => {
-                  return { ...prev, pause: true, trackAccomSpan: [], midPoint: [], pathCoordinates: [] };
+                  return {
+                    ...prev,
+                    pause: true,
+                    trackAccomSpan: [],
+                    midPoint: [],
+                    pathCoordinates: [],
+                  };
                 });
                 playBackAccom(state.trackAccomMasterList, false);
                 document.getElementById(
@@ -2289,7 +2583,7 @@ export default function Home() {
   };
   const onNext = (index) => {
     if (index < state.trackAccom.length) {
-      setLoadingImage(true)
+      setLoadingImage(true);
 
       document.getElementById("fieldmanDeatils-slider-left").style.cssText =
         "transition: 0.5s;left:-50%;";
@@ -2309,11 +2603,15 @@ export default function Home() {
       if (parseFloat(lat) === 0 && parseFloat(lng) === 0) {
         zoom = 10;
       }
-      childRef.current.getAlert(index, parseFloat(lat), parseFloat(lng))
+      childRef.current.getAlert(index, parseFloat(lat), parseFloat(lng));
 
       ArrangeDetailsDisplay(details);
       getAccountNumberRecords(details);
-      setState((prev) => ({ ...prev, selectedDetails: [details], new_pickIndex: index, }));
+      setState((prev) => ({
+        ...prev,
+        selectedDetails: [details],
+        new_pickIndex: index,
+      }));
       // refreshMap = !refreshMap
       // playButton = true
       setmapOption({
@@ -2323,16 +2621,16 @@ export default function Home() {
         zoom: zoom,
       });
     }
-  }
+  };
   const onPrevious = (index) => {
     if (index >= 0) {
-      setLoadingImage(true)
+      setLoadingImage(true);
       document.getElementById("fieldmanDeatils-slider-left").style.cssText =
         "transition: 0.5s;left:-50%;";
       document.getElementById("fieldmanDeatils-open").style.cssText =
         "transition: 0.5s;left:0%;";
       let details = state.trackAccom[index];
-      getAccountNumberRecords(details)
+      getAccountNumberRecords(details);
       var latlong = "";
       var splitlatlng = "";
       var lat = "";
@@ -2346,7 +2644,7 @@ export default function Home() {
       if (parseFloat(lat) === 0 && parseFloat(lng) === 0) {
         zoom = 10;
       }
-      childRef.current.getAlert(index, parseFloat(lat), parseFloat(lng))
+      childRef.current.getAlert(index, parseFloat(lat), parseFloat(lng));
       setmapOption({
         ...mapOption,
         lat: parseFloat(lat),
@@ -2355,17 +2653,25 @@ export default function Home() {
       });
 
       ArrangeDetailsDisplay(details);
-      setState((prev) => ({ ...prev, selectedDetails: [details], new_pickIndex: index }));
+      setState((prev) => ({
+        ...prev,
+        selectedDetails: [details],
+        new_pickIndex: index,
+      }));
     }
-  }
+  };
   const fieldmanDeatilsOpen = (selectedDetails, mark, index, loading) => {
-    setLoadingImage(loading)
+    setLoadingImage(loading);
     document.getElementById("fieldmanDeatils-slider-left").style.cssText =
       "transition: 0.5s;left:-50%;";
     document.getElementById("fieldmanDeatils-open").style.cssText =
       "transition: 0.5s;left:0%;";
     ArrangeDetailsDisplay(selectedDetails[0]);
-    setState((prev) => ({ ...prev, selectedDetails: selectedDetails, new_pickIndex: index }));
+    setState((prev) => ({
+      ...prev,
+      selectedDetails: selectedDetails,
+      new_pickIndex: index,
+    }));
   };
   const openFiedmanHistory = (user_id, row) => {
     document.getElementById("fieldman-list").style.cssText =
@@ -2374,8 +2680,8 @@ export default function Home() {
       "transition: 0.5s;left:-50;";
     document.getElementById("fieldmanHistory-slider-left").style.cssText =
       "transition: 0.5s;left:0%;";
-    getRecord(user_id, row)
-  }
+    getRecord(user_id, row);
+  };
   const getRecord = (user_id, row) => {
     dispatch_data("loading_map", true);
     // setHistory(true);
@@ -2394,7 +2700,7 @@ export default function Home() {
 
     getData("aam/getAccomplishementRecord", details, state.discon).then(
       (res) => {
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           record_single_data: res,
           record_start_date: firstDay,
@@ -2405,16 +2711,16 @@ export default function Home() {
           refreshHistory: !state.refreshHistory,
           attendance_history: [
             {
-              type: 'PRESENT',
+              type: "PRESENT",
               value: res.present,
-              color: '#487eb0'
+              color: "#487eb0",
             },
             {
-              type: 'ABSENT',
+              type: "ABSENT",
               value: res.absent,
-              color: '#e74c3c'
-            }
-          ]
+              color: "#e74c3c",
+            },
+          ],
         }));
         dispatch_data("loading_map", false);
       }
@@ -2433,38 +2739,35 @@ export default function Home() {
       branch_id: state.Selected_branch,
       jo_type_val: map_reducer.selected_jo,
     };
-    getData("aam/getAccomplishementRecord", details).then(
-      (res) => {
-        setState(prev => ({
-          ...prev,
-          record_single_data: res,
-          record_start_date: firstDay,
-          record_end_date: currentDay,
-          openRecord: false,
-          refreshHistory: !state.refreshHistory,
-          attendance_history: [
-            {
-              type: 'PRESENT',
-              value: res.present,
-              color: '#487eb0'
-            },
-            {
-              type: 'ABSENT',
-              value: res.absent,
-              color: '#e74c3c'
-            }
-          ]
-        }));
-        // dispatch_data("loading_map", false);
-      }
-    );
+    getData("aam/getAccomplishementRecord", details).then((res) => {
+      setState((prev) => ({
+        ...prev,
+        record_single_data: res,
+        record_start_date: firstDay,
+        record_end_date: currentDay,
+        openRecord: false,
+        refreshHistory: !state.refreshHistory,
+        attendance_history: [
+          {
+            type: "PRESENT",
+            value: res.present,
+            color: "#487eb0",
+          },
+          {
+            type: "ABSENT",
+            value: res.absent,
+            color: "#e74c3c",
+          },
+        ],
+      }));
+      // dispatch_data("loading_map", false);
+    });
   };
   const hideHistory = () => {
     document.getElementById("fieldmanHistory-slider-left").style.cssText =
       "transition: 0.5s;left:-100%;";
-  }
+  };
   const ArrangeDetailsDisplay = (details) => {
-
     let findIndexJo_type = [];
     let branch_field_details = [];
     if (map_reducer.jo_type.length > 0) {
@@ -2472,7 +2775,8 @@ export default function Home() {
         (element) => element === details.accom_jo_type
       );
       if (map_reducer.branch_field_details.length > 0) {
-        branch_field_details = map_reducer.branch_field_details[findIndexJo_type];
+        branch_field_details =
+          map_reducer.branch_field_details[findIndexJo_type];
       } else {
         let initial = [
           { name: "Reference No.", key: "meter_number" },
@@ -2497,62 +2801,81 @@ export default function Home() {
     dispatch_data("selected_details", new_branch_field_details);
   };
   const NavigationTop = () => {
-    return <div className="top-nav">
+    return (
+      <div className="top-nav">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <IconButton
+            onClick={() => {
+              removeFielmanMarker();
+              openHome();
+            }}
+            aria-label="delete"
+            style={{
+              backgroundColor: "#1b5ea0",
+              marginRight: 5,
+              width: 40,
+              height: 40,
+            }}
+          >
+            <HomeIcon style={{ color: "#fff" }} />
+          </IconButton>
+          <IconButton
+            aria-label="delete"
+            style={{
+              backgroundColor: "#1b5ea0",
+              marginRight: 5,
+              width: 40,
+              height: 40,
+            }}
+          >
+            <QueryBuilderIcon style={{ color: "#fff" }} />
+          </IconButton>
+        </div>
+      </div>
+    );
+  };
+  const FieldmanHistoryPage = () => {
+    return (
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-        }}
+        id="fieldmanHistory-slider-left"
+        className="fieldmanHistory-slider-left"
       >
-        <IconButton
-          onClick={() => {
-            removeFielmanMarker();
+        <FieldmanHistory
+          state={state}
+          setState={setState}
+          changeGetRecord={changeGetRecord}
+          onTrackAccomplishmentsRoute={(
+            row,
+            date_start,
+            assign,
+            bulk,
+            type
+          ) => {
+            childRefFieldmanList.current.onTrackAccomplishmentsRoute(
+              row,
+              date_start,
+              assign,
+              bulk,
+              type
+            );
+          }}
+          openHome={() => {
+            document.getElementById(
+              "fieldmanHistory-slider-left"
+            ).style.cssText = "transition: 0.5s;left:-100%;";
             openHome();
           }}
-          aria-label="delete"
-          style={{
-            backgroundColor: "#1b5ea0",
-            marginRight: 5,
-            width: 40,
-            height: 40,
-          }}
-        >
-          <HomeIcon style={{ color: "#fff" }} />
-        </IconButton>
-        <IconButton
-          aria-label="delete"
-          style={{
-            backgroundColor: "#1b5ea0",
-            marginRight: 5,
-            width: 40,
-            height: 40,
-          }}
-        >
-          <QueryBuilderIcon style={{ color: "#fff" }} />
-        </IconButton>
+        />
       </div>
-    </div>
-  }
-  const FieldmanHistoryPage = () => {
-    return <div id='fieldmanHistory-slider-left' className='fieldmanHistory-slider-left'>
-      <FieldmanHistory
-        state={state}
-        setState={setState}
-        changeGetRecord={changeGetRecord}
-        onTrackAccomplishmentsRoute={(row, date_start, assign, bulk, type) => {
-
-          childRefFieldmanList.current.onTrackAccomplishmentsRoute(row, date_start, assign, bulk, type)
-        }}
-
-        openHome={() => {
-          document.getElementById("fieldmanHistory-slider-left").style.cssText =
-            "transition: 0.5s;left:-100%;";
-          openHome()
-        }} />
-    </div>
-  }
+    );
+  };
   return (
     <div className="parent">
       <Backdrop
@@ -2568,12 +2891,16 @@ export default function Home() {
           trackAccomSpan={state.trackAccomSpan}
           midPoint={state.midPoint}
           pathCoordinates={state.pathCoordinates}
-          trackAccomParam={state.trackAccomSpan.length > 0 ? state.trackAccomSpan : trackAccom}
+          trackAccomParam={
+            state.trackAccomSpan.length > 0 ? state.trackAccomSpan : trackAccom
+          }
           isOpen={isOpen}
           onToggleOpen={onToggleOpen}
           refreshMap={refreshMap}
           mapOption={mapOption}
-          openMapSelectedFieldman={(user_id) => childRefFieldmanList.current.openMapSelectedFieldman(user_id)}
+          openMapSelectedFieldman={(user_id) =>
+            childRefFieldmanList.current.openMapSelectedFieldman(user_id)
+          }
           clearTimeout={() => {
             setState((prev) => {
               return { ...prev, pause: false };

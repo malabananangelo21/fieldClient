@@ -107,7 +107,6 @@ const AssigningField = ({ val, index, state, setState }) => {
   const [provinceAddr, setProvinceAddr] = React.useState("");
   const [cityAddr, setCityAddr] = React.useState("");
   const [barangayAddr, setBarangayAddr] = React.useState("");
-
   React.useEffect(() => {
     setProvince(provinceList.RECORDS);
     setCity(cityList.RECORDS);
@@ -195,7 +194,6 @@ const AssigningField = ({ val, index, state, setState }) => {
     let barangayDataList2 = brgyList.RECORDS.filter(
       (val) => val.citymunCode == e
     );
-    console.log(barangayDataList2);
     setBarangay(barangayDataList2);
     setState((prev) => ({
       ...prev,
@@ -421,7 +419,6 @@ const AssigningField = ({ val, index, state, setState }) => {
             <TableBody>
               <TableRow>
                 {val.jo.map((jo_val, index2) => {
-                  console.log(jo_val);
                   return (
                     <TableCell item xs={12} md={7}>
                       <TextField
@@ -482,6 +479,7 @@ const FieldmanList = forwardRef((props, ref) => {
     hideHistory,
     updateDashboard,
     closemobile,
+    get_lack_of_time,
   } = props;
   const [state, setState] = React.useState({
     countRequest: 0,
@@ -620,7 +618,6 @@ const FieldmanList = forwardRef((props, ref) => {
       data: data,
     });
   };
-  console.log(regionList);
   React.useEffect(() => {
     let searchName = sessionStorage.getItem("searchName");
     if (searchName != null) {
@@ -947,6 +944,7 @@ const FieldmanList = forwardRef((props, ref) => {
       single_user_id: row.user_id,
       attendance: row.attendance,
       line: hours,
+      get_lack_of_time: res.get_lack_of_time,
     };
     hideHistory();
     onShow(details_fieldman);
@@ -1882,7 +1880,6 @@ const FieldmanList = forwardRef((props, ref) => {
           </Grid>
         </Grid>
         {EmployeeSearch.map((row, index) => {
-          console.log(row);
           let timeout = "";
           let hours = 0;
           let first_meter = "-- : -- --";
@@ -2537,6 +2534,81 @@ const FieldmanList = forwardRef((props, ref) => {
                                   ({batch_data.accom} of {batch_data.assigned})
                                 </Typography>
                               );
+                            })}
+                          </div>
+                        </Grid>
+                      </Grid>
+
+                      <Grid container spacing={1} style={{ marginTop: 10 }}>
+                        <Grid item xs={2} md={2}></Grid>
+                        <Grid item xs={6} md={6}>
+                          {new_batch_count.map((batch_data) => {
+                            let bar = 0;
+                            let assigned = 0;
+
+                            let filter_lack_of_time = get_lack_of_time.filter(
+                              (lt_val) => lt_val.fieldman_id == row.user_id
+                            );
+                            if (filter_lack_of_time.length > 0) {
+                              bar =
+                                (filter_lack_of_time[0].count /
+                                  batch_data.assigned) *
+                                100;
+                            }
+                            if (bar > 100) {
+                              bar = 100;
+                            }
+                            if (filter_lack_of_time.length > 0)
+                              return (
+                                <div
+                                  style={{
+                                    marginTop: 4,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      position: "relative",
+                                      width: "100%",
+                                      height: 15,
+                                      marginBottom: 5,
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        width: "100%",
+                                        height: 15,
+                                        background: "#dfe6e9",
+                                        borderRadius: 5,
+                                        position: "absolute",
+                                      }}
+                                    ></div>
+                                    <div
+                                      style={{
+                                        width: String(bar + "%"),
+                                        height: 15,
+                                        background: "#e74c3c",
+                                        borderRadius: 5,
+                                        position: "absolute",
+                                      }}
+                                    ></div>
+                                  </div>
+                                </div>
+                              );
+                          })}
+                        </Grid>
+                        <Grid item xs={4} md={4}>
+                          <div>
+                            {new_batch_count.map((batch_data) => {
+                              let filter_lack_of_time = get_lack_of_time.filter(
+                                (lt_val) => lt_val.fieldman_id == row.user_id
+                              );
+                              if (filter_lack_of_time.length > 0)
+                                return (
+                                  <Typography>
+                                    ({filter_lack_of_time[0].count} of{" "}
+                                    {batch_data.assigned})
+                                  </Typography>
+                                );
                             })}
                           </div>
                         </Grid>
