@@ -1289,6 +1289,7 @@ const FieldmanList = forwardRef((props, ref) => {
       jo_count: 0,
       rover_assigned: JSON.stringify(rover_filter),
       allowance: state.selected_allowance,
+      admin_id: localStorage.getItem("u"),
     };
     new_data["jo_assign_id"] = jo_assign_id;
     if (state.jo_assign_id !== "") {
@@ -1315,72 +1316,79 @@ const FieldmanList = forwardRef((props, ref) => {
     });
 
     getData("tracking/logAssignCount", new_data).then((res) => {
-      let countChange = 0;
-      fieldman_map.forEach((val) => {
-        if (val.user_id === state.selected_user_id) {
-          if (typeof val.batch[state.activeBatchButton] !== "undefined") {
-            let batch_fm_count = val.batch[state.activeBatchButton].jo_count;
-            countChange = new_data.jo_count - parseInt(batch_fm_count);
-            val.batch[state.activeBatchButton].jo_count = new_data.jo_count;
-            val.batch[state.activeBatchButton].jo_location_structure =
-              new_data.jo_location_structure;
-            val.batch[state.activeBatchButton].jo_aubd = new_data.jo_aubd;
-            val.batch[state.activeBatchButton].jo_discon = new_data.jo_discon;
-            val.batch[state.activeBatchButton].jo_dn = new_data.jo_dn;
-            val.batch[state.activeBatchButton].jo_dn_reout =
-              new_data.jo_dn_reout;
-            val.batch[state.activeBatchButton].jo_meco = new_data.jo_meco;
-            val.batch[state.activeBatchButton].jo_nac = new_data.jo_nac;
-            val.batch[state.activeBatchButton].jo_ncr = new_data.jo_ncr;
-            val.batch[state.activeBatchButton].jo_osb = new_data.jo_osb;
-            val.batch[state.activeBatchButton].jo_osn = new_data.jo_osn;
-            val.batch[state.activeBatchButton].jo_osn = new_data.jo_validate;
+      console.log(res);
+      if (res.res == "Not Allowed") {
+        dispatch_data("loading_map", false);
+        alert("Sorry you are not allowed to edit.");
+      } else {
+        let countChange = 0;
+        fieldman_map.forEach((val) => {
+          if (val.user_id === state.selected_user_id) {
+            if (typeof val.batch[state.activeBatchButton] !== "undefined") {
+              let batch_fm_count = val.batch[state.activeBatchButton].jo_count;
+              countChange = new_data.jo_count - parseInt(batch_fm_count);
+              val.batch[state.activeBatchButton].jo_count = new_data.jo_count;
+              val.batch[state.activeBatchButton].jo_location_structure =
+                new_data.jo_location_structure;
+              val.batch[state.activeBatchButton].jo_aubd = new_data.jo_aubd;
+              val.batch[state.activeBatchButton].jo_discon = new_data.jo_discon;
+              val.batch[state.activeBatchButton].jo_dn = new_data.jo_dn;
+              val.batch[state.activeBatchButton].jo_dn_reout =
+                new_data.jo_dn_reout;
+              val.batch[state.activeBatchButton].jo_meco = new_data.jo_meco;
+              val.batch[state.activeBatchButton].jo_nac = new_data.jo_nac;
+              val.batch[state.activeBatchButton].jo_ncr = new_data.jo_ncr;
+              val.batch[state.activeBatchButton].jo_osb = new_data.jo_osb;
+              val.batch[state.activeBatchButton].jo_osn = new_data.jo_osn;
+              val.batch[state.activeBatchButton].jo_osn = new_data.jo_validate;
 
-            val.batch[state.activeBatchButton].jo_reading = new_data.jo_reading;
-            val.batch[state.activeBatchButton].jo_recon = new_data.jo_recon;
-            val.batch[state.activeBatchButton].jo_soa = new_data.jo_soa;
-            val.batch[state.activeBatchButton].jo_soa_reout =
-              new_data.jo_soa_reout;
-            val.batch[state.activeBatchButton].rover_assigned =
-              new_data.rover_assigned;
-          } else {
-            countChange = new_data.jo_count;
-            new_data.jo_assign_id = String(res.id);
-            new_data.jo_comment = null;
-            new_data.jo_approval_array = "";
-            new_data.user_id_comment = null;
-            new_data.jo_validate = "0";
-            new_data.jo_discon = "0";
-            new_data.jo_map = "0";
-            new_data.jo_reading = "0";
-            new_data.jo_recon = "0";
-            new_data.jo_discon = "0";
-            new_data.jo_dn = String(new_data.jo_dn);
-            new_data.jo_dn_reout = String(new_data.jo_dn_reout);
-            new_data.jo_soa = String(new_data.jo_soa);
-            new_data.jo_soa_reout = String(new_data.jo_soa_reout);
-            new_data.jo_nac = String(new_data.jo_nac);
-            new_data.jo_aubd = String(new_data.jo_aubd);
-            new_data.jo_count = String(new_data.jo_count);
-            new_data.jo_meco = String(new_data.jo_meco);
-            new_data.jo_ncr = String(new_data.jo_ncr);
-            new_data.jo_osb = String(new_data.jo_osb);
-            new_data.jo_osn = String(new_data.jo_osn);
-            new_data.jo_validate = String(new_data.jo_validate);
-            new_data.jo_date_added = new_data.jo_date_added + " 00:00:00";
-            new_data.jo_date_assign = new_data.jo_date_assign + " 00:00:00";
-            new_data.jo_rescue = "";
-            val.batch.push(new_data);
+              val.batch[state.activeBatchButton].jo_reading =
+                new_data.jo_reading;
+              val.batch[state.activeBatchButton].jo_recon = new_data.jo_recon;
+              val.batch[state.activeBatchButton].jo_soa = new_data.jo_soa;
+              val.batch[state.activeBatchButton].jo_soa_reout =
+                new_data.jo_soa_reout;
+              val.batch[state.activeBatchButton].rover_assigned =
+                new_data.rover_assigned;
+            } else {
+              countChange = new_data.jo_count;
+              new_data.jo_assign_id = String(res.id);
+              new_data.jo_comment = null;
+              new_data.jo_approval_array = "";
+              new_data.user_id_comment = null;
+              new_data.jo_validate = "0";
+              new_data.jo_discon = "0";
+              new_data.jo_map = "0";
+              new_data.jo_reading = "0";
+              new_data.jo_recon = "0";
+              new_data.jo_discon = "0";
+              new_data.jo_dn = String(new_data.jo_dn);
+              new_data.jo_dn_reout = String(new_data.jo_dn_reout);
+              new_data.jo_soa = String(new_data.jo_soa);
+              new_data.jo_soa_reout = String(new_data.jo_soa_reout);
+              new_data.jo_nac = String(new_data.jo_nac);
+              new_data.jo_aubd = String(new_data.jo_aubd);
+              new_data.jo_count = String(new_data.jo_count);
+              new_data.jo_meco = String(new_data.jo_meco);
+              new_data.jo_ncr = String(new_data.jo_ncr);
+              new_data.jo_osb = String(new_data.jo_osb);
+              new_data.jo_osn = String(new_data.jo_osn);
+              new_data.jo_validate = String(new_data.jo_validate);
+              new_data.jo_date_added = new_data.jo_date_added + " 00:00:00";
+              new_data.jo_date_assign = new_data.jo_date_assign + " 00:00:00";
+              new_data.jo_rescue = "";
+              val.batch.push(new_data);
+            }
           }
-        }
-      });
+        });
 
-      updateDashboard(fieldman_map);
-      setState((prev) => ({
-        ...prev,
-        modal_assigning: false,
-        selected_batch: [],
-      }));
+        updateDashboard(fieldman_map);
+        setState((prev) => ({
+          ...prev,
+          modal_assigning: false,
+          selected_batch: [],
+        }));
+      }
     });
   };
 
