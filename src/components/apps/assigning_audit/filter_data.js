@@ -38,7 +38,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import moment from "moment";
 import { getData } from "../../api/api";
-function Index({closeModal}) {
+function Index({ closeModal }) {
   const assigning_reducer = useSelector((state) => state.assigning_reducer);
   const dispatch = useDispatch();
   const home_reducer = useSelector((state) => state.home_reducer);
@@ -53,16 +53,16 @@ function Index({closeModal}) {
     date_start_val: new Date(),
     selectedCompany: "",
     selected_branch: "",
-    selected_jobOrder:"",
-    mru:"",
-    job_order_type:[],
-    business_area:[],
-    selected_ba:"",
-    disable_form:false,
-    jo_type:[]
+    selected_jobOrder: "",
+    mru: "",
+    job_order_type: [],
+    business_area: [],
+    selected_ba: "",
+    disable_form: false,
+    jo_type: [],
   });
   const handleDateChangeStart = (date) => {
-    assigning_reducer.date_filter = date
+    assigning_reducer.date_filter = date;
     setState({
       ...state,
       date_start_val: date,
@@ -76,7 +76,7 @@ function Index({closeModal}) {
       return a["branch_name"].localeCompare(b["branch_name"]);
     });
     dispatch_data("SelectedBranches", branches_data);
-    assigning_reducer.assign_company_id =  e.target.value
+    assigning_reducer.assign_company_id = e.target.value;
     setState({
       ...state,
       selectedCompany: e.target.value,
@@ -92,8 +92,8 @@ function Index({closeModal}) {
   const onChangeBranch = (e) => {
     let jo_type = [];
     let ba = [];
-    assigning_reducer.assign_branch_id =  e.target.value
-    
+    assigning_reducer.assign_branch_id = e.target.value;
+
     home_reducer.SelectedBranches.map((val, index) => {
       if (val.branch_id === e.target.value) {
         if (val.branch_field_work !== "") {
@@ -104,70 +104,74 @@ function Index({closeModal}) {
         }
       }
     });
-    assigning_reducer.ba = ba
-    assigning_reducer.jo_type_array = jo_type
+    assigning_reducer.ba = ba;
+    assigning_reducer.jo_type_array = jo_type;
     setState({
       ...state,
       selected_branch: e.target.value,
       jo_type: jo_type,
       business_area: ba,
-      selected_jobOrder:'',
-      selected_ba:''
+      selected_jobOrder: "",
+      selected_ba: "",
     });
   };
   const onChangeBA = (e) => {
     setState({
       ...state,
       selected_ba: e.target.value,
-      selected_jobOrder:''
+      selected_jobOrder: "",
     });
   };
   const onChangeJobOrder = (e) => {
-    assigning_reducer.jo_type = e.target.value
+    assigning_reducer.jo_type = e.target.value;
     setState({
       ...state,
       selected_jobOrder: e.target.value,
     });
   };
   const onSubmit = (e) => {
-    dispatch_data("LoadingIndex", true)
+    dispatch_data("LoadingIndex", true);
     e.preventDefault();
     let data = {
       date_start: moment(assigning_reducer.date_filter).format("YYYY-MM-DD"),
       company: assigning_reducer.assign_company_id,
-      branch:assigning_reducer.assign_branch_id,
-      type: "by_mru", 
+      branch: assigning_reducer.assign_branch_id,
+      type: "by_mru",
       mru: state.mru,
-      jo_type:assigning_reducer.jo_type,
-      selected_ba:state.selected_ba
+      jo_type: assigning_reducer.jo_type,
+      selected_ba: state.selected_ba,
     };
 
     getData("Schedule/getJobOrder_by_mru_audit", data).then((res) => {
-      getData('Audit/getFieldman', {user_id:localStorage.getItem('u')}).then(response => {
-   
+      getData("Audit/getFieldman", {
+        user_id: localStorage.getItem("u"),
+        branch: assigning_reducer.assign_branch_id,
+      }).then((response) => {
         dispatch({
-          type: 'job_order_to_be_assign',
+          type: "job_order_to_be_assign",
           data: res.data,
-          fieldman_list:response,
-          filterCompanyID:assigning_reducer.assign_company_id,
-          joType:assigning_reducer.jo_type,
-          date_filter: moment(assigning_reducer.date_filter).format("YYYY-MM-DD"),
-          assigned_fieldman:res.data_assigned,
-          branch:assigning_reducer.assign_branch_id,
+          fieldman_list: response,
+          filterCompanyID: assigning_reducer.assign_company_id,
+          joType: assigning_reducer.jo_type,
+          date_filter: moment(assigning_reducer.date_filter).format(
+            "YYYY-MM-DD"
+          ),
+          assigned_fieldman: res.data_assigned,
+          branch: assigning_reducer.assign_branch_id,
         });
-        if(state.mru === ''){
-          dispatch_data("mru",'')
+        if (state.mru === "") {
+          dispatch_data("mru", "");
         }
-        dispatch_data("LoadingIndex", false)
-        closeModal()
-    })
+        dispatch_data("LoadingIndex", false);
+        closeModal();
+      });
     });
   };
-  useEffect(()=>{
+  useEffect(() => {
     getData("Schedule/getJobOrderType").then((res) => {
-      setState({...state,job_order_type:res})
-  })
-},[])
+      setState({ ...state, job_order_type: res });
+    });
+  }, []);
   return (
     <form onSubmit={onSubmit}>
       <Grid container spacing={2}>
@@ -248,7 +252,7 @@ function Index({closeModal}) {
               Branch
             </InputLabel>
             <Select
-            required
+              required
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
               onChange={onChangeBranch}
@@ -267,66 +271,72 @@ function Index({closeModal}) {
           </FormControl>
         </Grid>
         {assigning_reducer.ba.length > 0 ? (
-              <Grid item xs={12} md={12}>
-                <FormControl
-                  size="small"
-                  className={classes.formControl}
-                  style={{ width: "100%" }}
-                >
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Business Area
-                  </InputLabel>
-                  <Select
-                    required
-                   disabled={state.disable_form}
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    onChange={onChangeBA}
-                    label="branch"
-                    name="branch_id"
-                    value={state.selected_ba}
-                  >
-                    {assigning_reducer.ba.map((val, index) => {
-                      return <MenuItem value={val}>{val}</MenuItem>;
-                    })}
-                  </Select>
-                </FormControl>
-              </Grid>
-            ) : undefined}
-               <Grid item xs={12} md={12}>
-              <FormControl
-                size="small"
-                className={classes.formControl}
-                style={{ width: "100%" }}
-              >
-                <InputLabel id="demo-simple-select-outlined-label">
-                  Job Order
-                </InputLabel>
-                <Select
+          <Grid item xs={12} md={12}>
+            <FormControl
+              size="small"
+              className={classes.formControl}
+              style={{ width: "100%" }}
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                Business Area
+              </InputLabel>
+              <Select
+                required
                 disabled={state.disable_form}
-                  required
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  onChange={onChangeJobOrder}
-                  label="branch"
-                  name="branch_id"
-                  value={state.selected_jobOrder}
-                >
-                  {assigning_reducer.jo_type_array.map((val, index) => {
-                    return <MenuItem value={val}>{val}</MenuItem>;
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                onChange={onChangeBA}
+                label="branch"
+                name="branch_id"
+                value={state.selected_ba}
+              >
+                {assigning_reducer.ba.map((val, index) => {
+                  return <MenuItem value={val}>{val}</MenuItem>;
+                })}
+              </Select>
+            </FormControl>
+          </Grid>
+        ) : undefined}
         <Grid item xs={12} md={12}>
-
-          <TextField style={{ width: '100%' }} size='small' value={state.mru} onChange={(e) => {
-              setState({...state,mru: e.target.value })
-              dispatch_data("mru", e.target.value )
-          }} id="outlined-basic" label="MRU" variant="outlined" />
-
+          <FormControl
+            size="small"
+            className={classes.formControl}
+            style={{ width: "100%" }}
+          >
+            <InputLabel id="demo-simple-select-outlined-label">
+              Job Order
+            </InputLabel>
+            <Select
+              disabled={state.disable_form}
+              required
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              onChange={onChangeJobOrder}
+              label="branch"
+              name="branch_id"
+              value={state.selected_jobOrder}
+            >
+              {assigning_reducer.jo_type_array.map((val, index) => {
+                return <MenuItem value={val}>{val}</MenuItem>;
+              })}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <TextField
+            style={{ width: "100%" }}
+            size="small"
+            value={state.mru}
+            onChange={(e) => {
+              setState({ ...state, mru: e.target.value });
+              dispatch_data("mru", e.target.value);
+            }}
+            id="outlined-basic"
+            label="MRU"
+            variant="outlined"
+          />
+        </Grid>
       </Grid>
-    </Grid>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
           type="submit"
