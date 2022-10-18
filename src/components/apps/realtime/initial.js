@@ -70,6 +70,8 @@ import Primewater from "../../../assets/map image/prime.png";
 
 //page visibility when active or inactive
 import { usePageVisibility } from "./utilities/visibility";
+import BarGraphIcon from "../../../assets/map image/barGraphIcon.png";
+import IndexMonthlyReport from "./monthlyReports/indexMonthlyReport";
 // const socketData = io("https://ws.greenzoneph.com", { transports: ["websocket"] });
 
 const substyle = makeStyles((theme) => ({
@@ -548,33 +550,43 @@ function RealtimeCharts({ scrollToBottom }) {
                 },
               ],
             };
-             var jobtypepos = 0;
-              JSON.parse(value.branch_field_work).map((fival, fvIndex) => {
-                if(fival === value.activeType){
-                  jobtypepos = fvIndex;
-                } 
-              });
-              var jobtypeperson = "";
-              if(value.branch_field_personnel !== ""){
-                JSON.parse(value.branch_field_personnel).map((fival, fvIndex) => {
-                  if(fvIndex === jobtypepos){
-                    jobtypeperson = fival;
-                  } 
-                });
+            var jobtypepos = 0;
+            JSON.parse(value.branch_field_work).map((fival, fvIndex) => {
+              if (fival === value.activeType) {
+                jobtypepos = fvIndex;
               }
+            });
+            var jobtypeperson = "";
+            if (value.branch_field_personnel !== "") {
+              JSON.parse(value.branch_field_personnel).map((fival, fvIndex) => {
+                if (fvIndex === jobtypepos) {
+                  jobtypeperson = fival;
+                }
+              });
+            }
 
-              var fieldmanFiltered = fieldmanChart.filter(
-                (item) => item.totalAccom != 0 || item.totalAssigned != 0
-              );
-              var fieldmanPosition = fieldmanChart.filter(
-                (item) => String(item.position).toUpperCase().includes(String(jobtypeperson).toUpperCase())
-              );
-              var fieldmanRescue = fieldmanChart.filter(
-                (item) => (item.totalAccom != 0 || item.totalAssigned != 0) && !String(item.position).toUpperCase().includes(String(jobtypeperson).toUpperCase())
-              );
-              var fieldmanActive = fieldmanChart.filter(
-                (item) => (item.totalAccom != 0 || item.totalAssigned != 0) && String(item.position).toUpperCase().includes(String(jobtypeperson).toUpperCase())
-              );
+            var fieldmanFiltered = fieldmanChart.filter(
+              (item) => item.totalAccom != 0 || item.totalAssigned != 0
+            );
+            var fieldmanPosition = fieldmanChart.filter((item) =>
+              String(item.position)
+                .toUpperCase()
+                .includes(String(jobtypeperson).toUpperCase())
+            );
+            var fieldmanRescue = fieldmanChart.filter(
+              (item) =>
+                (item.totalAccom != 0 || item.totalAssigned != 0) &&
+                !String(item.position)
+                  .toUpperCase()
+                  .includes(String(jobtypeperson).toUpperCase())
+            );
+            var fieldmanActive = fieldmanChart.filter(
+              (item) =>
+                (item.totalAccom != 0 || item.totalAssigned != 0) &&
+                String(item.position)
+                  .toUpperCase()
+                  .includes(String(jobtypeperson).toUpperCase())
+            );
 
             let sortedAccom = fieldmanFiltered.sort(
               (a, b) => b.totalAccom - a.totalAccom
@@ -802,6 +814,7 @@ function RealtimeCharts({ scrollToBottom }) {
                           </div> */}
                         </div>
                       </CardContent>
+
                       <CardActions disableSpacing>
                         <Grid container spacing={1}>
                           <Grid item xs={12} md={8}>
@@ -814,7 +827,8 @@ function RealtimeCharts({ scrollToBottom }) {
                                 setState(!state);
                               }}
                             >
-                              {fieldmanActive.length}/{fieldmanPosition.length}/{fieldmanRescue.length}
+                              {fieldmanActive.length}/{fieldmanPosition.length}/
+                              {fieldmanRescue.length}
                               <DirectionsWalkIcon
                                 style={{ color: "#4b4b4b" }}
                               />
@@ -1391,36 +1405,45 @@ function RealtimeCharts({ scrollToBottom }) {
 
           var jobtypepos = 0;
           JSON.parse(value.branch_field_work).map((fival, fvIndex) => {
-            if(fival === value.activeType){
+            if (fival === value.activeType) {
               jobtypepos = fvIndex;
-            } 
+            }
           });
           var jobtypeperson = "";
-          if(value.branch_field_personnel !== ""){
+          if (value.branch_field_personnel !== "") {
             JSON.parse(value.branch_field_personnel).map((fival, fvIndex) => {
-              if(fvIndex === jobtypepos){
+              if (fvIndex === jobtypepos) {
                 jobtypeperson = fival;
-              } 
+              }
             });
           }
 
           var fieldmanFiltered = fieldmanChart.filter(
             (item) => item.totalAccom != 0 || item.totalAssign != 0
           );
-          var fieldmanPosition = fieldmanChart.filter(
-            (item) => String(item.position).toUpperCase().includes(String(jobtypeperson).toUpperCase())
+          var fieldmanPosition = fieldmanChart.filter((item) =>
+            String(item.position)
+              .toUpperCase()
+              .includes(String(jobtypeperson).toUpperCase())
           );
           var fieldmanRescue = fieldmanChart.filter(
-            (item) => (item.totalAccom != 0 || item.totalAssign != 0) && !String(item.position).toUpperCase().includes(String(jobtypeperson).toUpperCase())
+            (item) =>
+              (item.totalAccom != 0 || item.totalAssign != 0) &&
+              !String(item.position)
+                .toUpperCase()
+                .includes(String(jobtypeperson).toUpperCase())
           );
           var fieldmanActive = fieldmanChart.filter(
-            (item) => (item.totalAccom != 0 || item.totalAssign != 0) && String(item.position).toUpperCase().includes(String(jobtypeperson).toUpperCase())
+            (item) =>
+              (item.totalAccom != 0 || item.totalAssign != 0) &&
+              String(item.position)
+                .toUpperCase()
+                .includes(String(jobtypeperson).toUpperCase())
           );
-
 
           if (baseAssign > 0 || baseAccom > 0) {
             return (
-              <Grid item xs={12} md={3} key={index}>
+              <Grid item xs={12} md={4} key={index}>
                 <Card
                   className={classes.root}
                   style={{
@@ -1575,6 +1598,13 @@ function RealtimeCharts({ scrollToBottom }) {
                   </CardContent>
                   <CardActions disableSpacing>
                     <Grid container spacing={1}>
+                      <Grid item xs={12} md={12}>
+                        <IndexMonthlyReport
+                          b_id={value.b_id}
+                          activeType={value.activeType}
+                        />
+                      </Grid>
+
                       <Grid item xs={12} md={8}>
                         <IconButton
                           style={{ color: "#4b4b4b" }}
@@ -1585,7 +1615,8 @@ function RealtimeCharts({ scrollToBottom }) {
                             setState(!state);
                           }}
                         >
-                          {fieldmanActive.length}/{fieldmanPosition.length}/{fieldmanRescue.length}
+                          {fieldmanActive.length}/{fieldmanPosition.length}/
+                          {fieldmanRescue.length}
                           <DirectionsWalkIcon style={{ color: "#4b4b4b" }} />
                         </IconButton>
                         <IconButton
