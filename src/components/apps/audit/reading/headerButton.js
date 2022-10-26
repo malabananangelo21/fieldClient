@@ -23,6 +23,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import moment from "moment";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 const HeaderButton = (props) => {
   const {
     selectedBranch,
@@ -289,6 +290,41 @@ const HeaderButton = (props) => {
               </Grid>
             </div>
           </Menu>
+          <a
+            style={{ textDecoration: "none", color: "#000" }}
+            href={
+              "https://api.workflow.gzonetechph.com/tracking/exportAudit/" +
+              moment(date_from).format("YYYY-MM-DD") +
+              "/" +
+              moment(date_to).format("YYYY-MM-DD") +
+              "/" +
+              selectedBranch?.branch_id +
+              "/" +
+              "test" +
+              "/" +
+              localStorage.getItem("u")
+            }
+            target="_blank"
+            download="myFile"
+          >
+            <button
+              onClick={handleClickDates}
+              style={{
+                border: "none",
+                background: "#115293",
+                color: "#fff",
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingTop: 5,
+                paddingBottom: 5,
+                cursor: "pointer",
+                marginRight: 5,
+              }}
+            >
+              <CloudDownloadIcon style={{ fontSize: 15, marginRight: 5 }} />
+              Export
+            </button>
+          </a>
         </Grid>
       </Grid>
     </>
