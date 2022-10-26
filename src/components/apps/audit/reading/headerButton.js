@@ -39,6 +39,7 @@ const HeaderButton = (props) => {
     onChangeText,
     onSubmitDate,
     date_from,
+    date_to,
   } = props;
   return (
     <>
@@ -145,6 +146,37 @@ const HeaderButton = (props) => {
                 </Typography>
                 {/* <CloseIcon style={{ color: '#115293', fontSize: 17, marginLeft: 5, cursor: 'pointer' }} /> */}
               </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderWidth: 1,
+                  borderStyle: "solid",
+                  borderColor: "#115293",
+                  paddingRight: 10,
+                  marginRight: 5,
+                }}
+              >
+                <div
+                  style={{
+                    height: "100%",
+                    paddingRight: 5,
+                    paddingLeft: 5,
+                    marginRight: 5,
+                    backgroundColor: "#115293",
+                    color: "#fff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <DateRangeIcon style={{ fontSize: 16 }} />
+                </div>
+                <Typography style={{ fontSize: 12 }}>
+                  {moment(date_to).format("YYYY-MM-DD")}
+                </Typography>
+                {/* <CloseIcon style={{ color: '#115293', fontSize: 17, marginLeft: 5, cursor: 'pointer' }} /> */}
+              </div>
             </div>
           </div>
         </Grid>
@@ -215,7 +247,7 @@ const HeaderButton = (props) => {
           >
             <div style={{ padding: 10 }}>
               <Grid container spacing={1}>
-                <Grid item xs={12} md={12}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     style={{ width: "100%" }}
                     label="From"
@@ -225,7 +257,7 @@ const HeaderButton = (props) => {
                     name="date_from"
                   />
                 </Grid>
-                {/* <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     style={{ width: "100%" }}
                     label="To"
@@ -234,7 +266,7 @@ const HeaderButton = (props) => {
                     onChange={onChangeText}
                     name="date_to"
                   />
-                </Grid> */}
+                </Grid>
                 <Grid container justify="flex-end" item xs={12} md={12}>
                   <button
                     onClick={onSubmitDate}

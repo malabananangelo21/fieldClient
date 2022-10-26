@@ -201,6 +201,8 @@ const SmartComponentsAuditReading = () => {
       ...prev,
       selectedBranch: val,
       refresh: !state.refresh,
+      search: "",
+      cardStatus: "",
     }));
     setPage(0);
     handleCloseBranch();
@@ -215,6 +217,9 @@ const SmartComponentsAuditReading = () => {
   };
   React.useEffect(() => {
     getAudit();
+    if (state.cardStatus === "Discrepancy" && state.search != "") {
+      disrepancy();
+    }
   }, [state.refresh, page, rowsPerPage, state.cardStatus, state.refreshSearch]);
   React.useEffect(() => {
     getFieldFindings();
@@ -227,7 +232,7 @@ const SmartComponentsAuditReading = () => {
     let data = {
       branch_id: selectedBranch?.branch_id,
       date_from: moment(state.date_from).format("YYYY-MM-DD"),
-      date_to: moment(state.date_from).format("YYYY-MM-DD"),
+      date_to: moment(state.date_to).format("YYYY-MM-DD"),
       jo_type: state.selectedJobOrder,
       page: page + 1,
       limit: rowsPerPage,
@@ -246,6 +251,9 @@ const SmartComponentsAuditReading = () => {
           res.cardStatus[0]?.invalid == null ? 0 : res.cardStatus[0].invalid,
         validCount:
           res.cardStatus[0]?.valid == null ? 0 : res.cardStatus[0].valid,
+        totalCount:
+          res.cardStatus[0]?.total == null ? 0 : res.cardStatus[0].total,
+        cardStatus: "",
       }));
     });
   };
@@ -257,7 +265,7 @@ const SmartComponentsAuditReading = () => {
     let data = {
       branch_id: selectedBranch?.branch_id,
       date_from: moment(state.date_from).format("YYYY-MM-DD"),
-      date_to: moment(state.date_from).format("YYYY-MM-DD"),
+      date_to: moment(state.date_to).format("YYYY-MM-DD"),
       jo_type: state.selectedJobOrder,
       page: page + 1,
       limit: rowsPerPage,
@@ -273,7 +281,7 @@ const SmartComponentsAuditReading = () => {
         if (state.cardStatus == "Discrepancy") {
           if (Number.isInteger(state.selectedIndex)) {
             let selected = res.disrepancyList[state.selectedIndex];
-            console.log(selected);
+
             handleOpen(selected, state.selectedIndex);
           } else {
             dispatch({
@@ -281,15 +289,21 @@ const SmartComponentsAuditReading = () => {
               data: false,
             });
           }
-          setState((prev) => ({
-            ...prev,
-            dataList: res.disrepancyList,
-            totalCount: state.discrepancyCount,
-          }));
+          if (state.search != "") {
+            setState((prev) => ({
+              ...prev,
+              dataList: res.disrepancyList,
+            }));
+          } else {
+            setState((prev) => ({
+              ...prev,
+              dataList: res.disrepancyList,
+              totalCount: state.discrepancyCount,
+            }));
+          }
         } else {
           if (Number.isInteger(state.selectedIndex)) {
             let selected = res.dataList[state.selectedIndex];
-            console.log(selected);
             handleOpen(selected, state.selectedIndex);
           } else {
             dispatch({
@@ -300,8 +314,13 @@ const SmartComponentsAuditReading = () => {
           setState((prev) => ({
             ...prev,
             dataList: res.dataList,
-            totalCount: res.dataListCount,
           }));
+          if (res?.dataListCount) {
+            setState((prev) => ({
+              ...prev,
+              totalCount: res?.dataListCount,
+            }));
+          }
         }
       })
       .catch(() => {
@@ -315,25 +334,48 @@ const SmartComponentsAuditReading = () => {
     let data = {
       branch_id: selectedBranch?.branch_id,
       date_from: moment(state.date_from).format("YYYY-MM-DD"),
-      date_to: moment(state.date_from).format("YYYY-MM-DD"),
+      date_to: moment(state.date_to).format("YYYY-MM-DD"),
       jo_type: state.selectedJobOrder,
       page: page + 1,
       limit: rowsPerPage,
       search: "",
     };
+    if (state.search != "") {
+      data = {
+        branch_id: selectedBranch?.branch_id,
+        date_from: moment(state.date_from).format("YYYY-MM-DD"),
+        date_to: moment(state.date_to).format("YYYY-MM-DD"),
+        jo_type: state.selectedJobOrder,
+        page: page + 1,
+        limit: rowsPerPage,
+        search: state.search,
+      };
+    }
     setState((prev) => ({
       ...prev,
       loadingProgress: true,
     }));
     getData("tracking/disrepancy", data).then((res) => {
-      setState((prev) => ({
-        ...prev,
-        loadingProgress: false,
-        discrepancyCount:
-          res.getFieldmanActualReadingVSAuditReading[0]?.discrepancy == null
-            ? 0
-            : res.getFieldmanActualReadingVSAuditReading[0]?.discrepancy,
-      }));
+      if (state.search != "") {
+        console.log(state.search);
+        setState((prev) => ({
+          ...prev,
+          loadingProgress: false,
+          totalCount:
+            res.getFieldmanActualReadingVSAuditReading[0]?.discrepancy == null
+              ? 0
+              : res.getFieldmanActualReadingVSAuditReading[0]?.discrepancy,
+        }));
+      } else {
+        setState((prev) => ({
+          ...prev,
+          loadingProgress: false,
+          discrepancyCount:
+            res.getFieldmanActualReadingVSAuditReading[0]?.discrepancy == null
+              ? 0
+              : res.getFieldmanActualReadingVSAuditReading[0]?.discrepancy,
+        }));
+      }
     });
   };
 
@@ -345,7 +387,10 @@ const SmartComponentsAuditReading = () => {
     setState((prev) => ({
       ...prev,
       refresh: !state.refresh,
+      search: "",
+      cardStatus: "",
     }));
+    setPage(0);
     handleCloseDates();
   };
 
@@ -360,10 +405,21 @@ const SmartComponentsAuditReading = () => {
 
   const onSelectStatus = (status) => {
     setPage(0);
+    let totalCount = 0;
+    if (status == "Invalid") {
+      totalCount = state.invalidCount;
+    } else if (status == "Valid") {
+      totalCount = state.validCount;
+    } else if (status == "Discrepancy") {
+      totalCount = state.discrepancyCount;
+    } else if (status == "") {
+      totalCount = state.totalCardCount;
+    }
 
     setState((prev) => ({
       ...prev,
       cardStatus: status,
+      totalCount: totalCount,
     }));
   };
 
@@ -371,7 +427,7 @@ const SmartComponentsAuditReading = () => {
     let data = {
       branch_id: selectedBranch?.branch_id,
       date_from: moment(state.date_from).format("YYYY-MM-DD"),
-      date_to: moment(state.date_from).format("YYYY-MM-DD"),
+      date_to: moment(state.date_to).format("YYYY-MM-DD"),
       jo_type: state.selectedJobOrder,
       page: page + 1,
       limit: rowsPerPage,
@@ -464,6 +520,7 @@ const SmartComponentsAuditReading = () => {
       ...prev,
       refreshSearch: !state.refreshSearch,
     }));
+    setPage(0);
   };
   const onClickPriv = () => {
     let newIndex = state.selectedIndex - 1;
@@ -543,6 +600,7 @@ const SmartComponentsAuditReading = () => {
   let branchFieldDtails = state.branchFieldDtails;
   let cardStatus = state.cardStatus;
   let date_from = state.date_from;
+  let date_to = state.date_to;
   let selectedIndex = state.selectedIndex;
   let validation_status = state.validation_status;
   let validation_remarks = state.validation_remarks;
@@ -551,6 +609,7 @@ const SmartComponentsAuditReading = () => {
   let validation_remarks_category = state.validation_remarks_category;
   let validator_comment = state.validator_comment;
   let validationDisplay = state.validationDisplay;
+  let search = state.search;
   return {
     handleClickBranch,
     handleCloseBranch,
@@ -607,6 +666,8 @@ const SmartComponentsAuditReading = () => {
     validationDisplay,
     onValidationDisplay,
     cancelValidation,
+    date_to,
+    search,
   };
 };
 

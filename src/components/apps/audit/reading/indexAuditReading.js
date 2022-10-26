@@ -107,6 +107,7 @@ const IndexAuditReading = () => {
             onChangeText={param.onChangeText}
             onSubmitDate={param.onSubmitDate}
             date_from={param.date_from}
+            date_to={param.date_to}
           />
         </Grid>
         <Grid item xs={12} md={12}>
@@ -125,6 +126,7 @@ const IndexAuditReading = () => {
           <form onSubmit={param.onSubmit}>
             <input
               name="search"
+              value={param.search}
               onChange={param.onChangeText}
               style={{
                 height: 30,
