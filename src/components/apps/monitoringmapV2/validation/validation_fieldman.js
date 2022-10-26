@@ -1590,13 +1590,15 @@ const ValidatorFieldman = forwardRef((props, ref) => {
                       <Typography style={{ fontWeight: "bold" }}>
                         DISCREPANCY :{" "}
                         {trackAccom.reduce((count, val) => {
-                          let previous =
-                            val.present_reading - val.previous_reading;
-                          let present =
-                            val.present_reading - val.actual_reading;
-                          let percentReading = previous * 0.1;
+                          // let previous =
+                          //   val.present_reading - val.previous_reading;
+                          // let present =
+                          //   val.present_reading - val.actual_reading;
+                          // let percentReading = previous * 0.1;
+                          let reading =
+                            val.actual_reading - val.present_reading;
 
-                          if (percentReading < present || present < 0) {
+                          if (reading < -2 || reading > 2) {
                             count++;
                           }
                           return count;
@@ -1842,15 +1844,21 @@ const ValidatorFieldman = forwardRef((props, ref) => {
                               color = "#fff";
                             }
                             let match = false;
-                            let previous =
-                              val.present_reading - val.previous_reading;
-                            let present =
-                              val.present_reading - val.actual_reading;
-                            let percentReading = previous * 0.1;
+                            // let previous =
+                            //   val.present_reading - val.previous_reading;
+                            // let present =
+                            //   val.present_reading - val.actual_reading;
+                            // let percentReading = previous * 0.1;
+                            let reading =
+                              val.actual_reading - val.present_reading;
 
-                            if (percentReading < present || present < 0) {
+                            if (reading < -2 || reading > 2) {
                               match = true;
                             }
+
+                            // if (percentReading < present || present < 0) {
+                            //   match = true;
+                            // }
 
                             if (match)
                               return (
