@@ -266,6 +266,9 @@ const IndexAuditReading = () => {
             validationDisplay={param.validationDisplay}
             onValidationDisplay={param.onValidationDisplay}
             cancelValidation={param.cancelValidation}
+            degree={param.degree}
+            leftRotate={param.leftRotate}
+            rightRotate={param.rightRotate}
           />
         </DialogContent>
         <DialogActions></DialogActions>

@@ -35,6 +35,7 @@ import BorderColorIcon from "@material-ui/icons/BorderColor";
 
 const Details = (props) => {
   const { ...param } = props;
+  console.log(param);
   const discrepancy = (audit_reading, actual_reading) => {
     if (audit_reading == null) {
       audit_reading = 0;
