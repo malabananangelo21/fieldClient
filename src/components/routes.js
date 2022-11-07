@@ -26,6 +26,7 @@ import FieldReportv2 from "./apps/report_dash/reportv2/fieldmain";
 import TrackMeter from "./apps/trackMeter/indexTrackMeter";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import IndexAuditReading from "./apps/audit/reading/indexAuditReading";
+import IndexFiltering from "./apps/filtering/indexFiltering";
 const routes = [
   {
     path: "/",
@@ -337,6 +338,13 @@ const routes2 = [
     component: IndexAuditReading,
     page_name: "Audit Reading",
     icon: "space_dashboard",
+  },
+  {
+    path: "/filtering/",
+    exact: true,
+    component: IndexFiltering,
+    page_name: "Filtering",
+    icon: "filter_alt",
   },
 ];
 export default routes2;

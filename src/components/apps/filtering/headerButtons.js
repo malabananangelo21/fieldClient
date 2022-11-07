@@ -1,50 +1,23 @@
-import {
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  TableContainer,
-  TableHead,
-  TableCell,
-  Table,
-  TableRow,
-  TableBody,
-  Dialog,
-  AppBar,
-  Toolbar,
-  IconButton,
-  TextField,
-  Menu,
-  MenuItem,
-} from "@material-ui/core";
-import WorkIcon from "@material-ui/icons/Work";
-import React from "react";
-import SearchIcon from "@material-ui/icons/Search";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import DateRangeIcon from "@material-ui/icons/DateRange";
-import moment from "moment";
+import { Grid, Menu, MenuItem, TextField, Typography } from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
-const renderPropsAreEqual = (prevProps, nextProps) => {
-  let returnData = true;
-  if (
-    JSON.stringify(prevProps.selectedBranch) ===
-      JSON.stringify(nextProps.selectedJobOrder) &&
-    JSON.stringify(prevProps.selectedJobOrder) ===
-      JSON.stringify(nextProps.selectedJobOrder) &&
-    JSON.stringify(prevProps.branchData) ===
-      JSON.stringify(nextProps.branchData) &&
-    JSON.stringify(prevProps.date_from) ===
-      JSON.stringify(nextProps.date_from) &&
-    JSON.stringify(prevProps.date_from) === JSON.stringify(nextProps.date_from)
-  ) {
-    returnData = true;
-  } else {
-    returnData = false;
-  }
-  return returnData;
-};
-const HeaderButton = (props) => {
-  console.log("test");
+import DateRangeIcon from "@material-ui/icons/DateRange";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import SearchIcon from "@material-ui/icons/Search";
+import WorkIcon from "@material-ui/icons/Work";
+import moment from "moment";
+import React from "react";
+function renderPropsAreEqual(prevProps, nextProps) {
+  return (
+    prevProps.branchData.length === nextProps.branchData.length &&
+    prevProps.filterBranch === nextProps.filterBranch &&
+    prevProps.selectedBranch === nextProps.selectedBranch &&
+    prevProps.filterDates === nextProps.filterDates &&
+    prevProps.date_from === nextProps.date_from &&
+    prevProps.month === nextProps.month
+  );
+}
+
+const HeaderButtons = (props) => {
   const {
     selectedBranch,
     selectedJobOrder,
@@ -60,7 +33,7 @@ const HeaderButton = (props) => {
     onChangeText,
     onSubmitDate,
     date_from,
-    date_to,
+    month,
   } = props;
   return (
     <>
@@ -163,38 +136,7 @@ const HeaderButton = (props) => {
                   <DateRangeIcon style={{ fontSize: 16 }} />
                 </div>
                 <Typography style={{ fontSize: 12 }}>
-                  {moment(date_from).format("YYYY-MM-DD")}
-                </Typography>
-                {/* <CloseIcon style={{ color: '#115293', fontSize: 17, marginLeft: 5, cursor: 'pointer' }} /> */}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  borderWidth: 1,
-                  borderStyle: "solid",
-                  borderColor: "#115293",
-                  paddingRight: 10,
-                  marginRight: 5,
-                }}
-              >
-                <div
-                  style={{
-                    height: "100%",
-                    paddingRight: 5,
-                    paddingLeft: 5,
-                    marginRight: 5,
-                    backgroundColor: "#115293",
-                    color: "#fff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <DateRangeIcon style={{ fontSize: 16 }} />
-                </div>
-                <Typography style={{ fontSize: 12 }}>
-                  {moment(date_to).format("YYYY-MM-DD")}
+                  {moment(month).format("YYYY-MMM")}
                 </Typography>
                 {/* <CloseIcon style={{ color: '#115293', fontSize: 17, marginLeft: 5, cursor: 'pointer' }} /> */}
               </div>
@@ -268,24 +210,14 @@ const HeaderButton = (props) => {
           >
             <div style={{ padding: 10 }}>
               <Grid container spacing={1}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={12}>
                   <TextField
                     style={{ width: "100%" }}
-                    label="From"
-                    type="date"
+                    label="Month"
+                    type="month"
                     InputLabelProps={{ shrink: true }}
                     onChange={onChangeText}
-                    name="date_from"
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    style={{ width: "100%" }}
-                    label="To"
-                    type="date"
-                    InputLabelProps={{ shrink: true }}
-                    onChange={onChangeText}
-                    name="date_to"
+                    name="month"
                   />
                 </Grid>
                 <Grid container justify="flex-end" item xs={12} md={12}>
@@ -313,14 +245,12 @@ const HeaderButton = (props) => {
           <a
             style={{ textDecoration: "none", color: "#000" }}
             href={
-              "https://api.workflow.gzonetechph.com/tracking/exportAudit/" +
-              moment(date_from).format("YYYY-MM-DD") +
-              "/" +
-              moment(date_to).format("YYYY-MM-DD") +
+              "https://api.workflow.gzonetechph.com/tracking/getFilteringExport/" +
+              selectedJobOrder +
               "/" +
               selectedBranch?.branch_id +
               "/" +
-              "test" +
+              month +
               "/" +
               localStorage.getItem("u")
             }
@@ -351,4 +281,4 @@ const HeaderButton = (props) => {
   );
 };
 
-export default React.memo(HeaderButton, renderPropsAreEqual);
+export default React.memo(HeaderButtons, renderPropsAreEqual);

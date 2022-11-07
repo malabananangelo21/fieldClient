@@ -67,10 +67,18 @@ const useStyles = makeStyles({
     maxHeight: 360,
   },
 });
+const renderPropsAreEqual = (prevProps, nextProps) => {
+  let returnData = true;
+  if (JSON.stringify(prevProps) === JSON.stringify(nextProps)) {
+    returnData = true;
+  } else {
+    returnData = false;
+  }
+  return returnData;
+};
 const TableList = (props) => {
   const { ...param } = props;
   const classes = useStyles();
-  console.log(param);
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
@@ -161,4 +169,4 @@ const TableList = (props) => {
   );
 };
 
-export default React.memo(TableList);
+export default React.memo(TableList, renderPropsAreEqual);

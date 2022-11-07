@@ -101,12 +101,15 @@ const SmartComponentsAuditReading = () => {
     validationDisplay: false,
   });
 
-  const handleClickBranch = (event) => {
-    setState((prev) => ({
-      ...prev,
-      filterBranch: event.currentTarget,
-    }));
-  };
+  const handleClickBranch = React.useCallback(
+    (event) => {
+      setState((prev) => ({
+        ...prev,
+        filterBranch: event.currentTarget,
+      }));
+    },
+    [state.filterBranch]
+  );
   const onChangeRemarks = (e) => {
     let category = [];
     state.field_findings.forEach((val) => {
@@ -116,7 +119,6 @@ const SmartComponentsAuditReading = () => {
         }
       }
     });
-
     setState((prev) => ({
       ...prev,
       validation_remarks: e.target.value,
@@ -178,43 +180,51 @@ const SmartComponentsAuditReading = () => {
       dispatch({ type: "loading_map", data: false });
     });
   };
-  const handleCloseBranch = () => {
+  const handleCloseBranch = React.useCallback(() => {
     setState((prev) => ({
       ...prev,
       filterBranch: null,
     }));
-  };
-  const handleClickDates = (event) => {
-    setState((prev) => ({
-      ...prev,
-      filterDates: event.currentTarget,
-    }));
-  };
-  const handleCloseDates = () => {
+  }, [state.filterBranch]);
+  const handleClickDates = React.useCallback(
+    (event) => {
+      setState((prev) => ({
+        ...prev,
+        filterDates: event.currentTarget,
+      }));
+    },
+    [state.filterDates]
+  );
+  const handleCloseDates = React.useCallback(() => {
     setState((prev) => ({
       ...prev,
       filterDates: null,
     }));
-  };
-  const onChangeBranch = (val) => {
-    setState((prev) => ({
-      ...prev,
-      selectedBranch: val,
-      refresh: !state.refresh,
-      search: "",
-      cardStatus: "",
-    }));
-    setPage(0);
-    handleCloseBranch();
-  };
-  const onChangeText = (e) => {
+  }, [state.filterDates]);
+  const onChangeBranch = React.useCallback(
+    (val) => {
+      console.log(val);
+      setState((prev) => ({
+        ...prev,
+        selectedBranch: val,
+        refresh: !state.refresh,
+        search: "",
+        cardStatus: "",
+      }));
+      setPage(0);
+      handleCloseBranch();
+    },
+    [state.refresh]
+  );
+  console.log(state.selectedBranch);
+  const onChangeText = React.useCallback((e) => {
     let name = e.target.name;
     let value = e.target.value;
     setState((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
+  }, []);
   React.useEffect(() => {
     getAudit();
     if (state.cardStatus === "Discrepancy" && state.search != "") {
@@ -357,7 +367,6 @@ const SmartComponentsAuditReading = () => {
     }));
     getData("tracking/disrepancy", data).then((res) => {
       if (state.search != "") {
-        console.log(state.search);
         setState((prev) => ({
           ...prev,
           loadingProgress: false,
@@ -383,7 +392,7 @@ const SmartComponentsAuditReading = () => {
     setPage(newPage);
   };
 
-  const onSubmitDate = () => {
+  const onSubmitDate = React.useCallback(() => {
     setState((prev) => ({
       ...prev,
       refresh: !state.refresh,
@@ -392,7 +401,7 @@ const SmartComponentsAuditReading = () => {
     }));
     setPage(0);
     handleCloseDates();
-  };
+  });
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
@@ -403,27 +412,30 @@ const SmartComponentsAuditReading = () => {
     return num2.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
 
-  const onSelectStatus = (status) => {
-    setPage(0);
-    let totalCount = 0;
-    if (status == "Invalid") {
-      totalCount = state.invalidCount;
-    } else if (status == "Valid") {
-      totalCount = state.validCount;
-    } else if (status == "Discrepancy") {
-      totalCount = state.discrepancyCount;
-    } else if (status == "") {
-      totalCount = state.totalCardCount;
-    }
+  const onSelectStatus = React.useCallback(
+    (status) => {
+      setPage(0);
+      let totalCount = 0;
+      if (status == "Invalid") {
+        totalCount = state.invalidCount;
+      } else if (status == "Valid") {
+        totalCount = state.validCount;
+      } else if (status == "Discrepancy") {
+        totalCount = state.discrepancyCount;
+      } else if (status == "") {
+        totalCount = state.totalCardCount;
+      }
 
-    setState((prev) => ({
-      ...prev,
-      cardStatus: status,
-      totalCount: totalCount,
-    }));
-  };
+      setState((prev) => ({
+        ...prev,
+        cardStatus: status,
+        totalCount: totalCount,
+      }));
+    },
+    [state.cardStatus, state.totalCount]
+  );
 
-  const ClickDiscrepancy = () => {
+  const ClickDiscrepancy = React.useCallback(() => {
     let data = {
       branch_id: selectedBranch?.branch_id,
       date_from: moment(state.date_from).format("YYYY-MM-DD"),
@@ -448,7 +460,7 @@ const SmartComponentsAuditReading = () => {
         data: false,
       });
     });
-  };
+  }, [state.dataList, state.totalCount]);
   const leftRotate = () => {
     setState((prev) => ({
       ...prev,
@@ -469,7 +481,6 @@ const SmartComponentsAuditReading = () => {
     }));
   };
   const handleOpen = (row, index) => {
-    console.log(row);
     let data = {
       date_from: moment(row.date_accom).format("YYYY-MM-DD"),
       branch_id: row.branch_id,
@@ -584,9 +595,13 @@ const SmartComponentsAuditReading = () => {
     { id: "date_accom", label: "Date Accomplished" },
   ];
   let selectedBranch = state.selectedBranch;
-  let selectedJobOrder = state.selectedJobOrder;
-  let filterBranch = state.filterBranch;
-  let filterDates = state.filterDates;
+  let selectedJobOrder = React.useMemo(
+    () => state.selectedJobOrder,
+    state.selectedJobOrder
+  );
+  let filterDates = React.useMemo(() => state.filterDates);
+  let filterBranch = React.useMemo(() => state.filterBranch);
+
   let dataList = state.dataList;
   let totalCount = state.totalCount;
   let discrepancyCount = state.discrepancyCount;
@@ -610,6 +625,16 @@ const SmartComponentsAuditReading = () => {
   let validator_comment = state.validator_comment;
   let validationDisplay = state.validationDisplay;
   let search = state.search;
+  // const headerButtonProps = React.useMemo(() => ({
+  //   branchData: param.branchData,
+  //   filterBranch: param.filterBranch,
+  //   selectedBranch: param.selectedBranch,
+  //   selectedJobOrder: param.selectedJobOrder,
+  //   filterDates: param.filterDates,
+  //   date_from: param.date_from,
+  //   date_to: param.date_to,
+
+  // }), [props.isHorizontal]);
   return {
     handleClickBranch,
     handleCloseBranch,

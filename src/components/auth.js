@@ -23,6 +23,7 @@ import Payroll from "./apps/payroll/payroll";
 import ReportDash from "./apps/report_dash/field_table/field_report";
 import FieldReportv2 from "./apps/report_dash/reportv2/fieldmain";
 import IndexAuditReading from "./apps/audit/reading/indexAuditReading";
+import IndexFiltering from "./apps/filtering/indexFiltering";
 
 function App(page) {
   const navigation = useSelector((state) => state.navigation_reducer);
@@ -85,6 +86,8 @@ function App(page) {
       return FieldReportv2;
     } else if (page == "Audit Reading") {
       return IndexAuditReading;
+    } else if (page == "Filtering") {
+      return IndexFiltering;
     }
 
     // else if (page == 'Assigning Audit'){
@@ -132,6 +135,8 @@ function App(page) {
         return TrackMeter;
       } else if (page_name == "Audit Reading") {
         return IndexAuditReading;
+      } else if (page_name == "Filtering") {
+        return IndexFiltering;
       }
     }
   }
