@@ -13,7 +13,9 @@ function renderPropsAreEqual(prevProps, nextProps) {
     prevProps.selectedBranch === nextProps.selectedBranch &&
     prevProps.filterDates === nextProps.filterDates &&
     prevProps.date_from === nextProps.date_from &&
-    prevProps.month === nextProps.month
+    prevProps.month === nextProps.month &&
+    prevProps.selectedJobOrder === nextProps.selectedJobOrder &&
+    prevProps.filterJo === nextProps.filterJo
   );
 }
 
@@ -34,6 +36,7 @@ const HeaderButtons = (props) => {
     onSubmitDate,
     date_from,
     month,
+    ...param
   } = props;
   return (
     <>
@@ -105,7 +108,7 @@ const HeaderButtons = (props) => {
                   <WorkIcon style={{ fontSize: 16 }} />
                 </div>
                 <Typography style={{ fontSize: 12 }}>
-                  {selectedJobOrder}
+                  {param.selectedJobOrderDisplay}
                 </Typography>
                 {/* <CloseIcon style={{ color: '#115293', fontSize: 17, marginLeft: 5, cursor: 'pointer' }} /> */}
               </div>
@@ -136,7 +139,7 @@ const HeaderButtons = (props) => {
                   <DateRangeIcon style={{ fontSize: 16 }} />
                 </div>
                 <Typography style={{ fontSize: 12 }}>
-                  {moment(month).format("YYYY-MMM")}
+                  {moment(month).format("YYYY-MMM-DD")}
                 </Typography>
                 {/* <CloseIcon style={{ color: '#115293', fontSize: 17, marginLeft: 5, cursor: 'pointer' }} /> */}
               </div>
@@ -185,6 +188,41 @@ const HeaderButtons = (props) => {
             })}
           </Menu>
           <button
+            onClick={param.handleClickJo}
+            style={{
+              border: "none",
+              background: "#115293",
+              color: "#fff",
+              paddingLeft: 10,
+              paddingRight: 10,
+              paddingTop: 5,
+              paddingBottom: 5,
+              cursor: "pointer",
+              marginRight: 5,
+            }}
+          >
+            <DateRangeIcon style={{ fontSize: 15, marginRight: 5 }} />
+            JO Type
+          </button>
+          <Menu
+            id="simple-menu"
+            anchorEl={param.filterJo}
+            keepMounted
+            open={param.filterJo}
+            onClose={param.handleCloseJo}
+          >
+            {[
+              { name: "Reading", type: "Reading" },
+              { name: "With Audit", type: "Audit Reading" },
+            ].map((val, index) => {
+              return (
+                <MenuItem key={index} onClick={() => param.onChangeJo(val)}>
+                  {`${val.name}`}
+                </MenuItem>
+              );
+            })}
+          </Menu>
+          <button
             onClick={handleClickDates}
             style={{
               border: "none",
@@ -214,7 +252,7 @@ const HeaderButtons = (props) => {
                   <TextField
                     style={{ width: "100%" }}
                     label="Month"
-                    type="month"
+                    type="date"
                     InputLabelProps={{ shrink: true }}
                     onChange={onChangeText}
                     name="month"

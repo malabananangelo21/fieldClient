@@ -20,6 +20,7 @@ import Search from "./search";
 import SmartComponentsFiltering from "./SmartComponents/smartComponentsFiltering";
 import TableList from "./tableList";
 import CloseIcon from "@material-ui/icons/Close";
+import AuditDetails from "./auditDetails";
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -93,6 +94,11 @@ const IndexFiltering = () => {
             onSubmitDate={param.onSubmitDate}
             date_from={param.date_from}
             month={param.month}
+            handleClickJo={param.handleClickJo}
+            handleCloseJo={param.handleCloseJo}
+            filterJo={param.filterJo}
+            onChangeJo={param.onChangeJo}
+            selectedJobOrderDisplay={param.selectedJobOrderDisplay}
           />
         </Grid>
         <Grid item xs={12} md={12}>
@@ -137,6 +143,12 @@ const IndexFiltering = () => {
           <Details
             dataList={param.filteringDetails}
             linegraphData={param.linegraphData}
+            auditView={
+              <AuditDetails
+                audit={param.audit}
+                dataList={param.filteringDetails}
+              />
+            }
           />
         </DialogContent>
         <DialogActions></DialogActions>

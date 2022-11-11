@@ -16,8 +16,10 @@ const SmartComponentsFiltering = () => {
   const [state, setState] = React.useState({
     selectedBranch: { branch_name: "Please Select Branch" },
     selectedJobOrder: "Reading",
+    selectedJobOrderDisplay: "Reading",
     filterBranch: false,
     filterDates: false,
+    filterJo: false,
     month: new Date(),
     search: "",
     refresh: false,
@@ -31,7 +33,7 @@ const SmartComponentsFiltering = () => {
     openModal: false,
     filteringDetails: [],
     linegraphData: [],
-    search: "",
+    audit: [],
   });
   const handleClickBranch = React.useCallback(
     (event) => {
@@ -48,6 +50,21 @@ const SmartComponentsFiltering = () => {
       filterBranch: false,
     }));
   }, [state.filterBranch]);
+  const handleClickJo = React.useCallback(
+    (event) => {
+      setState((prev) => ({
+        ...prev,
+        filterJo: event.currentTarget,
+      }));
+    },
+    [state.filterJo]
+  );
+  const handleCloseJo = React.useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      filterJo: false,
+    }));
+  }, [state.filterJo]);
   const handleClickDates = React.useCallback(
     (event) => {
       setState((prev) => ({
@@ -76,6 +93,21 @@ const SmartComponentsFiltering = () => {
       handleCloseBranch();
     },
     [state.selectedBranch]
+  );
+  const onChangeJo = React.useCallback(
+    (val) => {
+      setState((prev) => ({
+        ...prev,
+        selectedJobOrder: val.type,
+        selectedJobOrderDisplay: val.name,
+        refresh: !state.refresh,
+        search: "",
+        cardStatus: "",
+      }));
+      setPage(0);
+      handleCloseJo();
+    },
+    [state.selectedJobOrder]
   );
   const onChangeText = React.useCallback((e) => {
     const value = e.target.value;
@@ -178,8 +210,8 @@ const SmartComponentsFiltering = () => {
     dispatch({ type: "loading_map", data: true });
     getData("tracking/getfilteringDetails", data).then((res) => {
       let linegraphData = [];
-      for (let index = 0; index < res.length; index++) {
-        const element = res[index];
+      for (let index = 0; index < res.history.length; index++) {
+        const element = res.history[index];
         let details = {
           consumption: element.consumption,
           date: element.date_filter,
@@ -189,8 +221,9 @@ const SmartComponentsFiltering = () => {
       setState((prev) => ({
         ...prev,
         openModal: true,
-        filteringDetails: res,
+        filteringDetails: res.history,
         linegraphData: linegraphData,
+        audit: res.audit,
       }));
       dispatch({ type: "loading_map", data: false });
     });
@@ -222,6 +255,7 @@ const SmartComponentsFiltering = () => {
   const date_from = state.date_from;
   const month = state.month;
   const filterDates = state.filterDates;
+  const filterJo = state.filterJo;
   const filterBranch = React.useMemo(
     () => state.filterBranch,
     [state.filterBranch]
@@ -236,6 +270,8 @@ const SmartComponentsFiltering = () => {
   const openModal = state.openModal;
   const filteringDetails = state.filteringDetails;
   const linegraphData = state.linegraphData;
+  const selectedJobOrderDisplay = state.selectedJobOrderDisplay;
+  const audit = state.audit;
 
   return {
     selectedBranch,
@@ -244,6 +280,8 @@ const SmartComponentsFiltering = () => {
     month,
     handleClickBranch,
     handleCloseBranch,
+    handleClickJo,
+    handleCloseJo,
     handleClickDates,
     handleCloseDates,
     onChangeBranch,
@@ -268,6 +306,10 @@ const SmartComponentsFiltering = () => {
     linegraphData,
     loading_map,
     onSubmitSearch,
+    filterJo,
+    onChangeJo,
+    selectedJobOrderDisplay,
+    audit,
   };
 };
 
