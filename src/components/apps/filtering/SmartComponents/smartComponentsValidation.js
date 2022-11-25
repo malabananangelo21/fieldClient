@@ -61,6 +61,7 @@ const SmartComponentValidation = (
   const onSubmit = React.useCallback(
     (e) => {
       e.preventDefault();
+      dispatch({ type: "loading_map", data: true });
       const data = {
         validation_status_jo: state.selectedStatus,
         validation_remarks_jo: state.selectedRemarks,
@@ -72,7 +73,7 @@ const SmartComponentValidation = (
         // validator_name: userLoginData.complete_name,
       };
       getData("tracking/validateFiltering", data).then((res) => {
-        console.log(stateValue.selectedBranch);
+        dispatch({ type: "loading_map", data: false });
       });
     },
     [stateValue]
