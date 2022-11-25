@@ -6,7 +6,9 @@ import {
   TableRow,
   TableBody,
   Divider,
+  Typography,
 } from "@material-ui/core";
+import { CheckCircleSharp } from "@material-ui/icons";
 import React from "react";
 import LineGraph from "./charts/lineChart";
 const columns = [
@@ -34,6 +36,47 @@ const Details = (props) => {
         <Grid item xs={12} md={12}>
           <Divider />
         </Grid>
+        <Grid item xs={12} md={12}>
+          <button
+            onClick={param.handleOpenValidation}
+            style={{
+              border: "none",
+              background: "#115293",
+              color: "#fff",
+              paddingLeft: 10,
+              paddingRight: 10,
+              paddingTop: 5,
+              paddingBottom: 5,
+              cursor: "pointer",
+              marginRight: 5,
+            }}
+          >
+            <CheckCircleSharp style={{ fontSize: 15, marginRight: 5 }} />
+            Validate
+          </button>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <Typography>
+            <b>
+              <i>
+                {" "}
+                3 Months Average Consumption :{" "}
+                {param.selectedJOValidation?.average_consumption}
+              </i>
+            </b>
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <Typography>
+            <b>
+              <i>
+                {" "}
+                Present Consumption: {param.selectedJOValidation?.consumption}
+              </i>
+            </b>
+          </Typography>
+        </Grid>
+
         <Grid item xs={12} md={12}>
           <Table size="small">
             <TableHead>

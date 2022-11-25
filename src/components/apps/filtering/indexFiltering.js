@@ -21,6 +21,8 @@ import SmartComponentsFiltering from "./SmartComponents/smartComponentsFiltering
 import TableList from "./tableList";
 import CloseIcon from "@material-ui/icons/Close";
 import AuditDetails from "./auditDetails";
+import Validation from "./validation";
+import SmartComponentValidation from "./SmartComponents/smartComponentsValidation";
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -53,6 +55,11 @@ const DialogTitle = withStyles(styles)((props) => {
 });
 const IndexFiltering = () => {
   const { ...param } = SmartComponentsFiltering();
+  const { ...validationParam } = SmartComponentValidation(
+    param.selectedBranch,
+    param.selectedJOValidation,
+    param.openValidationModal
+  );
   return (
     <>
       <Backdrop open={param.loading_map} style={{ zIndex: 999999999 }}>
@@ -99,6 +106,14 @@ const IndexFiltering = () => {
             filterJo={param.filterJo}
             onChangeJo={param.onChangeJo}
             selectedJobOrderDisplay={param.selectedJobOrderDisplay}
+            searchButton={param.searchButton}
+            filterFieldman={param.filterFieldman}
+            handleClickFieldman={param.handleClickFieldman}
+            handleCloseFieldman={param.handleCloseFieldman}
+            userList={param.userList}
+            onSelectFieldman={param.onSelectFieldman}
+            selectedFieldman={param.selectedFieldman}
+            selectedFieldmanName={param.selectedFieldmanName}
           />
         </Grid>
         <Grid item xs={12} md={12}>
@@ -142,13 +157,39 @@ const IndexFiltering = () => {
         <DialogContent>
           <Details
             dataList={param.filteringDetails}
+            selectedJOValidation={param.selectedJOValidation}
             linegraphData={param.linegraphData}
+            handleOpenValidation={param.handleOpenValidation}
             auditView={
               <AuditDetails
                 audit={param.audit}
                 dataList={param.filteringDetails}
               />
             }
+          />
+        </DialogContent>
+        <DialogActions></DialogActions>
+      </Dialog>
+      <Dialog
+        fullWidth={true}
+        maxWidth={"md"}
+        open={param.openValidationModal}
+        keepMounted
+        onClose={param.handleCloseValidation}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle
+          onClose={param.handleCloseValidation}
+          id="alert-dialog-slide-title"
+        >
+          <div>{"Validation"}</div>
+        </DialogTitle>
+        <Divider />
+        <DialogContent>
+          <Validation
+            selectedJOValidation={param.selectedJOValidation}
+            {...validationParam}
           />
         </DialogContent>
         <DialogActions></DialogActions>

@@ -19,6 +19,7 @@ const SmartComponentsFiltering = () => {
     selectedJobOrderDisplay: "Reading",
     filterBranch: false,
     filterDates: false,
+    filterFieldman: false,
     filterJo: false,
     month: new Date(),
     search: "",
@@ -34,6 +35,12 @@ const SmartComponentsFiltering = () => {
     filteringDetails: [],
     linegraphData: [],
     audit: [],
+    openValidationModal: false,
+    selectedJOValidation: [],
+    field_findings: [],
+    userList: [],
+    selectedFieldman: "",
+    selectedFieldmanName: "",
   });
   const handleClickBranch = React.useCallback(
     (event) => {
@@ -44,6 +51,22 @@ const SmartComponentsFiltering = () => {
     },
     [state.filterBranch]
   );
+  const getUsers = (branch_id) => {
+    const data = {
+      branch_id: branch_id,
+    };
+    dispatch({ type: "loading_map", data: true });
+    getData("users/getUserByBranch", data)
+      .then((res) => {
+        setState((prev) => ({
+          ...prev,
+          userList: res.users,
+        }));
+      })
+      .finally(() => {
+        dispatch({ type: "loading_map", data: false });
+      });
+  };
   const handleCloseBranch = React.useCallback(() => {
     setState((prev) => ({
       ...prev,
@@ -80,12 +103,27 @@ const SmartComponentsFiltering = () => {
       filterDates: false,
     }));
   }, [state.filterDates]);
+  const handleClickFieldman = React.useCallback(
+    (event) => {
+      setState((prev) => ({
+        ...prev,
+        filterFieldman: event.currentTarget,
+      }));
+    },
+    [state.filterFieldman]
+  );
+  const handleCloseFieldman = React.useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      filterFieldman: false,
+    }));
+  }, [state.filterFieldman]);
   const onChangeBranch = React.useCallback(
     (val) => {
+      getUsers(val.branch_id);
       setState((prev) => ({
         ...prev,
         selectedBranch: val,
-        refresh: !state.refresh,
         search: "",
         cardStatus: "",
       }));
@@ -100,7 +138,6 @@ const SmartComponentsFiltering = () => {
         ...prev,
         selectedJobOrder: val.type,
         selectedJobOrderDisplay: val.name,
-        refresh: !state.refresh,
         search: "",
         cardStatus: "",
       }));
@@ -116,13 +153,13 @@ const SmartComponentsFiltering = () => {
       ...prev,
       [name]: value,
     }));
+    if (name === "month") {
+      handleCloseDates();
+    }
   }, []);
   const onSubmitDate = React.useCallback(() => {
-    setState((prev) => ({
-      ...prev,
-      refresh: !state.refresh,
-    }));
-  }, [state.refresh]);
+    handleCloseDates();
+  }, []);
   const getFiltering = () => {
     setState((prev) => ({
       ...prev,
@@ -133,6 +170,7 @@ const SmartComponentsFiltering = () => {
       branch_id: selectedBranch?.branch_id ? selectedBranch?.branch_id : "",
       jo_type: state.selectedJobOrder,
       search: state.search,
+      selectedFieldman: state.selectedFieldman,
     };
     dispatch({ type: "loading_map", data: true });
     getData("tracking/getFiltering", data)
@@ -224,6 +262,7 @@ const SmartComponentsFiltering = () => {
         filteringDetails: res.history,
         linegraphData: linegraphData,
         audit: res.audit,
+        selectedJOValidation: row,
       }));
       dispatch({ type: "loading_map", data: false });
     });
@@ -239,6 +278,11 @@ const SmartComponentsFiltering = () => {
             .indexOf(state.search.toLocaleLowerCase()) !== -1 ||
           files.meter_type
             .toLowerCase()
+            .indexOf(state.search.toLocaleLowerCase()) !== -1 ||
+          files.mru.toLowerCase().indexOf(state.search.toLocaleLowerCase()) !==
+            -1 ||
+          files.completename
+            .toLowerCase()
             .indexOf(state.search.toLocaleLowerCase()) !== -1
         );
       });
@@ -250,6 +294,46 @@ const SmartComponentsFiltering = () => {
       page: 0,
     }));
   };
+  const searchButton = React.useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      refresh: !state.refresh,
+    }));
+  }, [state.refresh]);
+  const handleCloseValidation = React.useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      openValidationModal: false,
+    }));
+  }, [state.openValidationModal]);
+  const handleOpenValidation = React.useCallback(
+    (row) => {
+      setState((prev) => ({
+        ...prev,
+        openValidationModal: true,
+      }));
+    },
+    [state.openValidationModal]
+  );
+  const onSelectFieldman = React.useCallback(
+    (e, values) => {
+      if (values != null) {
+        setState((prev) => ({
+          ...prev,
+          selectedFieldman: values.user_id,
+          selectedFieldmanName: values.COMPLETENAME,
+        }));
+      } else {
+        setState((prev) => ({
+          ...prev,
+          selectedFieldman: "",
+          selectedFieldmanName: "",
+        }));
+      }
+      handleCloseFieldman();
+    },
+    [state.selectedFieldman]
+  );
   const selectedBranch = state.selectedBranch;
   const selectedJobOrder = state.selectedJobOrder;
   const date_from = state.date_from;
@@ -272,6 +356,15 @@ const SmartComponentsFiltering = () => {
   const linegraphData = state.linegraphData;
   const selectedJobOrderDisplay = state.selectedJobOrderDisplay;
   const audit = state.audit;
+  const openValidationModal = state.openValidationModal;
+  const selectedJOValidation = state.selectedJOValidation;
+  const filterFieldman = state.filterFieldman;
+  const selectedFieldman = state.selectedFieldman;
+  const selectedFieldmanName = state.selectedFieldmanName;
+
+  const userList = React.useMemo(() => {
+    return state.userList;
+  }, [JSON.stringify(state.userList)]);
 
   return {
     selectedBranch,
@@ -310,6 +403,18 @@ const SmartComponentsFiltering = () => {
     onChangeJo,
     selectedJobOrderDisplay,
     audit,
+    searchButton,
+    handleOpenValidation,
+    handleCloseValidation,
+    openValidationModal,
+    selectedJOValidation,
+    filterFieldman,
+    handleClickFieldman,
+    handleCloseFieldman,
+    userList,
+    onSelectFieldman,
+    selectedFieldman,
+    selectedFieldmanName,
   };
 };
 

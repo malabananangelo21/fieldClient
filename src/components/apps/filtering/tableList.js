@@ -13,6 +13,7 @@ import Icon from "@material-ui/core/Icon";
 import { Tooltip } from "recharts";
 
 const columns = [
+  { id: "mru", label: "MRU" },
   { id: "meter_no", label: "Meter No." },
   { id: "meter_type", label: "Meter Type" },
   { id: "previous_reading", label: "Previous Reading" },
@@ -131,6 +132,7 @@ const TableList = (props) => {
                           style={{
                             color: "#115293",
                             cursor: "pointer",
+                            marginRight: 10,
                           }}
                         >
                           launched
