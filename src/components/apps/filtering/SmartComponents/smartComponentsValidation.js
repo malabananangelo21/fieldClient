@@ -9,6 +9,7 @@ const SmartComponentValidation = (
   const userLoginData = useSelector(
     (state) => state.navigation_reducer.userLoginData
   );
+  const dispatch = useDispatch();
   const [state, setState] = React.useState({
     status: ["Valid", "Invalid"],
     selectedStatus: "",
