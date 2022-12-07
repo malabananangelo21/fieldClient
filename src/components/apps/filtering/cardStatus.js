@@ -97,6 +97,24 @@ const CardStatus = (props) => {
             </Typography>
           </Card>
         </Grid>
+        <Grid item xs={12} md={2}>
+          <Card
+            onClick={() => param.onSelectStatus("Field Findings")}
+            style={{
+              padding: 10,
+              backgroundColor: "#7f8c8d",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            <Typography style={{ fontWeight: "bold", fontSize: 26 }}>
+              {param.formatNumber(param.fieldFindings)}
+            </Typography>
+            <Typography style={{ fontWeight: "bold", fontSize: 11 }}>
+              FIELD FINDINGS
+            </Typography>
+          </Card>
+        </Grid>
       </Grid>
     </>
   );
