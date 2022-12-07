@@ -23,6 +23,7 @@ const columns = [
   { id: "date_filter", label: "Date" },
   { id: "status", label: "Status" },
   { id: "completename", label: "Fieldman" },
+  { id: "field_findings_value", label: "Field Findings" },
 ];
 
 function createData(name, code, population, size) {

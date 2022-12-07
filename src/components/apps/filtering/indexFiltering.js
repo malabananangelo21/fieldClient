@@ -125,6 +125,7 @@ const IndexFiltering = () => {
             normalCount={param.normalCount}
             formatNumber={param.formatNumber}
             onSelectStatus={param.onSelectStatus}
+            fieldFindings={param.fieldFindings}
           />
         </Grid>
         <Grid item xs={12} md={12}>

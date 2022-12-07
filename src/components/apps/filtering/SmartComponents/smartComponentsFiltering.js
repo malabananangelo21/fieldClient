@@ -30,6 +30,7 @@ const SmartComponentsFiltering = () => {
     highCount: 0,
     lowCount: 0,
     invalidCount: 0,
+    fieldFindings: 0,
     dataMasterList: [],
     openModal: false,
     filteringDetails: [],
@@ -181,6 +182,7 @@ const SmartComponentsFiltering = () => {
           let lowCount = 0;
           let invalidCount = 0;
           let normalCount = 0;
+          let fieldFindings = 0;
 
           for (let index = 0; index < res.length; index++) {
             const element = res[index];
@@ -193,6 +195,12 @@ const SmartComponentsFiltering = () => {
             } else if (element.status === "Normal Consumption") {
               normalCount++;
             }
+            if (
+              element.field_findings_value != 0 &&
+              element.field_findings_value != null
+            ) {
+              fieldFindings++;
+            }
           }
           setState((prev) => ({
             ...prev,
@@ -204,6 +212,7 @@ const SmartComponentsFiltering = () => {
             normalCount: normalCount,
             dataMasterList: res,
             filterDates: false,
+            fieldFindings: fieldFindings,
             page: 0,
           }));
         }
@@ -225,6 +234,12 @@ const SmartComponentsFiltering = () => {
     let filter = state.dataMasterList.filter((val) => status === val.status);
     if (status == "") {
       filter = state.dataMasterList;
+    }
+    if (status === "Field Findings") {
+      filter = state.dataMasterList.filter(
+        (val) =>
+          val.field_findings_value != 0 && val.field_findings_value != null
+      );
     }
     setState((prev) => ({
       ...prev,
@@ -361,6 +376,7 @@ const SmartComponentsFiltering = () => {
   const filterFieldman = state.filterFieldman;
   const selectedFieldman = state.selectedFieldman;
   const selectedFieldmanName = state.selectedFieldmanName;
+  const fieldFindings = state.fieldFindings;
 
   const userList = React.useMemo(() => {
     return state.userList;
@@ -415,6 +431,7 @@ const SmartComponentsFiltering = () => {
     onSelectFieldman,
     selectedFieldman,
     selectedFieldmanName,
+    fieldFindings,
   };
 };
 
