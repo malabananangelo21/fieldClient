@@ -31,6 +31,9 @@ const SmartComponentsFiltering = () => {
     lowCount: 0,
     invalidCount: 0,
     fieldFindings: 0,
+    negativeConsumption: 0,
+    valid: 0,
+    invalid: 0,
     dataMasterList: [],
     openModal: false,
     filteringDetails: [],
@@ -42,6 +45,7 @@ const SmartComponentsFiltering = () => {
     userList: [],
     selectedFieldman: "",
     selectedFieldmanName: "",
+    meter_type_sixteen: 0,
   });
   const handleClickBranch = React.useCallback(
     (event) => {
@@ -174,7 +178,7 @@ const SmartComponentsFiltering = () => {
       selectedFieldman: state.selectedFieldman,
     };
     dispatch({ type: "loading_map", data: true });
-    getData("tracking/getFiltering", data)
+    getData("tracking/getFiltering2", data)
       .then((res) => {
         if (res) {
           let totalCount = 0;
@@ -183,17 +187,32 @@ const SmartComponentsFiltering = () => {
           let invalidCount = 0;
           let normalCount = 0;
           let fieldFindings = 0;
+          let negativeConsumption = 0;
+          let valid = 0;
+          let invalid = 0;
+          let meter_type_sixteen = 0;
 
           for (let index = 0; index < res.length; index++) {
             const element = res[index];
-            if (element.status === "High Consumption") {
-              highCount++;
-            } else if (element.status === "Low Consumption") {
-              lowCount++;
-            } else if (element.status === "Invalid Average") {
-              invalidCount++;
-            } else if (element.status === "Normal Consumption") {
-              normalCount++;
+            if (parseInt(element.meter_type) == 16) {
+              meter_type_sixteen++;
+            } else {
+              if (element.status === "High Consumption") {
+                highCount++;
+              } else if (element.status === "Low Consumption") {
+                lowCount++;
+              } else if (element.status === "Invalid Average") {
+                invalidCount++;
+              } else if (element.status === "Normal Consumption") {
+                normalCount++;
+              } else if (element.status === "Negative Consumption") {
+                negativeConsumption++;
+              }
+            }
+            if (element.validation_status_jo === "Valid") {
+              valid++;
+            } else if (element.validation_status_jo === "Invalid") {
+              invalid++;
             }
             if (
               element.field_findings_value != 0 &&
@@ -214,6 +233,10 @@ const SmartComponentsFiltering = () => {
             filterDates: false,
             fieldFindings: fieldFindings,
             page: 0,
+            negativeConsumption: negativeConsumption,
+            valid: valid,
+            invalid: invalid,
+            meter_type_sixteen: meter_type_sixteen,
           }));
         }
         dispatch({ type: "loading_map", data: false });
@@ -231,7 +254,13 @@ const SmartComponentsFiltering = () => {
     return num2.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
   const onSelectStatus = (status) => {
-    let filter = state.dataMasterList.filter((val) => status === val.status);
+    let filter = state.dataMasterList.filter((val) =>
+      status === "Valid" || status === "Invalid"
+        ? val.validation_status_jo === status
+        : status === "16"
+        ? parseInt(val.meter_type) === 16
+        : status === val.status
+    );
     if (status == "") {
       filter = state.dataMasterList;
     }
@@ -244,6 +273,7 @@ const SmartComponentsFiltering = () => {
     setState((prev) => ({
       ...prev,
       dataList: filter,
+      page: 0,
     }));
   };
   const handleClose = () => {
@@ -377,11 +407,52 @@ const SmartComponentsFiltering = () => {
   const selectedFieldman = state.selectedFieldman;
   const selectedFieldmanName = state.selectedFieldmanName;
   const fieldFindings = state.fieldFindings;
+  const negativeConsumption = state.negativeConsumption;
+  const valid = state.valid;
+  const invalid = state.invalid;
+  const meter_type_sixteen = state.meter_type_sixteen;
 
   const userList = React.useMemo(() => {
     return state.userList;
   }, [JSON.stringify(state.userList)]);
+  const updateDetails = (data) => {
+    const dataList = state.dataList.map((val) => val);
+    const dataMasterList = state.dataMasterList.map((val) => val);
+    let selectedJOValidation = [];
+    let valid = 0;
+    let invalid = 0;
 
+    dataList.forEach((element) => {
+      if (element.jo_id == data.jo_id) {
+        element.validation_status_jo = data.validation_status_jo;
+        element.validation_remarks_jo = data.validation_remarks_jo;
+        element.validation_comments_jo = data.validation_comments_jo;
+        element.validation_correct_reading = data.validation_correct_reading;
+        selectedJOValidation = element;
+      }
+    });
+    dataMasterList.forEach((element) => {
+      if (element.jo_id == data.jo_id) {
+        element.validation_status_jo = data.validation_status_jo;
+        element.validation_remarks_jo = data.validation_remarks_jo;
+        element.validation_comments_jo = data.validation_comments_jo;
+        element.validation_correct_reading = data.validation_correct_reading;
+      }
+      if (element.validation_status_jo === "Valid") {
+        valid++;
+      } else if (element.validation_status_jo === "Invalid") {
+        invalid++;
+      }
+    });
+    setState((prev) => ({
+      ...prev,
+      dataList: dataList,
+      dataMasterList: dataMasterList,
+      selectedJOValidation: selectedJOValidation,
+      invalid: invalid,
+      valid: valid,
+    }));
+  };
   return {
     selectedBranch,
     selectedJobOrder,
@@ -432,6 +503,11 @@ const SmartComponentsFiltering = () => {
     selectedFieldman,
     selectedFieldmanName,
     fieldFindings,
+    updateDetails,
+    negativeConsumption,
+    valid,
+    invalid,
+    meter_type_sixteen,
   };
 };
 

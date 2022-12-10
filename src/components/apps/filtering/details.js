@@ -17,6 +17,7 @@ const columns = [
   { id: "previous_reading", label: "Previous Reading" },
   { id: "present_reading", label: "Present Reading" },
   { id: "consumption", label: "Present Consumption" },
+  { id: "validation_correct_reading", label: "Correct Reading" },
   { id: "completename", label: "Fieldman" },
   { id: "date_filter", label: "Date" },
 ];
@@ -73,6 +74,23 @@ const Details = (props) => {
                 {" "}
                 Present Consumption: {param.selectedJOValidation?.consumption}
               </i>
+            </b>
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <Typography>
+            <b>
+              <i>
+                {" "}
+                Validation: {param.selectedJOValidation?.validation_status_jo}
+              </i>
+            </b>
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <Typography>
+            <b>
+              <i> Validator: {param.selectedJOValidation?.validator_name}</i>
             </b>
           </Typography>
         </Grid>
