@@ -58,7 +58,8 @@ const IndexFiltering = () => {
   const { ...validationParam } = SmartComponentValidation(
     param.selectedBranch,
     param.selectedJOValidation,
-    param.openValidationModal
+    param.openValidationModal,
+    param.updateDetails
   );
   return (
     <>
@@ -126,6 +127,10 @@ const IndexFiltering = () => {
             formatNumber={param.formatNumber}
             onSelectStatus={param.onSelectStatus}
             fieldFindings={param.fieldFindings}
+            negativeConsumption={param.negativeConsumption}
+            valid={param.valid}
+            invalid={param.invalid}
+            meter_type_sixteen={param.meter_type_sixteen}
           />
         </Grid>
         <Grid item xs={12} md={12}>

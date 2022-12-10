@@ -115,6 +115,78 @@ const CardStatus = (props) => {
             </Typography>
           </Card>
         </Grid>
+        <Grid item xs={12} md={2}>
+          <Card
+            onClick={() => param.onSelectStatus("Negative Consumption")}
+            style={{
+              padding: 10,
+              backgroundColor: "#34495e",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            <Typography style={{ fontWeight: "bold", fontSize: 26 }}>
+              {param.formatNumber(param.negativeConsumption)}
+            </Typography>
+            <Typography style={{ fontWeight: "bold", fontSize: 11 }}>
+              NEGATIVE CONSUMPTIONS
+            </Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={2}>
+          <Card
+            onClick={() => param.onSelectStatus("Valid")}
+            style={{
+              padding: 10,
+              backgroundColor: "#2ecc71",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            <Typography style={{ fontWeight: "bold", fontSize: 26 }}>
+              {param.formatNumber(param.valid)}
+            </Typography>
+            <Typography style={{ fontWeight: "bold", fontSize: 11 }}>
+              VALID
+            </Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={2}>
+          <Card
+            onClick={() => param.onSelectStatus("Invalid")}
+            style={{
+              padding: 10,
+              backgroundColor: "#c0392b",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            <Typography style={{ fontWeight: "bold", fontSize: 26 }}>
+              {param.formatNumber(param.invalid)}
+            </Typography>
+            <Typography style={{ fontWeight: "bold", fontSize: 11 }}>
+              INVALID
+            </Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={2}>
+          <Card
+            onClick={() => param.onSelectStatus("16")}
+            style={{
+              padding: 10,
+              backgroundColor: "#ecf0f1",
+              color: "#000",
+              cursor: "pointer",
+            }}
+          >
+            <Typography style={{ fontWeight: "bold", fontSize: 26 }}>
+              {param.formatNumber(param.meter_type_sixteen)}
+            </Typography>
+            <Typography style={{ fontWeight: "bold", fontSize: 11 }}>
+              METER TYPE 16
+            </Typography>
+          </Card>
+        </Grid>
       </Grid>
     </>
   );

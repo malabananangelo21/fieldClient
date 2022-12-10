@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 const SmartComponentValidation = (
   selectedBranch,
   selectedJOValidation,
-  openValidationModal
+  openValidationModal,
+  updateDetails
 ) => {
   const userLoginData = useSelector(
     (state) => state.navigation_reducer.userLoginData
@@ -74,6 +75,7 @@ const SmartComponentValidation = (
         // validator_name: userLoginData.complete_name,
       };
       getData("tracking/validateFiltering", data).then((res) => {
+        updateDetails(data);
         dispatch({ type: "loading_map", data: false });
       });
     },
@@ -91,8 +93,10 @@ const SmartComponentValidation = (
         ? selectedBranch?.company_id
         : "",
     };
+    dispatch({ type: "loading_map", data: true });
     getData("tracking/getfield_findings", data).then((res) => {
       if (!isCancelled) {
+        dispatch({ type: "loading_map", data: false });
         setState((prev) => ({
           ...prev,
           field_findings: res.field_findings,

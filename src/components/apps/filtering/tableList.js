@@ -20,10 +20,12 @@ const columns = [
   { id: "present_reading", label: "Present Reading" },
   { id: "consumption", label: "Present Consumption" },
   { id: "average_consumption", label: "Average Consumption" },
+  { id: "validation_correct_reading", label: "Correct Reading" },
   { id: "date_filter", label: "Date" },
   { id: "status", label: "Status" },
   { id: "completename", label: "Fieldman" },
   { id: "field_findings_value", label: "Field Findings" },
+  { id: "validation_status_jo", label: "Validation" },
 ];
 
 function createData(name, code, population, size) {
@@ -118,6 +120,9 @@ const TableList = (props) => {
                     color = "#fff";
                   } else if (row.status === "Invalid Average") {
                     bgColor = "#e74c3c";
+                    color = "#fff";
+                  } else if (row.status === "Negative Consumption") {
+                    bgColor = "#34495e";
                     color = "#fff";
                   }
                   return (
