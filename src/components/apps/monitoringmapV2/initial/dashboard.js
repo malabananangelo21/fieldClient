@@ -1,8 +1,12 @@
 import React, { PureComponent, forwardRef, useImperativeHandle } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 import {
+  InputLabel,
   Button,
   Grid,
+  TextField,
   IconButton,
   Typography,
   Dialog,
@@ -22,7 +26,10 @@ import {
   FormLabel,
   RadioGroup,
   FormControlLabel,
+  Select,
+  MenuItem,
   Radio,
+  Tooltip,
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import moment from "moment";
@@ -49,6 +56,7 @@ import MoneyIcon from "@material-ui/icons/Money";
 import ReturnedJo from "./returnedJo";
 import GavelIcon from "@material-ui/icons/Gavel";
 import TableChartIcon from "@material-ui/icons/TableChart";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -60,7 +68,104 @@ const MuiTableCell = withStyles({
   },
 })(TableCell);
 let counterError = 0;
+const AssigningField = ({ val, index, state, setState }) => {
+  const [regionData, setRegion] = React.useState([]);
+  const [provinceData, setProvince] = React.useState([]);
+  const [cityData, setCity] = React.useState([]);
+  const [barangayData, setBarangay] = React.useState([]);
 
+  const [provinceDataList, setProvinceList] = React.useState([]);
+  const [cityDataList, setCityList] = React.useState([]);
+  const [barangayDataList, setBarangayList] = React.useState([]);
+
+  const [regionAddr, setRegionAddr] = React.useState("");
+  const [provinceAddr, setProvinceAddr] = React.useState("");
+  const [cityAddr, setCityAddr] = React.useState("");
+  const [barangayAddr, setBarangayAddr] = React.useState("");
+
+  return (
+    <Card variant="outlined" style={{ marginBottom: 6, position: "relative" }}>
+      <CardContent>
+        <div
+          style={{
+            backgroundColor: "#2a5793",
+            height: 25,
+            width: 25,
+            borderRadius: 12.5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "absolute",
+            right: 8,
+          }}
+        >
+          <Typography style={{ color: "#fff" }}>{index + 1}</Typography>
+        </div>
+        <Grid container spacing={1} key={index} style={{ marginTop: 25 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {val.jo.map((val_header, index) => {
+                  return (
+                    <TableCell
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        textAlign: "center",
+                        color: "#fff",
+                        backgroundColor: "#2a5793",
+                      }}
+                      key={index}
+                    >
+                      {val_header.type}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                {val.jo.map((jo_val, index2) => {
+                  return (
+                    <TableCell item xs={12} md={7}>
+                      <TextField
+                        value={jo_val.count}
+                        onChange={(e) => {
+                          // if(e.target.value !== ""){
+                          const { name, value } = e.target;
+                          setState((prev) => ({
+                            ...prev,
+                            jo_type_assign: state.jo_type_assign.map(
+                              (jo_data, index_jo) =>
+                                index === index_jo
+                                  ? {
+                                      ...jo_data,
+                                      jo: jo_data.jo.map((count_val, index3) =>
+                                        index3 === index2
+                                          ? { ...count_val, count: value }
+                                          : count_val
+                                      ),
+                                    }
+                                  : jo_data
+                            ),
+                          }));
+                          // }
+                        }}
+                        type="number"
+                        value={jo_val.count}
+                        inputProps={{ min: 0, style: { textAlign: "center" } }}
+                      />
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
+};
 const Home = forwardRef((props, ref) => {
   const {
     closeHome,
@@ -267,6 +372,8 @@ const Home = forwardRef((props, ref) => {
     tableFormatAssignedDetails: false,
     returnedJO_modal: false,
     get_lack_of_time: [],
+    modal_assigning: false,
+    jo_type_assign: [],
   });
 
   useImperativeHandle(ref, () => ({
@@ -1421,6 +1528,346 @@ const Home = forwardRef((props, ref) => {
       });
     }
   };
+  const onSelectFieldmanAssign = () => {
+    let batch_data = [];
+    let jo_assign_id = "";
+    let selected_rover = "";
+    let allowance = 0;
+    let onSelectData = sessionStorage.getItem("onSelectSingleDateGraph");
+    // console.log(onSelectData)
+    let branch_id = "";
+    let date = "";
+    let jo_type = "";
+    if (onSelectData !== null) {
+      let new_data = JSON.parse(onSelectData);
+      date = moment(new_data.from).format("YYYY-MM-DD");
+      branch_id = new_data.selection[0];
+      jo_type = new_data.jo_type[0];
+    }
+    const data = {
+      branch_id: branch_id,
+      date: date,
+      jo_type: jo_type,
+      user_id: 0,
+    };
+    dispatch_data("loading_map", true);
+    getData("tracking/getManualAssignData", data).then((res) => {
+      if (res.length > 0) {
+        const batch = res;
+
+        batch_data = [
+          {
+            location: {
+              lat: 0,
+              lng: 0,
+              region: "",
+              region_code: "",
+              province: "",
+              province_code: "",
+              city: "",
+              city_code: "",
+              barangay: "",
+              barangay_code: "",
+              description: "",
+            },
+            jo: [
+              {
+                type: "SOA",
+                count: batch[0].jo_soa,
+                name: "jo_soa",
+              },
+              {
+                type: "DN",
+                count: batch[0].jo_dn,
+                name: "jo_dn",
+              },
+              {
+                type: "NCR",
+                count: batch[0].jo_ncr,
+                name: "jo_ncr",
+              },
+              {
+                type: "NAC",
+                count: batch[0].jo_nac,
+                name: "jo_nac",
+              },
+              {
+                type: "OSB",
+                count: batch[0].jo_osb,
+                name: "jo_osb",
+              },
+              {
+                type: "OSN",
+                count: batch[0].jo_osn,
+                name: "jo_osn",
+              },
+              {
+                type: "MECO",
+                count: batch[0].jo_meco,
+                name: "jo_meco",
+              },
+              {
+                type: "AUBD",
+                count: batch[0].jo_aubd,
+                name: "jo_aubd",
+              },
+              {
+                type: "RE-OUT SOA",
+                count: batch[0].jo_soa_reout,
+                name: "jo_soa_reout",
+              },
+              {
+                type: "RE-OUT DN",
+                count: batch[0].jo_dn_reout,
+                name: "jo_dn_reout",
+              },
+              {
+                type: "Validate",
+                count: batch[0].jo_validate,
+                name: "jo_validate",
+              },
+              {
+                type: "Disconnection",
+                count: batch[0].jo_reconnection,
+                name: "jo_disconnection",
+              },
+              {
+                type: "Reconnection",
+                count: batch[0].jo_reconnection,
+                name: "jo_reconnection",
+              },
+            ],
+          },
+        ];
+      } else {
+        batch_data = [
+          {
+            location: {
+              lat: 0,
+              lng: 0,
+              region: "",
+              region_code: "",
+              province: "",
+              province_code: "",
+              city: "",
+              city_code: "",
+              barangay: "",
+              barangay_code: "",
+              description: "",
+            },
+            jo: [
+              {
+                type: "SOA",
+                count: "0",
+                name: "jo_soa",
+              },
+              {
+                type: "DN",
+                count: "0",
+                name: "jo_dn",
+              },
+              {
+                type: "NCR",
+                count: "0",
+                name: "jo_ncr",
+              },
+              {
+                type: "NAC",
+                count: "0",
+                name: "jo_nac",
+              },
+              {
+                type: "OSB",
+                count: "0",
+                name: "jo_osb",
+              },
+              {
+                type: "OSN",
+                count: "0",
+                name: "jo_osn",
+              },
+              {
+                type: "MECO",
+                count: "0",
+                name: "jo_meco",
+              },
+              {
+                type: "AUBD",
+                count: "0",
+                name: "jo_aubd",
+              },
+              {
+                type: "RE-OUT SOA",
+                count: "0",
+                name: "jo_soa_reout",
+              },
+              {
+                type: "RE-OUT DN",
+                count: "0",
+                name: "jo_dn_reout",
+              },
+              {
+                type: "Validate",
+                count: "0",
+                name: "jo_validate",
+              },
+              {
+                type: "Disconnection",
+                count: "0",
+                name: "jo_disconnection",
+              },
+              {
+                type: "Reconnection",
+                count: "0",
+                name: "jo_reconnection",
+              },
+            ],
+          },
+        ];
+      }
+
+      setState((prev) => ({
+        ...prev,
+        jo_type_assign: batch_data,
+        modal_assigning: true,
+      }));
+      dispatch_data("loading_map", false);
+    });
+  };
+  const onSubmitAssign = () => {
+    dispatch_data("loading_map", true);
+    let onSelectData = sessionStorage.getItem("onSelectSingleDateGraph");
+    let date = moment().format("YYYY-MM-DD");
+    let branch_id = "";
+    let jo_type = "";
+    let jo_assign_id = 0;
+
+    if (onSelectData !== null) {
+      let new_data = JSON.parse(onSelectData);
+      date = moment(new_data.from).format("YYYY-MM-DD");
+      branch_id = new_data.selection[0];
+      jo_type = new_data.jo_type[0];
+    }
+    let new_data_val = { jo_assign_id: "", data: [], date: "" };
+
+    let new_data = {
+      jo_date_assign: date,
+      user_id: state.selected_user_id,
+      jo_date_added: moment().format("YYYY-MM-DD"),
+      jo_location_structure: JSON.stringify(state.jo_type_assign),
+      branch_id: branch_id,
+      jo_type: jo_type,
+      jo_count: 0,
+      rover_assigned: JSON.stringify([]),
+      allowance: 0,
+      admin_id: localStorage.getItem("u"),
+    };
+    new_data["jo_assign_id"] = jo_assign_id;
+    if (state.jo_assign_id !== "") {
+      new_data["jo_assign_id"] = state.jo_assign_id;
+      jo_assign_id = state.jo_assign_id;
+    }
+    state.jo_type_assign.forEach((val) => {
+      val.jo.forEach((val2) => {
+        let count = 0;
+        if (val2.count !== "") {
+          count = parseInt(val2.count);
+        }
+        let match = false;
+        if (typeof new_data[val2.name] != "undefined") {
+          new_data[val2.name] += count;
+          new_data.jo_count += count;
+          match = true;
+        }
+        if (!match) {
+          new_data[val2.name] = count;
+          new_data.jo_count += count;
+        }
+      });
+    });
+    new_data.user_id = 0;
+    new_data.jo_assign_id = 0;
+
+    getData("tracking/logAssignCount", new_data).then((res) => {
+      setState((prev) => ({
+        ...prev,
+        modal_assigning: false,
+      }));
+      dispatch_data("loading_map", false);
+    });
+    //   console.log(res);
+    //   if (res.res == "Not Allowed") {
+    //     dispatch_data("loading_map", false);
+    //     alert("Sorry you are not allowed to edit.");
+    //   } else {
+    //     let countChange = 0;
+    //     fieldman_map.forEach((val) => {
+    //       if (val.user_id === state.selected_user_id) {
+    //         if (typeof val.batch[state.activeBatchButton] !== "undefined") {
+    //           let batch_fm_count = val.batch[state.activeBatchButton].jo_count;
+    //           countChange = new_data.jo_count - parseInt(batch_fm_count);
+    //           val.batch[state.activeBatchButton].jo_count = new_data.jo_count;
+    //           val.batch[state.activeBatchButton].jo_location_structure =
+    //             new_data.jo_location_structure;
+    //           val.batch[state.activeBatchButton].jo_aubd = new_data.jo_aubd;
+    //           val.batch[state.activeBatchButton].jo_discon = new_data.jo_discon;
+    //           val.batch[state.activeBatchButton].jo_dn = new_data.jo_dn;
+    //           val.batch[state.activeBatchButton].jo_dn_reout =
+    //             new_data.jo_dn_reout;
+    //           val.batch[state.activeBatchButton].jo_meco = new_data.jo_meco;
+    //           val.batch[state.activeBatchButton].jo_nac = new_data.jo_nac;
+    //           val.batch[state.activeBatchButton].jo_ncr = new_data.jo_ncr;
+    //           val.batch[state.activeBatchButton].jo_osb = new_data.jo_osb;
+    //           val.batch[state.activeBatchButton].jo_osn = new_data.jo_osn;
+    //           val.batch[state.activeBatchButton].jo_osn = new_data.jo_validate;
+
+    //           val.batch[state.activeBatchButton].jo_reading =
+    //             new_data.jo_reading;
+    //           val.batch[state.activeBatchButton].jo_recon = new_data.jo_recon;
+    //           val.batch[state.activeBatchButton].jo_soa = new_data.jo_soa;
+    //           val.batch[state.activeBatchButton].jo_soa_reout =
+    //             new_data.jo_soa_reout;
+    //           val.batch[state.activeBatchButton].rover_assigned =
+    //             new_data.rover_assigned;
+    //         } else {
+    //           countChange = new_data.jo_count;
+    //           new_data.jo_assign_id = String(res.id);
+    //           new_data.jo_comment = null;
+    //           new_data.jo_approval_array = "";
+    //           new_data.user_id_comment = null;
+    //           new_data.jo_validate = "0";
+    //           new_data.jo_discon = "0";
+    //           new_data.jo_map = "0";
+    //           new_data.jo_reading = "0";
+    //           new_data.jo_recon = "0";
+    //           new_data.jo_discon = "0";
+    //           new_data.jo_dn = String(new_data.jo_dn);
+    //           new_data.jo_dn_reout = String(new_data.jo_dn_reout);
+    //           new_data.jo_soa = String(new_data.jo_soa);
+    //           new_data.jo_soa_reout = String(new_data.jo_soa_reout);
+    //           new_data.jo_nac = String(new_data.jo_nac);
+    //           new_data.jo_aubd = String(new_data.jo_aubd);
+    //           new_data.jo_count = String(new_data.jo_count);
+    //           new_data.jo_meco = String(new_data.jo_meco);
+    //           new_data.jo_ncr = String(new_data.jo_ncr);
+    //           new_data.jo_osb = String(new_data.jo_osb);
+    //           new_data.jo_osn = String(new_data.jo_osn);
+    //           new_data.jo_validate = String(new_data.jo_validate);
+    //           new_data.jo_date_added = new_data.jo_date_added + " 00:00:00";
+    //           new_data.jo_date_assign = new_data.jo_date_assign + " 00:00:00";
+    //           new_data.jo_rescue = "";
+    //           val.batch.push(new_data);
+    //         }
+    //       }
+    //     });
+    //     setState((prev) => ({
+    //       ...prev,
+    //       modal_assigning: false,
+    //       selected_batch: [],
+    //     }));
+    //   }
+    // });
+  };
   return (
     <div style={{ overflowY: "auto", height: "100%" }}>
       <div style={{ marginTop: 60, padding: 10 }}>
@@ -1521,6 +1968,7 @@ const Home = forwardRef((props, ref) => {
               >
                 <TableChartIcon style={{ color: "#fff" }} />
               </IconButton>
+
               <IconButton
                 onClick={() => {
                   setState((prev) => ({
@@ -1551,6 +1999,26 @@ const Home = forwardRef((props, ref) => {
                 }}
               >
                 <GavelIcon style={{ color: "#fff" }} />
+              </IconButton>
+              <IconButton
+                onClick={() => {
+                  onSelectFieldmanAssign(0);
+                  // setState((prev) => ({
+                  //   ...prev,
+                  //   tableFormatAssignedDetails: true,
+                  // }));
+                }}
+                aria-label="delete"
+                style={{
+                  backgroundColor: "#1b5ea0",
+                  marginRight: 5,
+                  width: 33,
+                  height: 33,
+                }}
+              >
+                <Tooltip title="Assigning">
+                  <AssignmentIcon style={{ color: "#fff" }} />
+                </Tooltip>
               </IconButton>
 
               {/* <IconButton
@@ -3291,6 +3759,51 @@ const Home = forwardRef((props, ref) => {
             branch_name={map_reducer.branch_name}
           />
         </DialogContent>
+      </Dialog>
+      <Dialog
+        fullWidth
+        maxWidth="lg"
+        open={state.modal_assigning}
+        onClose={() => {
+          setState({ ...state, modal_assigning: false, batchButton: [] });
+        }}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="simple-dialog-title">MANUAL ASSIGNING</DialogTitle>
+        <div style={{ position: "absolute", zIndex: 2, right: 2, top: 1 }}>
+          <IconButton
+            onClick={() => {
+              setState({ ...state, modal_assigning: false, batchButton: [] });
+            }}
+            aria-label="delete"
+          >
+            <CloseIcon style={{ color: "#000" }} />
+          </IconButton>
+        </div>
+        <form>
+          <DialogContent>
+            {state.jo_type_assign.map((val, index) => {
+              return (
+                <AssigningField
+                  val={val}
+                  index={index}
+                  state={state}
+                  setState={setState}
+                />
+              );
+            })}
+            <DialogActions>
+              <Button
+                onClick={() => {
+                  onSubmitAssign();
+                }}
+                style={{ backgroundColor: "#2a5793", color: "#fff" }}
+              >
+                Assign
+              </Button>
+            </DialogActions>
+          </DialogContent>
+        </form>
       </Dialog>
     </div>
   );
