@@ -487,7 +487,7 @@ const Home = forwardRef((props, ref) => {
             dispatch_data("loading_map", false);
           }
         }
-      }, 50000);
+      }, 600000);
       let res = await getData("aam/trackEmployeesLocationv4", data);
       counter = 1;
       dispatch({
