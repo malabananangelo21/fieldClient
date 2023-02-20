@@ -1224,6 +1224,11 @@ const FieldmanList = forwardRef((props, ref) => {
           count: "0",
           name: "jo_validate",
         },
+        {
+          type: "503",
+          count: "0",
+          name: "503",
+        },
       ],
     });
     setState((prev) => ({ ...prev }));
@@ -1462,6 +1467,11 @@ const FieldmanList = forwardRef((props, ref) => {
                     count: batch[index].jo_validate,
                     name: "jo_validate",
                   },
+                  {
+                    type: "503",
+                    count: "0",
+                    name: "503",
+                  },
                 ],
               },
             ];
@@ -1537,6 +1547,11 @@ const FieldmanList = forwardRef((props, ref) => {
                   type: "Validate",
                   count: "0",
                   name: "jo_validate",
+                },
+                {
+                  type: "503",
+                  count: "0",
+                  name: "503",
                 },
               ],
             },

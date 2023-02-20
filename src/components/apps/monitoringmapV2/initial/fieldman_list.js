@@ -77,7 +77,7 @@ import regionList from "../../../../assets/json/refregion.json";
 import provinceList from "../../../../assets/json/refprovince.json";
 import cityList from "../../../../assets/json/refcitymun.json";
 import brgyList from "../../../../assets/json/refbrgy.json";
-
+// import InputText from "../../../../reusesableComponents/InputText";
 let width = window.innerWidth;
 let height_window = window.innerHeight;
 
@@ -1251,6 +1251,11 @@ const FieldmanList = forwardRef((props, ref) => {
           count: "0",
           name: "jo_reconnection",
         },
+        {
+          type: "503",
+          count: "0",
+          name: "five_zero_three",
+        },
       ],
     });
     setState((prev) => ({ ...prev }));
@@ -1507,6 +1512,11 @@ const FieldmanList = forwardRef((props, ref) => {
                     count: batch[index].jo_reconnection,
                     name: "jo_reconnection",
                   },
+                  {
+                    type: "503",
+                    count: batch[index].five_zero_three,
+                    name: "five_zero_three",
+                  },
                 ],
               },
             ];
@@ -1592,6 +1602,11 @@ const FieldmanList = forwardRef((props, ref) => {
                   type: "Reconnection",
                   count: "0",
                   name: "jo_reconnection",
+                },
+                {
+                  type: "503",
+                  count: "0",
+                  name: "five_zero_three",
                 },
               ],
             },
