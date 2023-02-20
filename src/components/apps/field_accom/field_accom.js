@@ -1,67 +1,67 @@
-import DateFnsUtils from '@date-io/date-fns'
-import Backdrop from '@material-ui/core/Backdrop'
-import Breadcrumbs from '@material-ui/core/Breadcrumbs'
-import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Checkbox from '@material-ui/core/Checkbox'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Divider from '@material-ui/core/Divider'
-import FormControl from '@material-ui/core/FormControl'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormLabel from '@material-ui/core/FormLabel'
-import Grid from '@material-ui/core/Grid'
-import IconButton from '@material-ui/core/IconButton'
-import Input from '@material-ui/core/Input'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import InputLabel from '@material-ui/core/InputLabel'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import OutlinedInput from '@material-ui/core/OutlinedInput'
-import Paper from '@material-ui/core/Paper'
-import Select from '@material-ui/core/Select'
-import Snackbar from '@material-ui/core/Snackbar'
-import { useTheme, withStyles } from '@material-ui/core/styles'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import TablePagination from '@material-ui/core/TablePagination'
-import TableRow from '@material-ui/core/TableRow'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import AddIcon from '@material-ui/icons/Add'
-import CachedIcon from '@material-ui/icons/Cached'
-import FilterListIcon from '@material-ui/icons/FilterList'
-import GetAppIcon from '@material-ui/icons/GetApp'
-import GridOnIcon from '@material-ui/icons/GridOn'
-import OpenInNewIcon from '@material-ui/icons/OpenInNew'
-import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf'
-import RemoveIcon from '@material-ui/icons/Remove'
-import RotateLeftIcon from '@material-ui/icons/RotateLeft'
-import RotateRightIcon from '@material-ui/icons/RotateRight'
-import SearchIcon from '@material-ui/icons/Search'
-import TableChartIcon from '@material-ui/icons/TableChart'
-import ViewWeekIcon from '@material-ui/icons/ViewWeek'
-import MuiAlert from '@material-ui/lab/Alert'
-import jsPDF from 'jspdf'
-import 'jspdf-autotable'
+import DateFnsUtils from "@date-io/date-fns";
+import Backdrop from "@material-ui/core/Backdrop";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Checkbox from "@material-ui/core/Checkbox";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Divider from "@material-ui/core/Divider";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormLabel from "@material-ui/core/FormLabel";
+import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import Input from "@material-ui/core/Input";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import InputLabel from "@material-ui/core/InputLabel";
+import List from "@material-ui/core/List";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import Paper from "@material-ui/core/Paper";
+import Select from "@material-ui/core/Select";
+import Snackbar from "@material-ui/core/Snackbar";
+import { useTheme, withStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import AddIcon from "@material-ui/icons/Add";
+import CachedIcon from "@material-ui/icons/Cached";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import GridOnIcon from "@material-ui/icons/GridOn";
+import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
+import RemoveIcon from "@material-ui/icons/Remove";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import RotateRightIcon from "@material-ui/icons/RotateRight";
+import SearchIcon from "@material-ui/icons/Search";
+import TableChartIcon from "@material-ui/icons/TableChart";
+import ViewWeekIcon from "@material-ui/icons/ViewWeek";
+import MuiAlert from "@material-ui/lab/Alert";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import {
   KeyboardDatePicker,
-  MuiPickersUtilsProvider
-} from '@material-ui/pickers'
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 import {
   Document,
   Image as ImagePDF,
@@ -69,119 +69,119 @@ import {
   PDFViewer,
   StyleSheet,
   Text,
-  View
-} from '@react-pdf/renderer'
-import 'date-fns'
-import 'jspdf-autotable'
-import moment from 'moment'
-import React, { useEffect } from 'react'
-import 'react-alice-carousel/lib/alice-carousel.css'
-import ReactExport from 'react-data-export'
-import Carousel from 'react-material-ui-carousel'
-import { useDispatch, useSelector } from 'react-redux'
-import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
-import '../../../App'
-import NoImage from '../../../assets/map image/no_image.png'
-import useStyles from '../../../css/css'
+  View,
+} from "@react-pdf/renderer";
+import "date-fns";
+import "jspdf-autotable";
+import moment from "moment";
+import React, { useEffect } from "react";
+import "react-alice-carousel/lib/alice-carousel.css";
+import ReactExport from "react-data-export";
+import Carousel from "react-material-ui-carousel";
+import { useDispatch, useSelector } from "react-redux";
+import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import "../../../App";
+import NoImage from "../../../assets/map image/no_image.png";
+import useStyles from "../../../css/css";
 import {
   GetAccomCategories,
   getHandleBranch,
   getJOAuditFilterDashBoard3,
   getJOAuditFilterDashBoardPDF,
-  getUserLoginData
-} from '../Functions/home_func'
-import Mapa from '../map/map'
-import 'react-date-range/dist/styles.css' // main css file
-import 'react-date-range/dist/theme/default.css' // theme css file
-import { DateRange, DefinedRange } from 'react-date-range'
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
+  getUserLoginData,
+} from "../Functions/home_func";
+import Mapa from "../map/map";
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { DateRange, DefinedRange } from "react-date-range";
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250
-    }
-  }
-}
+      width: 250,
+    },
+  },
+};
 
-const ExcelFile = ReactExport.ExcelFile
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5'
-  }
-})(props => (
+    border: "1px solid #d3d4d5",
+  },
+})((props) => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
     anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'center'
+      vertical: "bottom",
+      horizontal: "center",
     }}
     transformOrigin={{
-      vertical: 'top',
-      horizontal: 'center'
+      vertical: "top",
+      horizontal: "center",
     }}
     {...props}
   />
-))
-function Alert (props) {
-  return <MuiAlert elevation={6} variant='filled' {...props} />
+));
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-function Schedule_Table () {
-  const home_reducer = useSelector(state => state.home_reducer)
-  const dispatch = useDispatch()
+function Schedule_Table() {
+  const home_reducer = useSelector((state) => state.home_reducer);
+  const dispatch = useDispatch();
   const dispatch_data = (type, data) => {
     dispatch({
       type: type,
-      data: data
-    })
-  }
-  const theme = useTheme()
-  const classes = useStyles()
-  const matches = useMediaQuery('(max-width:600px)')
-  const [image, setImage] = React.useState(false)
-  const [page, setPage] = React.useState(0)
-  const [open, setOpen] = React.useState(false)
-  const [rowsPerPage, setRowsPerPage] = React.useState(100)
+      data: data,
+    });
+  };
+  const theme = useTheme();
+  const classes = useStyles();
+  const matches = useMediaQuery("(max-width:600px)");
+  const [image, setImage] = React.useState(false);
+  const [page, setPage] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+  const [rowsPerPage, setRowsPerPage] = React.useState(100);
   const handleChangePage = (event, newPage) => {
-    setPage(newPage)
-  }
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value)
-    setPage(0)
-  }
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xl'))
-  const [selected_jo_type, setSelected_jo_type] = React.useState([])
-  const searchinfo = React.useRef()
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xl"));
+  const [selected_jo_type, setSelected_jo_type] = React.useState([]);
+  const searchinfo = React.useRef();
   const [state, setState] = React.useState({
-    branch_id: '',
+    branch_id: "",
     date_start: new Date(),
     date_end: new Date(),
     accomplishments: [],
     pdf_accomplishments: [],
-    search: '',
+    search: "",
     columndata: [],
     printdialog: false,
     customize: false,
     datadialog: false,
-    reference: '',
-    company: '',
-    selectBranch: '',
+    reference: "",
+    company: "",
+    selectBranch: "",
     disable: true,
     loader: false,
     degree: 0,
     open: false,
-    search: '',
+    search: "",
     alertSuccess: false,
     alertWarning: false,
     alertError: false,
     alertBlank: false,
-    vertical: 'top',
-    horizontal: 'center',
+    vertical: "top",
+    horizontal: "center",
     singleAccom: [],
     accomCat: [],
     initialCat: [],
@@ -189,10 +189,10 @@ function Schedule_Table () {
     jason: false,
     antoine: false,
     branch_field_work: [],
-    selected_branch: '',
+    selected_branch: "",
     jo_type: [],
-    selected_jo_type: '',
-    selected_ba: '',
+    selected_jo_type: "",
+    selected_ba: "",
     printalldialog: false,
     printrowdata: [],
     printSeletedDialog: false,
@@ -203,345 +203,348 @@ function Schedule_Table () {
     business_area: [],
     jo_images: [],
     filter_dialog: false,
-    finding: 'ALL',
-    status: 'ALL',
+    finding: "ALL",
+    status: "ALL",
     img_data: [],
     pending_accom: [],
     accom_accom: [],
     total_accom: [],
-    branch_name: '',
+    branch_name: "",
     accomplishment_display: [],
-    company_logo: '',
+    company_logo: "",
     imagepdftable: [],
     countfindings: [],
-    selected_filter: 'ALL',
+    selected_filter: "ALL",
     selection: {
       startDate: new Date(),
       endDate: new Date(),
-      key: 'selection'
-    }
-  })
-  const onChange = event => {
+      key: "selection",
+    },
+  });
+  const onChange = (event) => {
     setState({
       ...state,
-      [event.target.name]: event.target.value
-    })
-  }
-  const onChangeStatus = e => {
-    let find = ''
-    let stat = ''
-    if (e.target.value === 'Pending' || e.target.value === 'ALL') {
-      find = 'ALL'
-      stat = e.target.value
+      [event.target.name]: event.target.value,
+    });
+  };
+  const onChangeStatus = (e) => {
+    let find = "";
+    let stat = "";
+    if (e.target.value === "Pending" || e.target.value === "ALL") {
+      find = "ALL";
+      stat = e.target.value;
     } else {
-      find = 'ALL'
-      stat = e.target.value
+      find = "ALL";
+      stat = e.target.value;
     }
     setState({
       ...state,
       finding: find,
-      status: stat
-    })
-  }
+      status: stat,
+    });
+  };
   useEffect(() => {
-    dispatch_data('getAccomplishments', [])
-    dispatch_data('searchTable', [])
-    dispatch_data('company_name', [])
-    async function handleBranch () {
-      await getHandleBranch({ user_id: localStorage.getItem('u') }).then(
-        response => {
-          let company = []
-          response.response.map(item => {
-            let match = false
-            company.map(val => {
+    dispatch_data("getAccomplishments", []);
+    dispatch_data("searchTable", []);
+    dispatch_data("company_name", []);
+    async function handleBranch() {
+      await getHandleBranch({ user_id: localStorage.getItem("u") }).then(
+        (response) => {
+          let company = [];
+          response.response.map((item) => {
+            let match = false;
+            company.map((val) => {
               if (val.company_name == item.company_name) {
-                match = true
+                match = true;
               }
-            })
+            });
             if (!match) {
               company.push({
                 company_name: item.company_name,
-                company_id: item.company_id
+                company_id: item.company_id,
                 // company_logo: item.logo_base64,
-              })
+              });
             }
-          })
-          dispatch_data('gethandleBranch', response.response)
-          dispatch_data('company_name', company)
-          dispatch_data('SelectedBranches', [])
+          });
+          dispatch_data("gethandleBranch", response.response);
+          dispatch_data("company_name", company);
+          dispatch_data("SelectedBranches", []);
         }
-      )
+      );
     }
-    async function fetchAccountData () {
-      await getUserLoginData().then(response => {
-        response.user_login_data.map(val => {
-          dispatch_data('accountData', val)
-        })
-      })
+    async function fetchAccountData() {
+      await getUserLoginData().then((response) => {
+        response.user_login_data.map((val) => {
+          dispatch_data("accountData", val);
+        });
+      });
     }
-    async function GetAccomCategory () {
-      await GetAccomCategories().then(response => {
+    async function GetAccomCategory() {
+      await GetAccomCategories().then((response) => {
         setState({
           ...state,
           accomCat: response.data,
-          initialCat: response.initial
-        })
-      })
+          initialCat: response.initial,
+        });
+      });
     }
     setTimeout(() => {
-      handleBranch()
-      fetchAccountData()
-      GetAccomCategory()
-    }, 500)
-  }, [])
+      handleBranch();
+      fetchAccountData();
+      GetAccomCategory();
+    }, 500);
+  }, []);
   const handleClickOpen = () => {
     setState({
       ...state,
-      open: true
-    })
-  }
+      open: true,
+    });
+  };
   const handleClose = () => {
     setState({
       ...state,
-      open: false
-    })
-  }
-  const onChangeCompany = e => {
+      open: false,
+    });
+  };
+  const onChangeCompany = (e) => {
     const branches = home_reducer.handleBranch.filter(
-      val => val.company_id == e.target.value
-    )
-    dispatch_data('SelectedBranches', branches)
+      (val) => val.company_id == e.target.value
+    );
+    dispatch_data("SelectedBranches", branches);
     setState({
       ...state,
       company: e.target.value,
-      jo_type: []
-    })
-  }
-  const onChangeBranch = e => {
-    setSelected_jo_type([])
-    let jo_type = []
-    let ba = []
-    let branchname = ''
+      jo_type: [],
+    });
+  };
+  const onChangeBranch = (e) => {
+    setSelected_jo_type([]);
+    let jo_type = [];
+    let ba = [];
+    let branchname = "";
     home_reducer.SelectedBranches.map((val, index) => {
       if (val.branch_id === e.target.value) {
-        if (val.branch_field_work !== '') {
-          jo_type = JSON.parse(val.branch_field_work)
-          ba = JSON.parse(val.business_area)
-          branchname = val.branch_company
+        if (val.branch_field_work !== "") {
+          jo_type = JSON.parse(val.branch_field_work);
+          ba = JSON.parse(val.business_area);
+          branchname = val.branch_company;
         } else {
-          jo_type = JSON.parse(val.branch_field_work)
-          ba = []
-          branchname = val.branch_company
+          jo_type = JSON.parse(val.branch_field_work);
+          ba = [];
+          branchname = val.branch_company;
         }
       }
-    })
+    });
     setState({
       ...state,
       selected_branch: e.target.value,
       jo_type: jo_type,
       business_area: ba,
-      branch_name: branchname
-    })
-  }
-  const handleDateChangeStart = date => {
+      branch_name: branchname,
+    });
+  };
+  const handleDateChangeStart = (date) => {
     setState({
       ...state,
-      date_start: date
-    })
-  }
-  const handleDateChangeEnd = date => {
+      date_start: date,
+    });
+  };
+  const handleDateChangeEnd = (date) => {
     setState({
       ...state,
-      date_end: date
-    })
-  }
-  const { vertical, horizontal } = state
+      date_end: date,
+    });
+  };
+  const { vertical, horizontal } = state;
   const onPrintperPage = () => {
-    let sel_filter = state.selected_filter
-    let type_param = ''
-    selected_jo_type.map(val => {
-      if (type_param !== '') {
-        type_param += '-'
+    let sel_filter = state.selected_filter;
+    let type_param = "";
+    selected_jo_type.map((val) => {
+      if (type_param !== "") {
+        type_param += "-";
       }
-      type_param += val
-    })
+      type_param += val;
+    });
     if (
-      state.selected_filter === '' ||
-      state.selected_filter === 'ALL' ||
+      state.selected_filter === "" ||
+      state.selected_filter === "ALL" ||
       state.selected_filter === null ||
       state.selected_filter === undefined
     ) {
-      sel_filter = 'ALL'
+      sel_filter = "ALL";
     }
     // window.open('http://api.workflow.gzonetechph.com/test/printingPDFAccom'+momentstate.selection.startDate).format('YYYY-MM-DD')+'/'+moment(state.selection.endDate).format('YYYY-MM-DD')+'/'+[state.selected_branch]+'/'+selected_jo_type+'/'+state.selected_ba);
     window.open(
       // "http://192.168.0.9/backend/api/test/printingPDFAccom/" +
-      'http://api.workflow.gzonetechph.com/report/printingPDFAccom2/' +
-        moment(state.selection.startDate).format('YYYY-MM-DD') +
-        '/' +
-        moment(state.selection.endDate).format('YYYY-MM-DD') +
-        '/' +
+      "http://api.workflow.gzonetechph.com/report/printingPDFAccom2/" +
+        moment(state.selection.startDate).format("YYYY-MM-DD") +
+        "/" +
+        moment(state.selection.endDate).format("YYYY-MM-DD") +
+        "/" +
         state.selected_branch +
-        '/' +
+        "/" +
         type_param +
-        '/' +
+        "/" +
         state.selected_ba +
-        '/' +
-        sel_filter + 
-        '/' +
+        "/" +
+        sel_filter +
+        "/" +
         state.reference
-    )
-  }
+    );
+  };
   const onPrintperImage = () => {
-    let sel_filter = state.selected_filter
-    let type_param = ''
-    selected_jo_type.map(val => {
-      if (type_param !== '') {
-        type_param += '-'
+    let sel_filter = state.selected_filter;
+    let type_param = "";
+    selected_jo_type.map((val) => {
+      if (type_param !== "") {
+        type_param += "-";
       }
-      type_param += val
-    })
+      type_param += val;
+    });
     if (
-      state.selected_filter === '' ||
-      state.selected_filter === 'ALL' ||
+      state.selected_filter === "" ||
+      state.selected_filter === "ALL" ||
       state.selected_filter === null ||
       state.selected_filter === undefined
     ) {
-      sel_filter = 'ALL'
+      sel_filter = "ALL";
     }
     window.open(
-      'http://api.workflow.gzonetechph.com/report/printingPDFAccomIMG/' +
-        moment(state.selection.startDate).format('YYYY-MM-DD') +
-        '/' +
-        moment(state.selection.endDate).format('YYYY-MM-DD') +
-        '/' +
+      "http://api.workflow.gzonetechph.com/report/printingPDFAccomIMG/" +
+        moment(state.selection.startDate).format("YYYY-MM-DD") +
+        "/" +
+        moment(state.selection.endDate).format("YYYY-MM-DD") +
+        "/" +
         state.selected_branch +
-        '/' +
+        "/" +
         type_param +
-        '/' +
+        "/" +
         state.selected_ba +
-        '/' +
+        "/" +
         sel_filter
-    )
-  }
-  const onSubmit = e => {
-    e.preventDefault()
+    );
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
     if (
-      moment(state.selection.startDate).format('YYYY-MM-DD') >
-      moment(state.selection.endDate).format('YYYY-MM-DD')
+      moment(state.selection.startDate).format("YYYY-MM-DD") >
+      moment(state.selection.endDate).format("YYYY-MM-DD")
     ) {
       setState({
         ...state,
-        alertError: true
-      })
+        alertError: true,
+      });
     } else if (
-      moment(state.selection.startDate).format('YYYY') ===
-      moment('2020-01-01').format('YYYY')
+      moment(state.selection.startDate).format("YYYY") ===
+      moment("2020-01-01").format("YYYY")
     ) {
       alert(
-        'The accomplishments for the year 2020 you need to generate are on the archive. Please email us with any questions or concerns.'
-      )
+        "The accomplishments for the year 2020 you need to generate are on the archive. Please email us with any questions or concerns."
+      );
     } else {
-      dispatch_data('loader', true)
+      dispatch_data("loader", true);
       let data = {
-        date_filter: moment(state.selection.startDate).format('YYYY-MM-DD'),
-        date_filter_end: moment(state.selection.endDate).format('YYYY-MM-DD'),
+        date_filter: moment(state.selection.startDate).format("YYYY-MM-DD"),
+        date_filter_end: moment(state.selection.endDate).format("YYYY-MM-DD"),
         branch: [state.selected_branch],
-        user_id: localStorage.getItem('u'),
+        user_id: localStorage.getItem("u"),
         type: selected_jo_type,
         ba: state.selected_ba,
         reference: state.reference,
-      }
-      getJOAuditFilterDashBoard3(data).then(response => {
-        dispatch_data('loader', false)
+      };
+      getJOAuditFilterDashBoard3(data).then((response) => {
+        console.log(response);
+        dispatch_data("loader", false);
         if (response.header.length != 0) {
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
-            initialCat: response.header
-          }))
+            initialCat: response.header,
+          }));
         }
         if (response.jobOrders.length != 0) {
-          dispatch_data('SelectedBranch', state.selected_branch)
+          dispatch_data("SelectedBranch", state.selected_branch);
           dispatch_data(
-            'dateFrom',
-            moment(state.selection.startDate).format('LL')
-          )
-          dispatch_data('dateTo', moment(state.selection.endDate).format('LL'))
+            "dateFrom",
+            moment(state.selection.startDate).format("LL")
+          );
+          dispatch_data("dateTo", moment(state.selection.endDate).format("LL"));
           // dispatch_data("getLogo", response.company[0]);
-          let findings = []
-          let countfindings = []
+          let findings = [];
+          let countfindings = [];
           // let BAs = state.business_area
-          response.jobOrders.map(val => {
-            if (val.date_accomplished !== '') {
-              val['time_accomplished'] = moment(val.date_accomplished).format(
-                'hh:mm A'
-              )
+          response.jobOrders.map((val) => {
+            if (val.date_accomplished !== "") {
+              val["time_accomplished"] = moment(val.date_accomplished).format(
+                "hh:mm A"
+              );
             }
-            if (val.date_accomplished !== '') {
-              val.date_accomplished = moment(val.date_accomplished).format('LL')
+            if (val.date_accomplished !== "") {
+              val.date_accomplished = moment(val.date_accomplished).format(
+                "LL"
+              );
             }
-            let find = ''
-            let match = false
-            let arrycnt = []
-            find = val.findings
+            let find = "";
+            let match = false;
+            let arrycnt = [];
+            find = val.findings;
             findings.map((val1, index) => {
               if (val1 === val.findings) {
-                match = true
-                countfindings[index]['count'] += 1
+                match = true;
+                countfindings[index]["count"] += 1;
               }
-            })
+            });
             if (!match) {
-              countfindings.push({ type: val.findings, count: 1 })
-              findings.push(val.findings)
+              countfindings.push({ type: val.findings, count: 1 });
+              findings.push(val.findings);
             }
-          })
-          let pending = []
-          let accomplish = []
-          let total = []
-          let logo = ''
-          state.business_area.map(val => {
+          });
+          let pending = [];
+          let accomplish = [];
+          let total = [];
+          let logo = "";
+          state.business_area.map((val) => {
             let pends = {
               BA: val,
-              count: 0
-            }
+              count: 0,
+            };
             let accoms = {
               BA: val,
-              count: 0
-            }
+              count: 0,
+            };
             let totals = {
               BA: val,
-              count: 0
-            }
-            let pend_counting = 0
-            let accom_counting = 0
-            let total_counting = 0
-            response.jobOrders.map(value => {
+              count: 0,
+            };
+            let pend_counting = 0;
+            let accom_counting = 0;
+            let total_counting = 0;
+            response.jobOrders.map((value) => {
               if (
                 value.BA === val &&
-                (value.date_accomplished === '' ||
+                (value.date_accomplished === "" ||
                   value.date_accomplished === null)
               ) {
-                pend_counting++
-                pends.count = pend_counting
-              } else if (value.BA === val && value.date_accomplished !== '') {
-                accom_counting++
-                accoms.count = accom_counting
+                pend_counting++;
+                pends.count = pend_counting;
+              } else if (value.BA === val && value.date_accomplished !== "") {
+                accom_counting++;
+                accoms.count = accom_counting;
               }
               if (value.BA === val) {
-                total_counting++
-                totals.count = total_counting
+                total_counting++;
+                totals.count = total_counting;
               }
-            })
-            pending.push(pends)
-            accomplish.push(accoms)
-            total.push(totals)
-          })
-          let company_details = response.companies.filter(val => {
+            });
+            pending.push(pends);
+            accomplish.push(accoms);
+            total.push(totals);
+          });
+          let company_details = response.companies.filter((val) => {
             if (val.company_id == state.company) {
-              logo = val.logo_base64
+              logo = val.logo_base64;
             }
-          })
-          setState(prev => ({
+          });
+          setState((prev) => ({
             ...prev,
             tableheader: state.branch_id,
             accomplishments: response.jobOrders,
@@ -555,518 +558,510 @@ function Schedule_Table () {
             accom_accom: accomplish,
             total_accom: total,
             company_logo: logo,
-            countfindings: countfindings
-          }))
+            countfindings: countfindings,
+          }));
         } else {
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
-            alertWarning: true
-          }))
+            alertWarning: true,
+          }));
         }
-      })
-      setPage(0)
+      });
+      setPage(0);
     }
-  }
-  const onFilter = e => {
-    e.preventDefault()
-    let filtered = []
-    let selected_filter = ''
-    let start = ''
-    let end = ''
-    if (state.status === 'ALL') {
-      filtered = state.master_accom
-    } else if (state.status === 'Pending') {
+  };
+  const onFilter = (e) => {
+    e.preventDefault();
+    let filtered = [];
+    let selected_filter = "";
+    let start = "";
+    let end = "";
+    if (state.status === "ALL") {
+      filtered = state.master_accom;
+    } else if (state.status === "Pending") {
       filtered = state.master_accom.filter(
-        val => val.date_accomplished === '' || val.date_accomplished === null
-      )
+        (val) => val.date_accomplished === "" || val.date_accomplished === null
+      );
     } else {
-      filtered = state.master_accom.filter(val => {
-        if (val.date_accomplished !== '' && val.date_accomplished !== null) {
-          if (state.finding === 'ALL') {
-            return val
+      filtered = state.master_accom.filter((val) => {
+        if (val.date_accomplished !== "" && val.date_accomplished !== null) {
+          if (state.finding === "ALL") {
+            return val;
           } else if (state.finding === val.accom_findings) {
-            start = String(val.accom_findings).replace('(', '__pstart')
-            end = String(start).replace(')', '__pend')
-            selected_filter = val.accom_findings
-            return val
+            start = String(val.accom_findings).replace("(", "__pstart");
+            end = String(start).replace(")", "__pend");
+            selected_filter = val.accom_findings;
+            return val;
           }
         }
-      })
+      });
     }
     setState({
       ...state,
       accomplishments: filtered,
       accomplishment_display: filtered,
-      selected_filter: end
-    })
-    setPage(0)
-  }
-  const handleClickDialogOpen = data => {
-    const images = state.jo_images.filter(val => val.jo_id == data.jo_id)
-    var coordinates = data.coordinates.split(',')
-    var latitude = coordinates[0]
-    var longitude = coordinates[1]
-    dispatch_data('latitude', latitude)
-    dispatch_data('longitude', longitude)
+      selected_filter: end,
+    });
+    setPage(0);
+  };
+  const handleClickDialogOpen = (data) => {
+    const images = state.jo_images.filter((val) => val.jo_id == data.jo_id);
+    var coordinates = data.coordinates.split(",");
+    var latitude = coordinates[0];
+    var longitude = coordinates[1];
+    dispatch_data("latitude", latitude);
+    dispatch_data("longitude", longitude);
     setState({
       ...state,
       columndata: [data],
       datadialog: true,
-      img_data: images
+      img_data: images,
       // printrowdata: [data],
-    })
-  }
+    });
+  };
   const handleClickDialogClose = () => {
     setState({
       ...state,
-      datadialog: false
-    })
-  }
+      datadialog: false,
+    });
+  };
   const submitsearch = () => {
-    dispatch_data('loader', true)
-    let accomSearch = state.accomplishments.filter(files => {
+    dispatch_data("loader", true);
+    let accomSearch = state.accomplishments.filter((files) => {
       return (
         (files.account_number !== null &&
-          files.account_number !== '' &&
+          files.account_number !== "" &&
           files.account_number
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1) ||
         (files.name !== null &&
-          files.name !== '' &&
+          files.name !== "" &&
           files.name
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1) ||
         (files.mru !== null &&
-          files.mru !== '' &&
+          files.mru !== "" &&
           files.mru
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1) ||
         (files.fieldman_name !== null &&
-          files.fieldman_name !== '' &&
+          files.fieldman_name !== "" &&
           files.fieldman_name
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1) ||
         (files.jo_id !== null &&
-          files.jo_id !== '' &&
+          files.jo_id !== "" &&
           files.jo_id
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1) ||
         (files.meter_no !== null &&
-          files.meter_no !== '' &&
+          files.meter_no !== "" &&
           files.meter_no
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1) ||
         (files.zone !== null &&
-          files.zone !== '' &&
+          files.zone !== "" &&
           files.zone
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1) ||
         (files.seal_number !== null &&
-          files.seal_number !== '' &&
+          files.seal_number !== "" &&
           files.seal_number
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1) ||
         (files.remarks !== null &&
-          files.remarks !== '' &&
+          files.remarks !== "" &&
           files.remarks
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1) ||
         (files.customer_meter_no !== null &&
-          files.customer_meter_no !== '' &&
+          files.customer_meter_no !== "" &&
           files.customer_meter_no
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1) ||
         (files.address !== null &&
-          files.address !== '' &&
+          files.address !== "" &&
           files.address
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1) ||
         (files.fieldman_name !== null &&
-          files.fieldman_name !== '' &&
+          files.fieldman_name !== "" &&
           files.fieldman_name
             .toLowerCase()
             .indexOf(searchinfo.current.value.toLocaleLowerCase()) !== -1)
-      )
-    })
+      );
+    });
     setState({
       ...state,
-      accomplishment_display: accomSearch
-    })
-    dispatch_data('loader', false)
-    setPage(0)
-  }
+      accomplishment_display: accomSearch,
+    });
+    dispatch_data("loader", false);
+    setPage(0);
+  };
   const onResets = () => {
     setState({
       ...state,
       accomplishments: state.master_accom,
       accomplishment_display: state.master_accom,
-      selected_filter: ''
-    })
-    searchinfo.current.value = ''
-    return 'return'
-  }
-  const search_accom = e => {
-    searchinfo.current.value = e.target.value
-  }
+      selected_filter: "",
+    });
+    searchinfo.current.value = "";
+    return "return";
+  };
+  const search_accom = (e) => {
+    searchinfo.current.value = e.target.value;
+  };
   const handleAlertSuccessClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
+    if (reason === "clickaway") {
+      return;
     }
 
     setState({
       ...state,
-      alertSuccess: false
-    })
-  }
+      alertSuccess: false,
+    });
+  };
   const handleAlertWarningClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
+    if (reason === "clickaway") {
+      return;
     }
 
     setState({
       ...state,
-      alertWarning: false
-    })
-  }
+      alertWarning: false,
+    });
+  };
   const handleAlertErrorClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
+    if (reason === "clickaway") {
+      return;
     }
 
     setState({
       ...state,
-      alertError: false
-    })
-  }
+      alertError: false,
+    });
+  };
   const handleAlertBlankClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
+    if (reason === "clickaway") {
+      return;
     }
 
     setState({
       ...state,
-      alertBlank: false
-    })
-  }
+      alertBlank: false,
+    });
+  };
   const handleClickPrintDPF = () => {
     if (state.accomplishments.length === 0) {
       setState({
         ...state,
-        alertBlank: true
-      })
+        alertBlank: true,
+      });
     } else {
-      dispatch_data('loader', true)
-      if (state.selected_filter === '') {
+      dispatch_data("loader", true);
+      if (state.selected_filter === "") {
         setState({
           ...state,
-          selected_filter: 'ALL'
-        })
+          selected_filter: "ALL",
+        });
       }
       let data = {
-        image: state.jo_images
-      }
-      getJOAuditFilterDashBoardPDF(data).then(response => {
+        image: state.jo_images,
+      };
+      getJOAuditFilterDashBoardPDF(data).then((response) => {
         setState({
           ...state,
-          imagepdftable: response.images
-        })
-        dispatch_data('loader', false)
-        const unit = 'pt'
-        const size = 'A4' // Use A1, A2, A3 or A4
-        const orientation = 'landscape' // portrait or landscape
-        const doc = new jsPDF(orientation, unit, size)
+          imagepdftable: response.images,
+        });
+        dispatch_data("loader", false);
+        const unit = "pt";
+        const size = "A4"; // Use A1, A2, A3 or A4
+        const orientation = "landscape"; // portrait or landscape
+        const doc = new jsPDF(orientation, unit, size);
         let title =
-          '(Date - ' +
+          "(Date - " +
           home_reducer.dateFrom +
-          ' - ' +
+          " - " +
           home_reducer.dateTo +
-          ' ) ' +
-          '(Company - ' +
+          " ) " +
+          "(Company - " +
           home_reducer.SelectedBranch[0].branch_company +
-          ' ) ' +
-          ' ( BA - ' +
+          " ) " +
+          " ( BA - " +
           state.selected_ba +
-          ' ) ' +
-          ' ( Type - ' +
+          " ) " +
+          " ( Type - " +
           selected_jo_type +
-          ' ) ' +
-          ' ( Findings - ' +
+          " ) " +
+          " ( Findings - " +
           state.selected_filter +
-          ' ) ' +
-          '( TABLE )'
-        var img = new Image()
-        img.src = state.company_logo
-        doc.addImage(state.company_logo, 'PNG', 650, 20, 120, 75)
-        doc.setTextColor('#023554')
-        doc.setFontSize(10)
-        doc.text('SYSTEM GENERATED ACCOMPLISHMENT REPORT', 40, 35, {
-          align: 'left'
-        })
-        doc.text('POWERED BY GZONETECH INC.', 40, 55, {
-          align: 'left'
-        })
-        doc.setTextColor('#000000')
+          " ) " +
+          "( TABLE )";
+        var img = new Image();
+        img.src = state.company_logo;
+        doc.addImage(state.company_logo, "PNG", 650, 20, 120, 75);
+        doc.setTextColor("#023554");
+        doc.setFontSize(10);
+        doc.text("SYSTEM GENERATED ACCOMPLISHMENT REPORT", 40, 35, {
+          align: "left",
+        });
+        doc.text("POWERED BY GZONETECH INC.", 40, 55, {
+          align: "left",
+        });
+        doc.setTextColor("#000000");
         doc.text(
-          'CLIENT - ' +
+          "CLIENT - " +
             home_reducer.SelectedBranch[0].branch_company.toUpperCase(),
           40,
           75,
-          { align: 'left' }
-        )
+          { align: "left" }
+        );
         doc.text(
           String(home_reducer.dateFrom.toUpperCase()) +
-            ' - ' +
+            " - " +
             String(home_reducer.dateTo.toUpperCase()) +
-            ' - ' +
-            'TYPE: ' +
-            selected_jo_type.map(val => {
-              return val.toUpperCase()
+            " - " +
+            "TYPE: " +
+            selected_jo_type.map((val) => {
+              return val.toUpperCase();
             }) +
-            ' ( ' +
+            " ( " +
             state.selected_ba +
-            ' ) ',
+            " ) ",
           40,
           95,
           {
-            align: 'left'
+            align: "left",
           }
-        )
+        );
 
         doc.autoTable({
           startY: 105,
-          columnStyles: { cellWidth: 'auto' },
+          columnStyles: { cellWidth: "auto" },
           styles: { fontSize: 6 },
-          html: '#mytable',
-          headerStyles: { CellHeight: 15, hAlign: 'center' },
-          bodyStyles: { minCellHeight: 47, hAlign: 'center', valign: 'middle' },
+          html: "#mytable",
+          headerStyles: { CellHeight: 15, hAlign: "center" },
+          bodyStyles: { minCellHeight: 47, hAlign: "center", valign: "middle" },
           didDrawCell: function (data) {
-            var td = data.cell.raw
-            var img = td.getElementsByTagName('img')[0]
-            var textPos = data.cell
+            var td = data.cell.raw;
+            var img = td.getElementsByTagName("img")[0];
+            var textPos = data.cell;
             if (
-              data.cell.raw.getElementsByTagName('img')[0] != undefined &&
-              data.cell.raw.getElementsByTagName('img')[0] != ''
+              data.cell.raw.getElementsByTagName("img")[0] != undefined &&
+              data.cell.raw.getElementsByTagName("img")[0] != ""
             ) {
-              doc.addImage(img.src, textPos.x + 0, textPos.y + 5, 60, 20)
+              doc.addImage(img.src, textPos.x + 0, textPos.y + 5, 60, 20);
             } else {
             }
-          }
-        })
-        doc.save(title + '.pdf')
-      })
+          },
+        });
+        doc.save(title + ".pdf");
+      });
     }
-  }
+  };
   const handleClickPrintSummaryDPF = () => {
-    dispatch_data('loader', false)
+    dispatch_data("loader", false);
 
-    const unit = 'pt'
-    const size = 'A4' // Use A1, A2, A3 or A4
-    const orientation = 'portrait' // portrait or landscape
-    const doc = new jsPDF(orientation, unit, size)
+    const unit = "pt";
+    const size = "A4"; // Use A1, A2, A3 or A4
+    const orientation = "portrait"; // portrait or landscape
+    const doc = new jsPDF(orientation, unit, size);
     let title =
       home_reducer.SelectedBranch[0].branch_company +
-      ' ' +
+      " " +
       home_reducer.dateFrom +
-      ' - ' +
-      home_reducer.dateTo
+      " - " +
+      home_reducer.dateTo;
 
-    var img = new Image()
-    img.src = state.company_logo
-    doc.addImage(state.company_logo, 'PNG', 20, 20, 120, 75)
-    doc.setFontSize(10)
-    doc.text('SYSTEM GENERATED ACCOMPLISHMENT REPORT', 180, 120, {
-      align: 'left'
-    })
-    doc.text('POWERED BY GZONETECH INC.', 220, 135, {
-      align: 'left'
-    })
+    var img = new Image();
+    img.src = state.company_logo;
+    doc.addImage(state.company_logo, "PNG", 20, 20, 120, 75);
+    doc.setFontSize(10);
+    doc.text("SYSTEM GENERATED ACCOMPLISHMENT REPORT", 180, 120, {
+      align: "left",
+    });
+    doc.text("POWERED BY GZONETECH INC.", 220, 135, {
+      align: "left",
+    });
     doc.text(
-      'DATE : ' +
+      "DATE : " +
         String(home_reducer.dateFrom.toUpperCase()) +
-        ' - ' +
+        " - " +
         String(home_reducer.dateTo.toUpperCase()),
       40,
       180,
       {
-        align: 'left'
+        align: "left",
       }
-    )
+    );
     doc.text(
-      'CLIENT : ' + home_reducer.SelectedBranch[0].branch_company.toUpperCase(),
+      "CLIENT : " + home_reducer.SelectedBranch[0].branch_company.toUpperCase(),
       40,
       195,
-      { align: 'left' }
-    )
+      { align: "left" }
+    );
     doc.text(
-      'TYPE : ' +
-        selected_jo_type.map(val => {
-          return val.toUpperCase()
+      "TYPE : " +
+        selected_jo_type.map((val) => {
+          return val.toUpperCase();
         }),
       40,
       210,
-      { align: 'left' }
-    )
-    doc.save(title + '.pdf')
-  }
+      { align: "left" }
+    );
+    doc.save(title + ".pdf");
+  };
   const handleCLickCloseSinglePagePDF = () => {
     setState({
       ...state,
-      printalldialog: false
-    })
-  }
+      printalldialog: false,
+    });
+  };
   const handleCLickCloseSelectedPagePDF = () => {
     setState({
       ...state,
-      printSeletedDialog: false
-    })
-  }
+      printSeletedDialog: false,
+    });
+  };
 
   const handleClickNoExcelOpen = () => {
     setState({
       ...state,
-      alertBlank: true
-    })
-  }
+      alertBlank: true,
+    });
+  };
   const handleClickCustomizeOpen = () => {
     setState({
       ...state,
-      customize: true
-    })
-  }
+      customize: true,
+    });
+  };
   const handleClickCustomizeClose = () => {
     setState({
       ...state,
-      customize: false
-    })
-  }
+      customize: false,
+    });
+  };
   const handleClickFilterOpen = () => {
     setState({
       ...state,
-      filter_dialog: true
-    })
-  }
+      filter_dialog: true,
+    });
+  };
   const handleClickFilterClose = () => {
     setState({
       ...state,
-      filter_dialog: false
-    })
-  }
-  const handleChange = val => {
-    let match = false
+      filter_dialog: false,
+    });
+  };
+  const handleChange = (val) => {
+    let match = false;
     state.initialCat.map((val1, index) => {
       if (val1.category_id === val.category_id) {
-        match = true
-        state.initialCat.splice(parseInt(index), 1)
+        match = true;
+        state.initialCat.splice(parseInt(index), 1);
       }
-    })
+    });
     if (!match) {
-      state.initialCat.push(val)
+      state.initialCat.push(val);
     }
     setState({
-      ...state
-    })
-  }
-  const handleImageOpen = data => {
-    dispatch_data('image', data)
-    setImage(true)
-  }
+      ...state,
+    });
+  };
+  const handleImageOpen = (data) => {
+    dispatch_data("image", data);
+    setImage(true);
+  };
   const handleImageClose = () => {
-    setImage(false)
-  }
+    setImage(false);
+  };
   const styles = StyleSheet.create({
     page: {
-      backgroundColor: '#fff',
-      paddingBottom: 139
+      backgroundColor: "#fff",
+      paddingBottom: 139,
     },
     page2: {
-      backgroundColor: '#fff',
-      paddingBottom: 70
+      backgroundColor: "#fff",
+      paddingBottom: 70,
     },
     section: {
       margin: 10,
       padding: 10,
-      flexGrow: 1
-    }
-  })
+      flexGrow: 1,
+    },
+  });
   const handleListItemClick = (event, index, val) => {
-    let jo_type = []
-    let match = false
-    selected_jo_type.map(va_data => {
+    let jo_type = [];
+    let match = false;
+    selected_jo_type.map((va_data) => {
       if (va_data != val) {
-        jo_type.push(va_data)
+        jo_type.push(va_data);
       } else {
-        match = true
+        match = true;
       }
-    })
+    });
     if (!match) {
-      jo_type.push(val)
+      jo_type.push(val);
     }
-    setSelected_jo_type(jo_type)
-  }
+    setSelected_jo_type(jo_type);
+  };
 
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleOpenMenu = event => {
-    setAnchorEl(event.currentTarget)
-  }
+  const handleOpenMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleCloseMenu = () => {
-    setAnchorEl(null)
-  }
-  const jotypeChange = e => {
-    let jo_type = []
-    jo_type.push(e.target.value)
-    setSelected_jo_type(jo_type)
-  }
+    setAnchorEl(null);
+  };
+  const jotypeChange = (e) => {
+    let jo_type = [];
+    jo_type.push(e.target.value);
+    setSelected_jo_type(jo_type);
+  };
   return (
     <div className={classes.root}>
-      <Breadcrumbs aria-label='breadcrumb' style={{ margin: 10 }}>
-        <Typography color='textPrimary'>Accomplishments</Typography>
-        {state.selection.endDate != '' ? (
-          <Typography color='textPrimary'>
+      <Breadcrumbs aria-label="breadcrumb" style={{ margin: 10 }}>
+        <Typography color="textPrimary">Accomplishments</Typography>
+        {state.selection.endDate != "" ? (
+          <Typography color="textPrimary">
             Date Range:&nbsp;
-            {moment(state.selection.startDate).format('LL') +
-              ' - ' +
-              moment(state.selection.endDate).format('LL')}{' '}
+            {moment(state.selection.startDate).format("LL") +
+              " - " +
+              moment(state.selection.endDate).format("LL")}{" "}
           </Typography>
-        ) : (
-          undefined
-        )}
-        {state.branch_name != '' ? (
-          <Typography color='textPrimary'>
-            Branch:&nbsp;{state.branch_name}{' '}
+        ) : undefined}
+        {state.branch_name != "" ? (
+          <Typography color="textPrimary">
+            Branch:&nbsp;{state.branch_name}{" "}
           </Typography>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {selected_jo_type.length != 0 ? (
-          <Typography color='textPrimary'>
+          <Typography color="textPrimary">
             Type:&nbsp;
-            {selected_jo_type.map(val => {
-              return <span>{val};&nbsp;</span>
+            {selected_jo_type.map((val) => {
+              return <span>{val};&nbsp;</span>;
             })}
           </Typography>
-        ) : (
-          undefined
-        )}
-        {state.selected_ba != '' ? (
-          <Typography color='textPrimary'>
-            Business Area:&nbsp;{state.selected_ba}{' '}
+        ) : undefined}
+        {state.selected_ba != "" ? (
+          <Typography color="textPrimary">
+            Business Area:&nbsp;{state.selected_ba}{" "}
           </Typography>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
       </Breadcrumbs>
       <Snackbar
         open={state.alertSuccess}
         autoHideDuration={6000}
         onClose={() => {
-          handleAlertSuccessClose()
+          handleAlertSuccessClose();
         }}
         key={(vertical, horizontal)}
         anchorOrigin={{ vertical, horizontal }}
       >
-        <Alert onClose={handleAlertSuccessClose} severity='info'>
+        <Alert onClose={handleAlertSuccessClose} severity="info">
           Accomplishment generated successfully!
         </Alert>
       </Snackbar>
@@ -1074,12 +1069,12 @@ function Schedule_Table () {
         open={state.alertWarning}
         autoHideDuration={6000}
         onClose={() => {
-          handleAlertWarningClose()
+          handleAlertWarningClose();
         }}
         key={(vertical, horizontal)}
         anchorOrigin={{ vertical, horizontal }}
       >
-        <Alert onClose={handleAlertWarningClose} severity='warning'>
+        <Alert onClose={handleAlertWarningClose} severity="warning">
           Accomplishment not found. Please try other date/s
         </Alert>
       </Snackbar>
@@ -1087,12 +1082,12 @@ function Schedule_Table () {
         open={state.alertError}
         autoHideDuration={6000}
         onClose={() => {
-          handleAlertErrorClose()
+          handleAlertErrorClose();
         }}
         key={(vertical, horizontal)}
         anchorOrigin={{ vertical, horizontal }}
       >
-        <Alert onClose={handleAlertErrorClose} severity='error'>
+        <Alert onClose={handleAlertErrorClose} severity="error">
           Invalid date range. Please select other date/s
         </Alert>
       </Snackbar>
@@ -1100,12 +1095,12 @@ function Schedule_Table () {
         open={state.alertBlank}
         autoHideDuration={6000}
         onClose={() => {
-          handleAlertBlankClose()
+          handleAlertBlankClose();
         }}
         key={(vertical, horizontal)}
         anchorOrigin={{ vertical, horizontal }}
       >
-        <Alert onClose={handleAlertBlankClose} severity='error'>
+        <Alert onClose={handleAlertBlankClose} severity="error">
           No Accomplishment found. Please generate table first!
         </Alert>
       </Snackbar>
@@ -1113,12 +1108,12 @@ function Schedule_Table () {
         <Grid
           item
           md={9}
-          style={{ display: 'flex', justifyContent: 'flex-start' }}
+          style={{ display: "flex", justifyContent: "flex-start" }}
         >
           <Button
-            size='small'
-            variant='contained'
-            style={{ backgroundColor: 'rgba(6,86,147)', color: 'white' }}
+            size="small"
+            variant="contained"
+            style={{ backgroundColor: "rgba(6,86,147)", color: "white" }}
             className={classes.button}
             onClick={handleClickOpen}
             endIcon={<TableChartIcon />}
@@ -1127,12 +1122,12 @@ function Schedule_Table () {
           </Button>
 
           <Button
-            size='small'
-            variant='contained'
+            size="small"
+            variant="contained"
             style={{
-              backgroundColor: 'rgba(6,86,147)',
-              color: 'white',
-              marginLeft: 10
+              backgroundColor: "rgba(6,86,147)",
+              color: "white",
+              marginLeft: 10,
             }}
             className={classes.button}
             onClick={handleClickCustomizeOpen}
@@ -1142,16 +1137,16 @@ function Schedule_Table () {
           </Button>
           {state.accomplishments.length === 0 ? (
             <Button
-              size='small'
-              variant='contained'
+              size="small"
+              variant="contained"
               style={{
-                backgroundColor: 'rgba(6,86,147)',
-                color: 'white',
-                marginLeft: 10
+                backgroundColor: "rgba(6,86,147)",
+                color: "white",
+                marginLeft: 10,
               }}
               className={classes.button}
               onClick={() => {
-                handleClickNoExcelOpen()
+                handleClickNoExcelOpen();
               }}
               endIcon={<FilterListIcon />}
             >
@@ -1159,12 +1154,12 @@ function Schedule_Table () {
             </Button>
           ) : (
             <Button
-              size='small'
-              variant='contained'
+              size="small"
+              variant="contained"
               style={{
-                backgroundColor: 'rgba(6,86,147)',
-                color: 'white',
-                marginLeft: 10
+                backgroundColor: "rgba(6,86,147)",
+                color: "white",
+                marginLeft: 10,
               }}
               className={classes.button}
               onClick={handleClickFilterOpen}
@@ -1175,24 +1170,22 @@ function Schedule_Table () {
           )}
           {home_reducer.accountData.btn_priv !== 0 ? (
             <Button
-              aria-controls='customized-menu'
-              aria-haspopup='true'
-              variant='contained'
+              aria-controls="customized-menu"
+              aria-haspopup="true"
+              variant="contained"
               style={{
-                backgroundColor: 'rgba(6,86,147)',
-                color: 'white',
-                marginLeft: 10
+                backgroundColor: "rgba(6,86,147)",
+                color: "white",
+                marginLeft: 10,
               }}
               onClick={handleOpenMenu}
               endIcon={<GetAppIcon />}
             >
               EXPORT
             </Button>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
           <StyledMenu
-            id='customized-menu'
+            id="customized-menu"
             anchorEl={anchorEl}
             keepMounted
             open={Boolean(anchorEl)}
@@ -1202,43 +1195,43 @@ function Schedule_Table () {
               <>
                 <MenuItem
                   onClick={() => {
-                    handleClickNoExcelOpen()
+                    handleClickNoExcelOpen();
                   }}
                 >
                   <ListItemIcon>
-                    <GridOnIcon fontSize='small' />
+                    <GridOnIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText primary='EXCEL' />
+                  <ListItemText primary="EXCEL" />
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
-                    handleClickNoExcelOpen()
+                    handleClickNoExcelOpen();
                   }}
                 >
                   <ListItemIcon>
-                    <PictureAsPdfIcon fontSize='small' />
+                    <PictureAsPdfIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText primary='PAGE' />
+                  <ListItemText primary="PAGE" />
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
-                    handleClickNoExcelOpen()
+                    handleClickNoExcelOpen();
                   }}
                 >
                   <ListItemIcon>
-                    <PictureAsPdfIcon fontSize='small' />
+                    <PictureAsPdfIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText primary='TABLE' />
+                  <ListItemText primary="TABLE" />
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
-                    handleClickNoExcelOpen()
+                    handleClickNoExcelOpen();
                   }}
                 >
                   <ListItemIcon>
-                    <PictureAsPdfIcon fontSize='small' />
+                    <PictureAsPdfIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText primary='IMAGES' />
+                  <ListItemText primary="IMAGES" />
                 </MenuItem>
                 {/* <MenuItem
                   onClick={() => {
@@ -1256,53 +1249,53 @@ function Schedule_Table () {
                 <ExcelFile
                   filename={
                     state.branch_name +
-                    'Date: ' +
-                    '(' +
-                    moment(state.selection.startDate).format('LL') +
-                    '-' +
-                    moment(state.selection.endDate).format('LL') +
-                    ') ' +
-                    'Type: ' +
-                    '(' +
+                    "Date: " +
+                    "(" +
+                    moment(state.selection.startDate).format("LL") +
+                    "-" +
+                    moment(state.selection.endDate).format("LL") +
+                    ") " +
+                    "Type: " +
+                    "(" +
                     selected_jo_type +
-                    ') ' +
-                    'Business Area: ' +
-                    '(' +
+                    ") " +
+                    "Business Area: " +
+                    "(" +
                     state.selected_ba +
-                    ') '
+                    ") "
                   }
                   element={
                     <MenuItem>
                       <ListItemIcon>
-                        <GridOnIcon fontSize='small' />
+                        <GridOnIcon fontSize="small" />
                       </ListItemIcon>
-                      <ListItemText primary='EXCEL' />
+                      <ListItemText primary="EXCEL" />
                     </MenuItem>
                   }
                 >
                   <ExcelSheet
                     data={state.accomplishment_display}
-                    name='Accomplishment'
+                    name="Accomplishment"
                   >
-                    {state.initialCat.map(val => {
+                    {state.initialCat.map((val) => {
                       return (
                         <ExcelColumn
                           label={val.category_details}
                           value={val.category_field}
                         />
-                      )
+                      );
                     })}
                   </ExcelSheet>
                 </ExcelFile>
                 <MenuItem
                   onClick={() => {
-                    onPrintperPage()
+                    onPrintperPage();
                   }}
                 >
                   <ListItemIcon>
-                    <PictureAsPdfIcon fontSize='small' />
+                    <PictureAsPdfIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText primary='PAGE' />
+                  <ListItemText primary="PAGE" />
                 </MenuItem>
                 {/* <MenuItem
                   onClick={() => {
@@ -1329,16 +1322,16 @@ function Schedule_Table () {
           </StyledMenu>
           {state.accomplishments.length === 0 ? (
             <Button
-              size='small'
-              variant='contained'
+              size="small"
+              variant="contained"
               style={{
-                backgroundColor: 'rgba(6,86,147)',
-                color: 'white',
-                marginLeft: 10
+                backgroundColor: "rgba(6,86,147)",
+                color: "white",
+                marginLeft: 10,
               }}
               className={classes.button}
               onClick={() => {
-                handleClickNoExcelOpen()
+                handleClickNoExcelOpen();
               }}
               endIcon={<CachedIcon />}
             >
@@ -1346,16 +1339,16 @@ function Schedule_Table () {
             </Button>
           ) : (
             <Button
-              size='small'
-              variant='contained'
+              size="small"
+              variant="contained"
               style={{
-                backgroundColor: 'rgba(6,86,147)',
-                color: 'white',
-                marginLeft: 10
+                backgroundColor: "rgba(6,86,147)",
+                color: "white",
+                marginLeft: 10,
               }}
               className={classes.button}
               onClick={() => {
-                onResets()
+                onResets();
               }}
               endIcon={<CachedIcon />}
             >
@@ -1364,19 +1357,19 @@ function Schedule_Table () {
           )}
         </Grid>
         <Grid item md={3}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <FormControl id='searchinput' size='small' variant='outlined'>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <FormControl id="searchinput" size="small" variant="outlined">
               <InputLabel>Search</InputLabel>
               <OutlinedInput
                 inputRef={searchinfo}
-                onChange={e => {
-                  search_accom(e)
+                onChange={(e) => {
+                  search_accom(e);
                 }}
                 endAdornment={
-                  <InputAdornment position='end'>
+                  <InputAdornment position="end">
                     <IconButton
                       onClick={() => {
-                        submitsearch()
+                        submitsearch();
                       }}
                     >
                       <SearchIcon />
@@ -1389,53 +1382,53 @@ function Schedule_Table () {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item md={12} sm={12} style={{ display: 'none' }}>
+        <Grid item md={12} sm={12} style={{ display: "none" }}>
           <TableContainer>
-            <Table className={classes.table} id='mytable'>
+            <Table className={classes.table} id="mytable">
               <TableHead>
                 <TableRow>
-                  {state.initialCat.map(val => {
+                  {state.initialCat.map((val) => {
                     return (
-                      <TableCell align='center'>
+                      <TableCell align="center">
                         {val.category_details}
                       </TableCell>
-                    )
+                    );
                   })}
-                  <TableCell align='center'>Signature/Photo Evidence</TableCell>
+                  <TableCell align="center">Signature/Photo Evidence</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {state.accomplishment_display.map((val, index) => {
                   if (
-                    val.date_accomplished !== '' &&
+                    val.date_accomplished !== "" &&
                     val.date_accomplished !== null
                   ) {
                     return (
                       <>
                         <TableRow key={index}>
-                          {state.initialCat.map(val1 => {
-                            let value = val[val1.category_field]
+                          {state.initialCat.map((val1) => {
+                            let value = val[val1.category_field];
                             return (
                               <TableCell
-                                align='center'
+                                align="center"
                                 style={{ fontSize: 10 }}
                               >
                                 {value}
                               </TableCell>
-                            )
+                            );
                           })}
-                          {state.imagepdftable.map(img => {
+                          {state.imagepdftable.map((img) => {
                             if (img.jo_id === val.jo_id) {
                               return (
-                                <TableCell align='center'>
+                                <TableCell align="center">
                                   <img src={img.image_base64} />
                                 </TableCell>
-                              )
+                              );
                             }
                           })}
                         </TableRow>
                       </>
-                    )
+                    );
                   }
                 })}
               </TableBody>
@@ -1445,107 +1438,107 @@ function Schedule_Table () {
         <Grid item md={12} sm={12}>
           <Paper>
             <TableContainer
-              id='accom_table'
+              id="accom_table"
               className={classes.container}
-              style={{ maxHeight: 400, maxWidth: '96vw' }}
-              size='small'
+              style={{ maxHeight: 400, maxWidth: "96vw" }}
+              size="small"
             >
-              <Table size='small' stickyHeader style={{ whiteSpace: 'nowrap' }}>
+              <Table size="small" stickyHeader style={{ whiteSpace: "nowrap" }}>
                 <TableHead>
                   <TableRow>
                     <TableCell
                       style={{
-                        position: 'sticky',
+                        position: "sticky",
                         zIndex: 5,
                         left: 1,
-                        backgroundColor: 'rgba(6,86,147)',
-                        color: 'white'
+                        backgroundColor: "rgba(6,86,147)",
+                        color: "white",
                       }}
                     >
                       <TableCell
                         style={{
-                          backgroundColor: 'rgba(6,86,147)',
-                          color: 'white',
-                          borderBottomColor: 'rgba(6,86,147)'
+                          backgroundColor: "rgba(6,86,147)",
+                          color: "white",
+                          borderBottomColor: "rgba(6,86,147)",
                         }}
                       >
                         Action
                       </TableCell>
                       <TableCell
                         style={{
-                          backgroundColor: 'rgba(6,86,147)',
-                          color: 'white',
-                          borderBottomColor: 'rgba(6,86,147)'
+                          backgroundColor: "rgba(6,86,147)",
+                          color: "white",
+                          borderBottomColor: "rgba(6,86,147)",
                         }}
                       >
                         Status
                       </TableCell>
                     </TableCell>
 
-                    {state.initialCat.map(column => {
+                    {state.initialCat.map((column) => {
                       return (
                         <TableCell
                           key={column.category_field}
                           // align={column.align}
                           style={{
                             minWidth: column.minWidth,
-                            backgroundColor: 'rgba(6,86,147)',
-                            color: 'white'
+                            backgroundColor: "rgba(6,86,147)",
+                            color: "white",
                           }}
                         >
                           {column.category_details}
                         </TableCell>
-                      )
+                      );
                     })}
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {state.accomplishment_display
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map(row => {
-                      let status = 'Accomplished'
-                      let bgcolor = '#58B19F'
+                    .map((row) => {
+                      let status = "Accomplished";
+                      let bgcolor = "#58B19F";
                       if (
-                        row.date_accomplished === '' ||
+                        row.date_accomplished === "" ||
                         row.date_accomlished === null
                       ) {
-                        status = 'Pending'
-                        bgcolor = '#E74C3C'
+                        status = "Pending";
+                        bgcolor = "#E74C3C";
                       }
                       return (
                         <TableRow
                           hover
-                          role='checkbox'
+                          role="checkbox"
                           tabIndex={-1}
                           key={row.code}
                         >
                           <TableCell
                             style={{
-                              position: 'sticky',
+                              position: "sticky",
                               zIndex: 2,
                               left: 1,
-                              backgroundColor: 'white'
+                              backgroundColor: "white",
                             }}
                           >
                             <TableCell
                               style={{
-                                backgroundColor: 'white',
-                                borderBottomColor: 'white'
+                                backgroundColor: "white",
+                                borderBottomColor: "white",
                               }}
                             >
                               <center
                                 style={{
-                                  display: 'flex',
-                                  flexDirection: 'row'
+                                  display: "flex",
+                                  flexDirection: "row",
                                 }}
                               >
                                 <Typography
                                   style={{
-                                    cursor: 'pointer',
-                                    color: 'rgba(6,86,147)'
+                                    cursor: "pointer",
+                                    color: "rgba(6,86,147)",
                                   }}
                                   onClick={() => {
-                                    handleClickDialogOpen(row)
+                                    handleClickDialogOpen(row);
                                   }}
                                 >
                                   <OpenInNewIcon />
@@ -1554,17 +1547,17 @@ function Schedule_Table () {
                             </TableCell>
                             <TableCell
                               style={{
-                                backgroundColor: 'white',
-                                borderBottomColor: 'white'
+                                backgroundColor: "white",
+                                borderBottomColor: "white",
                               }}
                             >
                               <center>
                                 <Typography
                                   style={{
-                                    color: 'white',
+                                    color: "white",
                                     backgroundColor: bgcolor,
                                     padding: 3,
-                                    borderRadius: 12
+                                    borderRadius: 12,
                                   }}
                                 >
                                   {status}
@@ -1573,42 +1566,42 @@ function Schedule_Table () {
                             </TableCell>
                           </TableCell>
 
-                          {state.initialCat.map(column => {
-                            let bal = 0
-                            let value = row[column.category_field]
-                            if (column.category_field === 'date_accomplished') {
+                          {state.initialCat.map((column) => {
+                            let bal = 0;
+                            let value = row[column.category_field];
+                            if (column.category_field === "date_accomplished") {
                               if (
-                                row[column.category_field] === '' ||
+                                row[column.category_field] === "" ||
                                 row[column.category_field] === null
                               ) {
-                                value = ''
+                                value = "";
                               } else {
                                 value = moment(
                                   row[column.category_field]
-                                ).format('LL')
+                                ).format("LL");
                               }
                             }
-                            if (column.category_field === 'time_accomplished') {
+                            if (column.category_field === "time_accomplished") {
                               if (
-                                row[column.category_field] === '' ||
+                                row[column.category_field] === "" ||
                                 row[column.category_field] === null
                               ) {
-                                value = ''
+                                value = "";
                               } else {
-                                value = row[column.category_field]
+                                value = row[column.category_field];
                               }
                             }
-                            if (column.category_field === 'all_images') {
-                              value = row.all_images.length
+                            if (column.category_field === "all_images") {
+                              value = row.all_images.length;
                             }
                             if (
-                              column.category_details === 'Outstanding Balance'
+                              column.category_details === "Outstanding Balance"
                             ) {
                               if (
-                                row[column.category_field] === '' ||
+                                row[column.category_field] === "" ||
                                 row[column.category_field] === null
                               ) {
-                                value = '₱ 0.00'
+                                value = "₱ 0.00";
                               }
                             }
                             return (
@@ -1616,33 +1609,31 @@ function Schedule_Table () {
                                 key={column.category_field}
                                 align={column.align}
                                 style={{
-                                  whiteSpace: 'nowrap',
+                                  whiteSpace: "nowrap",
                                   maxWidth: 150,
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis'
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
                                 }}
                               >
                                 {column.category_details ===
-                                'Outstanding Balance' ? (
+                                "Outstanding Balance" ? (
                                   <>₱&nbsp;</>
-                                ) : (
-                                  undefined
-                                )}
-                                {column.format && typeof value === 'number'
+                                ) : undefined}
+                                {column.format && typeof value === "number"
                                   ? column.format(value)
                                   : value}
                               </TableCell>
-                            )
+                            );
                           })}
                         </TableRow>
-                      )
+                      );
                     })}
                 </TableBody>
               </Table>
             </TableContainer>
             <TablePagination
               rowsPerPageOptions={[100, 500, 1000]}
-              component='div'
+              component="div"
               count={state.accomplishment_display.length}
               rowsPerPage={rowsPerPage}
               page={page}
@@ -1654,12 +1645,12 @@ function Schedule_Table () {
       </Grid>
       <Dialog
         fullWidth
-        maxWidth='md'
+        maxWidth="md"
         open={state.open}
         onClose={handleClose}
-        aria-labelledby='responsive-dialog-title'
+        aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id='simple-dialog-title'>
+        <DialogTitle id="simple-dialog-title">
           Generate Accomplishments
         </DialogTitle>
         <DialogContent>
@@ -1668,100 +1659,99 @@ function Schedule_Table () {
               <Grid item xs={12} md={12}>
                 <center
                   style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start'
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
                   }}
                 >
                   <DefinedRange
-                    onChange={item => setState({ ...state, ...item })}
+                    onChange={(item) => setState({ ...state, ...item })}
                     ranges={[state.selection]}
                   />
                   <DateRange
                     editableDateInputs={true}
                     autoFocus={true}
                     months={2}
-                    direction='horizontal'
+                    direction="horizontal"
                     moveRangeOnFirstSelection={false}
-                    onChange={item => setState({ ...state, ...item })}
+                    onChange={(item) => setState({ ...state, ...item })}
                     ranges={[state.selection]}
                   />
                 </center>
               </Grid>
               <Grid item xs={12} md={12}>
-                <Card variant='outlined'>
+                <Card variant="outlined">
                   <CardContent>
                     <Grid container spacing={1}>
                       <Grid item xs={12} md={6}>
                         <FormControl
-                          variant='outlined'
+                          variant="outlined"
                           required
-                          size='small'
+                          size="small"
                           className={classes.formControl}
                         >
-                          <InputLabel id='demo-simple-select-outlined-label'>
+                          <InputLabel id="demo-simple-select-outlined-label">
                             Company
                           </InputLabel>
                           <Select
-                            labelId='demo-simple-select-outlined-label'
-                            id='demo-simple-select-outlined'
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
                             onChange={onChangeCompany}
-                            label='Company'
+                            label="Company"
                             value={state.company}
-                            name='company'
+                            name="company"
                           >
-                            {home_reducer.company_name.map(val => {
+                            {home_reducer.company_name.map((val) => {
                               return (
                                 <MenuItem value={val.company_id}>
                                   {val.company_name}
                                 </MenuItem>
-                              )
+                              );
                             })}
                           </Select>
                         </FormControl>
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <FormControl
-                          variant='outlined'
+                          variant="outlined"
                           required
-                          size='small'
+                          size="small"
                           className={classes.formControl}
                         >
-                          <InputLabel id='demo-simple-select-outlined-label'>
+                          <InputLabel id="demo-simple-select-outlined-label">
                             Branch
                           </InputLabel>
                           <Select
-                            labelId='demo-simple-select-outlined-label'
-                            id='demo-simple-select-outlined'
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
                             onChange={onChangeBranch}
-                            label='branch'
-                            name='branch_id'
+                            label="branch"
+                            name="branch_id"
                             value={state.selected_branch}
-                            
                           >
                             {home_reducer.SelectedBranches.map((val, index) => {
                               return (
                                 <MenuItem value={val.branch_id}>
                                   {val.branch_company}
                                 </MenuItem>
-                              )
+                              );
                             })}
                           </Select>
                         </FormControl>
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <FormControl
-                          variant='outlined'
+                          variant="outlined"
                           required
-                          size='small'
+                          size="small"
                           className={classes.formControl}
                         >
-                          <InputLabel htmlFor='select-multiple-native'>
+                          <InputLabel htmlFor="select-multiple-native">
                             Select Type
                           </InputLabel>
                           <Select
                             onChange={jotypeChange}
-                            name='selected_jo_type'
+                            name="selected_jo_type"
                             value={selected_jo_type}
                           >
                             {state.jo_type.map((val, index) => {
@@ -1769,43 +1759,47 @@ function Schedule_Table () {
                                 <MenuItem key={index} value={val}>
                                   {val}
                                 </MenuItem>
-                              )
+                              );
                             })}
                           </Select>
                         </FormControl>
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <FormControl
-                          variant='outlined'
+                          variant="outlined"
                           required
-                          size='small'
+                          size="small"
                           className={classes.formControl}
                         >
-                          <InputLabel id='demo-simple-select-outlined-label'>
+                          <InputLabel id="demo-simple-select-outlined-label">
                             Select Business Area
                           </InputLabel>
-                          
-                          <Select value={state.selected_ba} name='selected_ba' onChange={onChange}>
-                            <MenuItem value='ALL'>All</MenuItem>
+
+                          <Select
+                            value={state.selected_ba}
+                            name="selected_ba"
+                            onChange={onChange}
+                          >
+                            <MenuItem value="ALL">All</MenuItem>
                             {state.business_area.length === 0
                               ? undefined
-                              : state.business_area.map(val => {
-                                  return <MenuItem value={val}>{val}</MenuItem>
+                              : state.business_area.map((val) => {
+                                  return <MenuItem value={val}>{val}</MenuItem>;
                                 })}
                           </Select>
                         </FormControl>
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <TextField
-                          name='reference'
+                          name="reference"
                           onChange={onChange}
-                          helperText='Specific customer generation'
-                          size='small'
+                          helperText="Specific customer generation"
+                          size="small"
                           value={state.reference}
-                          style={{ width: '100%' }}
-                          id='outlined-basic'
-                          label='Customer Number (Optional)'
-                          variant='outlined'
+                          style={{ width: "100%" }}
+                          id="outlined-basic"
+                          label="Customer Number (Optional)"
+                          variant="outlined"
                         />
                       </Grid>
                     </Grid>
@@ -1815,17 +1809,17 @@ function Schedule_Table () {
               <Grid item xs={12} md={12}>
                 <div
                   style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end'
+                    display: "flex",
+                    justifyContent: "flex-end",
                   }}
                 >
                   <Button
-                    type='submit'
-                    variant='contained'
+                    type="submit"
+                    variant="contained"
                     style={{
-                      backgroundColor: 'rgba(6,86,147)',
-                      color: 'white',
-                      margin: 15
+                      backgroundColor: "rgba(6,86,147)",
+                      color: "white",
+                      margin: 15,
                     }}
                   >
                     Submit
@@ -1995,10 +1989,10 @@ function Schedule_Table () {
       </Dialog>
       <Dialog
         fullWidth
-        maxWidth='xl'
+        maxWidth="xl"
         open={state.datadialog}
         onClose={handleClickDialogClose}
-        aria-labelledby='responsive-dialog-title'
+        aria-labelledby="responsive-dialog-title"
       >
         <DialogContent>
           <Grid container spacing={2}>
@@ -2011,106 +2005,106 @@ function Schedule_Table () {
                         return (
                           <img
                             src={
-                              'https://api.workflow.gzonetechph.com/assets/img/meter/' +
+                              "https://api.workflow.gzonetechph.com/assets/img/meter/" +
                               val
                             }
-                            style={{ width: '100%', height: '270px' }}
+                            style={{ width: "100%", height: "270px" }}
                             onClick={() => {
-                              handleImageOpen(val)
+                              handleImageOpen(val);
                             }}
                           />
-                        )
+                        );
                       })
                     ) : (
                       <img
                         src={NoImage}
-                        style={{ width: '100%', height: '270px' }}
+                        style={{ width: "100%", height: "270px" }}
                         onClick={() => {
-                          alert('No image available.')
+                          alert("No image available.");
                         }}
                       />
                     )}
                   </Carousel>
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
-                  <div style={{ width: '100%' }}>
+                  <div style={{ width: "100%" }}>
                     <Mapa />
                   </div>
                 </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12} xs={12} md={7}>
-              <Card className={classes.root} variant='outlined'>
+              <Card className={classes.root} variant="outlined">
                 <CardContent>
                   <center style={{ marginBottom: 20, marginTop: 10 }}>
                     <Typography
                       style={{
-                        fontWeight: '600',
-                        fontSize: '1.9em'
+                        fontWeight: "600",
+                        fontSize: "1.9em",
                       }}
                     >
                       Accomplishment Details
                     </Typography>
                   </center>
-                  {state.columndata.map(row => {
+                  {state.columndata.map((row) => {
                     return (
                       <Grid container spacing={2}>
-                        {state.initialCat.map(column => {
-                          let bal = 0
-                          let vals = row[column.category_field]
-                          if (column.category_field === 'date_accomplished') {
+                        {state.initialCat.map((column) => {
+                          let bal = 0;
+                          let vals = row[column.category_field];
+                          if (column.category_field === "date_accomplished") {
                             if (
-                              row[column.category_field] === '' ||
+                              row[column.category_field] === "" ||
                               row[column.category_field] === null
                             ) {
-                              vals = ''
+                              vals = "";
                             } else {
                               vals = moment(row[column.category_field]).format(
-                                'LL'
-                              )
+                                "LL"
+                              );
                             }
                           }
-                          if (column.category_field === 'time_accomplished') {
+                          if (column.category_field === "time_accomplished") {
                             if (
-                              row[column.category_field] === '' ||
+                              row[column.category_field] === "" ||
                               row[column.category_field] === null
                             ) {
-                              vals = ''
+                              vals = "";
                             } else {
-                              vals = row[column.category_field]
+                              vals = row[column.category_field];
                             }
                           }
-                          if (column.category_field === 'all_images') {
-                            vals = row.all_images.length
+                          if (column.category_field === "all_images") {
+                            vals = row.all_images.length;
                           }
                           if (
-                            column.category_details === 'Outstanding Balance'
+                            column.category_details === "Outstanding Balance"
                           ) {
                             if (
-                              row[column.category_field] === '' ||
+                              row[column.category_field] === "" ||
                               row[column.category_field] === null
                             ) {
-                              vals = '₱ 0.00'
+                              vals = "₱ 0.00";
                             }
                           }
                           return (
                             <Grid item sm={12} md={6}>
                               <TextField
                                 InputProps={{
-                                  readOnly: true
+                                  readOnly: true,
                                 }}
                                 label={column.category_details}
-                                id='outlined-margin-dense'
+                                id="outlined-margin-dense"
                                 className={classes.textField}
-                                margin='dense'
-                                variant='outlined'
+                                margin="dense"
+                                variant="outlined"
                                 value={vals}
                               />
                             </Grid>
-                          )
+                          );
                         })}
                       </Grid>
-                    )
+                    );
                   })}
                 </CardContent>
               </Card>
@@ -2121,9 +2115,9 @@ function Schedule_Table () {
           <Button
             onClick={handleClickDialogClose}
             style={{
-              backgroundColor: 'rgba(6,86,147)',
-              color: 'white',
-              marginLeft: 10
+              backgroundColor: "rgba(6,86,147)",
+              color: "white",
+              marginLeft: 10,
             }}
           >
             Close
@@ -2133,87 +2127,86 @@ function Schedule_Table () {
 
       <Dialog
         fullWidth
-        maxWidth='xs'
+        maxWidth="xs"
         open={state.filter_dialog}
         onClose={handleClickFilterClose}
-        aria-labelledby='responsive-dialog-title'
+        aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id='simple-dialog-title'>Table Filter</DialogTitle>
+        <DialogTitle id="simple-dialog-title">Table Filter</DialogTitle>
         <DialogContent>
           <form onSubmit={onFilter}>
             <FormControl
               // required
-              size='small'
+              size="small"
               className={classes.formControl}
             >
-              <InputLabel id='demo-simple-select-outlined-label'>
+              <InputLabel id="demo-simple-select-outlined-label">
                 Select Status
               </InputLabel>
               <Select
-                labelId='demo-simple-select-outlined-label'
-                id='demo-simple-select-outlined'
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
                 onChange={onChangeStatus}
-                label='Findings'
-                name='status'
+                label="Findings"
+                name="status"
               >
-                <MenuItem value='ALL'>All</MenuItem>
-                <MenuItem value='Accomplished'>Accomplished</MenuItem>
-                <MenuItem value='Pending'>Pending</MenuItem>
+                <MenuItem value="ALL">All</MenuItem>
+                <MenuItem value="Accomplished">Accomplished</MenuItem>
+                <MenuItem value="Pending">Pending</MenuItem>
               </Select>
             </FormControl>
-            {state.status === 'Pending' || state.status === 'ALL' ? ( //     Select Findings //   <InputLabel id="demo-simple-select-outlined-label"> // > //   className={classes.formControl} //   size="small" //   // required // <FormControl
-              //   </InputLabel>
-              //   <Select
-              //     labelId="demo-simple-select-outlined-label"
-              //     id="demo-simple-select-outlined"
-              //     onChange={onChange}
-              //     label="Findings"
-              //     name="finding"
-              //     disabled
-              //   >
-              //     <MenuItem value="ALL">ALL</MenuItem>
-              //     {state.select_findings.map((val) => {
-              //       return <MenuItem value={val}>{val}</MenuItem>;
-              //     })}
-              //   </Select>
-              // </FormControl>
-              undefined
-            ) : (
+            {state.status === "Pending" ||
+            state.status === "ALL" ? //   </InputLabel> //     Select Findings //   <InputLabel id="demo-simple-select-outlined-label"> // > //   className={classes.formControl} //   size="small" //   // required // <FormControl
+            //   <Select
+            //     labelId="demo-simple-select-outlined-label"
+            //     id="demo-simple-select-outlined"
+            //     onChange={onChange}
+            //     label="Findings"
+            //     name="finding"
+            //     disabled
+            //   >
+            //     <MenuItem value="ALL">ALL</MenuItem>
+            //     {state.select_findings.map((val) => {
+            //       return <MenuItem value={val}>{val}</MenuItem>;
+            //     })}
+            //   </Select>
+            // </FormControl>
+            undefined : (
               <FormControl
                 // required
-                size='small'
+                size="small"
                 className={classes.formControl}
               >
-                <InputLabel id='demo-simple-select-outlined-label'>
+                <InputLabel id="demo-simple-select-outlined-label">
                   Select Findings
                 </InputLabel>
                 <Select
-                  labelId='demo-simple-select-outlined-label'
-                  id='demo-simple-select-outlined'
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
                   onChange={onChange}
-                  label='Findings'
-                  name='finding'
+                  label="Findings"
+                  name="finding"
                 >
-                  <MenuItem value='ALL'>All</MenuItem>
-                  {state.select_findings.map(val => {
-                    return <MenuItem value={val}>{val}</MenuItem>
+                  <MenuItem value="ALL">All</MenuItem>
+                  {state.select_findings.map((val) => {
+                    return <MenuItem value={val}>{val}</MenuItem>;
                   })}
                 </Select>
               </FormControl>
             )}
             <div
               style={{
-                display: 'flex',
-                justifyContent: 'flex-end',
+                display: "flex",
+                justifyContent: "flex-end",
                 marginTop: 15,
-                marginBotton: 15
+                marginBotton: 15,
               }}
             >
               <Button
-                type='submit'
+                type="submit"
                 style={{
-                  backgroundColor: 'rgba(6,86,147)',
-                  color: 'white'
+                  backgroundColor: "rgba(6,86,147)",
+                  color: "white",
                 }}
               >
                 Filter
@@ -2225,39 +2218,39 @@ function Schedule_Table () {
 
       <Dialog
         fullWidth
-        maxWidth='xs'
+        maxWidth="xs"
         open={state.customize}
         onClose={handleClickCustomizeClose}
-        aria-labelledby='responsive-dialog-title'
+        aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id='simple-dialog-title'>Customize Column</DialogTitle>
+        <DialogTitle id="simple-dialog-title">Customize Column</DialogTitle>
         <DialogContent>
-          <FormControl component='fieldset' className={classes.formControl}>
-            <FormLabel component='legend'>Data Columns</FormLabel>
+          <FormControl component="fieldset" className={classes.formControl}>
+            <FormLabel component="legend">Data Columns</FormLabel>
             <FormGroup>
-              {state.accomCat.map(val => {
-                let initial = false
+              {state.accomCat.map((val) => {
+                let initial = false;
                 let match = state.initialCat.filter(
-                  cat => cat.category_id === val.category_id
-                )
+                  (cat) => cat.category_id === val.category_id
+                );
                 if (match.length > 0) {
-                  initial = true
+                  initial = true;
                 }
                 return (
                   <FormControlLabel
                     control={
                       <Checkbox
                         checked={initial}
-                        style={{ color: 'rgba(6,86,147)' }}
+                        style={{ color: "rgba(6,86,147)" }}
                         onChange={() => {
-                          handleChange(val)
+                          handleChange(val);
                         }}
                         name={val.category_field}
                       />
                     }
                     label={val.category_details}
                   />
-                )
+                );
               })}
             </FormGroup>
             <FormHelperText>
@@ -2269,9 +2262,9 @@ function Schedule_Table () {
           <Button
             onClick={handleClickCustomizeClose}
             style={{
-              backgroundColor: 'rgba(6,86,147)',
-              color: 'white',
-              marginLeft: 10
+              backgroundColor: "rgba(6,86,147)",
+              color: "white",
+              marginLeft: 10,
             }}
           >
             Close
@@ -2280,12 +2273,12 @@ function Schedule_Table () {
       </Dialog>
       <Dialog
         fullWidth
-        maxWidth='sm'
+        maxWidth="sm"
         open={image}
         onClose={handleImageClose}
-        aria-labelledby='responsive-dialog-title'
+        aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id='simple-dialog-title'>Image Preview</DialogTitle>
+        <DialogTitle id="simple-dialog-title">Image Preview</DialogTitle>
         <DialogContent>
           <TransformWrapper
             defaultScale={1}
@@ -2295,7 +2288,7 @@ function Schedule_Table () {
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
               <React.Fragment>
                 <center>
-                  <ButtonGroup size='small' variant='text'>
+                  <ButtonGroup size="small" variant="text">
                     <Button onClick={zoomIn} endIcon={<AddIcon />}>
                       Zoom&nbsp;in
                     </Button>
@@ -2306,8 +2299,8 @@ function Schedule_Table () {
                       onClick={() => {
                         setState({
                           ...state,
-                          degree: state.degree - 90
-                        })
+                          degree: state.degree - 90,
+                        });
                       }}
                       endIcon={<RotateLeftIcon />}
                     >
@@ -2317,8 +2310,8 @@ function Schedule_Table () {
                       onClick={() => {
                         setState({
                           ...state,
-                          degree: state.degree + 90
-                        })
+                          degree: state.degree + 90,
+                        });
                       }}
                       endIcon={<RotateRightIcon />}
                     >
@@ -2328,14 +2321,14 @@ function Schedule_Table () {
                   <TransformComponent>
                     <img
                       src={
-                        'https://api.workflow.gzonetechph.com/assets/img/meter/' +
+                        "https://api.workflow.gzonetechph.com/assets/img/meter/" +
                         home_reducer.image
                       }
-                      alt='image'
+                      alt="image"
                       style={{
-                        width: '100%',
-                        height: '400px',
-                        transform: 'rotate(' + String(state.degree) + 'deg)'
+                        width: "100%",
+                        height: "400px",
+                        transform: "rotate(" + String(state.degree) + "deg)",
                       }}
                     />
                   </TransformComponent>
@@ -2348,9 +2341,9 @@ function Schedule_Table () {
           <Button
             onClick={handleImageClose}
             style={{
-              backgroundColor: 'rgba(6,86,147)',
-              color: 'white',
-              marginLeft: 10
+              backgroundColor: "rgba(6,86,147)",
+              color: "white",
+              marginLeft: 10,
             }}
           >
             Close
@@ -2360,30 +2353,30 @@ function Schedule_Table () {
 
       <Dialog
         fullWidth
-        maxWidth='lg'
+        maxWidth="lg"
         open={state.printalldialog}
         onClose={handleCLickCloseSinglePagePDF}
-        aria-labelledby='responsive-dialog-title'
+        aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id='simple-dialog-title'>Print Preview</DialogTitle>
+        <DialogTitle id="simple-dialog-title">Print Preview</DialogTitle>
         <DialogContent>
-          <PDFViewer style={{ width: '100%', minHeight: 550 }}>
+          <PDFViewer style={{ width: "100%", minHeight: 550 }}>
             <Document>
               {state.pdf_accomplishments.map((info, index) => {
                 return (
                   <Page
-                    size='A4'
+                    size="A4"
                     style={styles.page}
                     wrap
-                    orientation='portrait'
+                    orientation="portrait"
                   >
                     <View fixed>
                       <View
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'center',
-                          marginTop: '15px'
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          marginTop: "15px",
                         }}
                       >
                         <View>
@@ -2394,9 +2387,9 @@ function Schedule_Table () {
                         </View>
                         <View
                           style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center'
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
                           }}
                         >
                           <Text style={{ fontSize: 10 }}>
@@ -2405,37 +2398,37 @@ function Schedule_Table () {
                           <Text style={{ fontSize: 10 }}>
                             Powered By GZONETECH Inc.
                           </Text>
-                          {home_reducer.SelectedBranch.map(val => {
+                          {home_reducer.SelectedBranch.map((val) => {
                             return (
                               <Text style={{ fontSize: 10 }}>
                                 Client - {val.branch_company}
                               </Text>
-                            )
+                            );
                           })}
                         </View>
                       </View>
                       <View
                         style={{
-                          backgroundColor: 'black',
-                          width: '95%',
-                          margin: 'auto',
-                          height: 2
+                          backgroundColor: "black",
+                          width: "95%",
+                          margin: "auto",
+                          height: 2,
                         }}
                       />
                       <View
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          marginTop: '15px',
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          marginTop: "15px",
                           padding: 30,
-                          margin: 'auto',
-                          width: '95%'
+                          margin: "auto",
+                          width: "95%",
                         }}
                       >
                         <View
                           style={{
-                            width: '50%'
+                            width: "50%",
                           }}
                         >
                           <Text style={{ fontSize: 10, marginBottom: 10 }}>
@@ -2459,7 +2452,7 @@ function Schedule_Table () {
                         </View>
                         <View
                           style={{
-                            width: '50%'
+                            width: "50%",
                           }}
                         >
                           <Text style={{ fontSize: 10, marginBottom: 10 }}>
@@ -2475,16 +2468,16 @@ function Schedule_Table () {
                             Remarks: {info.accom_remarks}
                           </Text> */}
                           <Text style={{ fontSize: 10, marginBottom: 10 }}>
-                            Date Completed:{' '}
+                            Date Completed:{" "}
                             {moment(info.date_accomplished).format(
-                              'MMMM DD YYYY hh:mm A'
+                              "MMMM DD YYYY hh:mm A"
                             )}
                           </Text>
                         </View>
                       </View>
                       <View
                         style={{
-                          margin: 'auto'
+                          margin: "auto",
                         }}
                       >
                         <Text style={{ fontSize: 15, marginBottom: 10 }}>
@@ -2493,18 +2486,18 @@ function Schedule_Table () {
                       </View>
                       <View
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-around',
-                          marginTop: '15px',
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-around",
+                          marginTop: "15px",
                           padding: 30,
-                          margin: 'auto',
-                          width: '95%',
-                          flexWrap: 'wrap',
-                          alignContent: 'space-between'
+                          margin: "auto",
+                          width: "95%",
+                          flexWrap: "wrap",
+                          alignContent: "space-between",
                         }}
                       >
-                        {info.all_images_base64.map(val1 => {
+                        {info.all_images_base64.map((val1) => {
                           return (
                             <View style={{ marginBottom: 10 }}>
                               <ImagePDF
@@ -2512,12 +2505,12 @@ function Schedule_Table () {
                                 src={val1}
                               ></ImagePDF>
                             </View>
-                          )
+                          );
                         })}
                       </View>
                     </View>
                   </Page>
-                )
+                );
               })}
             </Document>
           </PDFViewer>
@@ -2526,9 +2519,9 @@ function Schedule_Table () {
           <Button
             onClick={handleCLickCloseSinglePagePDF}
             style={{
-              backgroundColor: 'rgba(6,86,147)',
-              color: 'white',
-              marginLeft: 10
+              backgroundColor: "rgba(6,86,147)",
+              color: "white",
+              marginLeft: 10,
             }}
           >
             Close
@@ -2538,32 +2531,32 @@ function Schedule_Table () {
 
       <Dialog
         fullWidth
-        maxWidth='lg'
+        maxWidth="lg"
         open={state.printSeletedDialog}
         onClose={handleCLickCloseSelectedPagePDF}
-        aria-labelledby='responsive-dialog-title'
+        aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id='simple-dialog-title'>
+        <DialogTitle id="simple-dialog-title">
           Selected Accomplishment Preview
         </DialogTitle>
         <DialogContent>
-          <PDFViewer style={{ width: '100%', minHeight: 550 }}>
+          <PDFViewer style={{ width: "100%", minHeight: 550 }}>
             <Document>
               {state.printrowdata.map((info, index) => {
                 return (
                   <Page
-                    size='A4'
+                    size="A4"
                     style={styles.page}
                     wrap
-                    orientation='portrait'
+                    orientation="portrait"
                   >
                     <View fixed>
                       <View
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'center',
-                          marginTop: '15px'
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          marginTop: "15px",
                         }}
                       >
                         <View>
@@ -2574,9 +2567,9 @@ function Schedule_Table () {
                         </View>
                         <View
                           style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center'
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
                           }}
                         >
                           <Text style={{ fontSize: 10 }}>
@@ -2585,37 +2578,37 @@ function Schedule_Table () {
                           <Text style={{ fontSize: 10 }}>
                             Powered By GZONETECH Inc.
                           </Text>
-                          {home_reducer.SelectedBranch.map(val => {
+                          {home_reducer.SelectedBranch.map((val) => {
                             return (
                               <Text style={{ fontSize: 10 }}>
                                 Client - {val.branch_company}
                               </Text>
-                            )
+                            );
                           })}
                         </View>
                       </View>
                       <View
                         style={{
-                          backgroundColor: 'black',
-                          width: '95%',
-                          margin: 'auto',
-                          height: 2
+                          backgroundColor: "black",
+                          width: "95%",
+                          margin: "auto",
+                          height: 2,
                         }}
                       />
                       <View
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          marginTop: '15px',
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          marginTop: "15px",
                           padding: 30,
-                          margin: 'auto',
-                          width: '95%'
+                          margin: "auto",
+                          width: "95%",
                         }}
                       >
                         <View
                           style={{
-                            width: '50%'
+                            width: "50%",
                           }}
                         >
                           <Text style={{ fontSize: 10, marginBottom: 10 }}>
@@ -2639,7 +2632,7 @@ function Schedule_Table () {
                         </View>
                         <View
                           style={{
-                            width: '50%'
+                            width: "50%",
                           }}
                         >
                           <Text style={{ fontSize: 10, marginBottom: 10 }}>
@@ -2655,16 +2648,16 @@ function Schedule_Table () {
                             Remarks: {info.accom_remarks}
                           </Text> */}
                           <Text style={{ fontSize: 10, marginBottom: 10 }}>
-                            Date Completed:{' '}
+                            Date Completed:{" "}
                             {moment(info.date_accomplished).format(
-                              'MMMM DD YYYY hh:mm A'
+                              "MMMM DD YYYY hh:mm A"
                             )}
                           </Text>
                         </View>
                       </View>
                       <View
                         style={{
-                          margin: 'auto'
+                          margin: "auto",
                         }}
                       >
                         <Text style={{ fontSize: 15 }}>
@@ -2673,18 +2666,18 @@ function Schedule_Table () {
                       </View>
                       <View
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-around',
-                          marginTop: '15px',
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-around",
+                          marginTop: "15px",
                           padding: 30,
-                          margin: 'auto',
-                          width: '95%',
-                          flexWrap: 'wrap',
-                          alignContent: 'space-between'
+                          margin: "auto",
+                          width: "95%",
+                          flexWrap: "wrap",
+                          alignContent: "space-between",
                         }}
                       >
-                        {info.all_images_base64.map(val1 => {
+                        {info.all_images_base64.map((val1) => {
                           return (
                             <View style={{ marginBottom: 10 }}>
                               <ImagePDF
@@ -2692,12 +2685,12 @@ function Schedule_Table () {
                                 src={val1}
                               ></ImagePDF>
                             </View>
-                          )
+                          );
                         })}
                       </View>
                     </View>
                   </Page>
-                )
+                );
               })}
             </Document>
           </PDFViewer>
@@ -2706,9 +2699,9 @@ function Schedule_Table () {
           <Button
             onClick={handleCLickCloseSelectedPagePDF}
             style={{
-              backgroundColor: 'rgba(6,86,147)',
-              color: 'white',
-              marginLeft: 10
+              backgroundColor: "rgba(6,86,147)",
+              color: "white",
+              marginLeft: 10,
             }}
           >
             Close
@@ -2717,25 +2710,25 @@ function Schedule_Table () {
       </Dialog>
       <Dialog
         fullWidth
-        maxWidth='xs'
+        maxWidth="xs"
         open={state.modal_jo_type}
-        aria-labelledby='responsive-dialog-title'
+        aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id='simple-dialog-title'>Select Type</DialogTitle>
+        <DialogTitle id="simple-dialog-title">Select Type</DialogTitle>
         <DialogContent>
           <form>
-            <Card variant='outlined'>
+            <Card variant="outlined">
               <CardContent>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={12}>
-                    <List component='nav' aria-label='main mailbox folders'>
+                    <List component="nav" aria-label="main mailbox folders">
                       {state.jo_type.map((val, index) => {
-                        let check = false
+                        let check = false;
                         let match = selected_jo_type.filter(
-                          type => type === val
-                        )
+                          (type) => type === val
+                        );
                         if (match.length > 0) {
-                          check = true
+                          check = true;
                         }
                         return (
                           <>
@@ -2744,17 +2737,17 @@ function Schedule_Table () {
                               control={
                                 <Checkbox
                                   checked={check}
-                                  onChange={event => {
-                                    handleListItemClick(event, index, val)
+                                  onChange={(event) => {
+                                    handleListItemClick(event, index, val);
                                   }}
-                                  name='checkedB'
-                                  color='primary'
+                                  name="checkedB"
+                                  color="primary"
                                 />
                               }
                               label={val.toUpperCase()}
                             />
                           </>
-                        )
+                        );
                       })}
                       <Divider />
                     </List>
@@ -2767,7 +2760,7 @@ function Schedule_Table () {
         <DialogActions>
           <Button
             onClick={() => setState({ ...state, modal_jo_type: false })}
-            color='primary'
+            color="primary"
           >
             Done
           </Button>
@@ -2779,7 +2772,7 @@ function Schedule_Table () {
         className={classes.backdrop}
         open={home_reducer.loader}
       >
-        <CircularProgress color='inherit' />
+        <CircularProgress color="inherit" />
       </Backdrop>
 
       <Backdrop
@@ -2787,9 +2780,9 @@ function Schedule_Table () {
         className={classes.backdrop}
         open={state.loader}
       >
-        <CircularProgress color='inherit' />
+        <CircularProgress color="inherit" />
       </Backdrop>
     </div>
-  )
+  );
 }
-export default Schedule_Table
+export default Schedule_Table;
