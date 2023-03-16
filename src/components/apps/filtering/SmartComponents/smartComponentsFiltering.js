@@ -415,19 +415,24 @@ const SmartComponentsFiltering = () => {
   const userList = React.useMemo(() => {
     return state.userList;
   }, [JSON.stringify(state.userList)]);
-  const updateDetails = (data) => {
+  const updateDetails = (data,file = "") => {
     const dataList = state.dataList.map((val) => val);
     const dataMasterList = state.dataMasterList.map((val) => val);
     let selectedJOValidation = [];
     let valid = 0;
     let invalid = 0;
-
+    let attachment = null
+    if(file !=""){
+      attachment = file
+    }
+    console.log(file)
     dataList.forEach((element) => {
       if (element.jo_id == data.jo_id) {
         element.validation_status_jo = data.validation_status_jo;
         element.validation_remarks_jo = data.validation_remarks_jo;
         element.validation_comments_jo = data.validation_comments_jo;
         element.validation_correct_reading = data.validation_correct_reading;
+        element.validation_attachments = attachment;
         selectedJOValidation = element;
       }
     });
@@ -437,6 +442,7 @@ const SmartComponentsFiltering = () => {
         element.validation_remarks_jo = data.validation_remarks_jo;
         element.validation_comments_jo = data.validation_comments_jo;
         element.validation_correct_reading = data.validation_correct_reading;
+        element.validation_attachments = attachment;
       }
       if (element.validation_status_jo === "Valid") {
         valid++;

@@ -1,6 +1,7 @@
 import React from "react";
 import { getData } from "../../../api/api";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios"
 const SmartComponentValidation = (
   selectedBranch,
   selectedJOValidation,
@@ -21,6 +22,10 @@ const SmartComponentValidation = (
     field_findings: [],
     refresh: false,
     selectedFieldFinding: "",
+    files:[],
+    loadingImage:false,
+    degree:0,
+    imageLoaded:false
   });
   const stateValue = React.useMemo(() => {
     return {
@@ -34,6 +39,10 @@ const SmartComponentValidation = (
       reading: state.reading,
       selectedJOValidation: selectedJOValidation,
       openValidationModal: openValidationModal,
+      files:state.files,
+      loadingImage:state.loadingImage,
+      degree:state.degree,
+      imageLoaded:state.imageLoaded
     };
   }, [
     state.selectedStatus,
@@ -43,8 +52,11 @@ const SmartComponentValidation = (
     JSON.stringify(state.field_findings),
     JSON.stringify(selectedBranch),
     JSON.stringify(selectedJOValidation),
+    JSON.stringify(state.files),
     state.reading,
     openValidationModal,
+    state.loadingImage,
+    state.degree,
   ]);
 
   const handleChange = React.useCallback(
@@ -63,6 +75,10 @@ const SmartComponentValidation = (
   const onSubmit = React.useCallback(
     (e) => {
       e.preventDefault();
+      const formData = new FormData();
+      for (let i = 0; i < state.files.length; i++) {
+        formData.append('file' + i, state.files[i])
+      }
       dispatch({ type: "loading_map", data: true });
       const data = {
         validation_status_jo: state.selectedStatus,
@@ -74,10 +90,17 @@ const SmartComponentValidation = (
         bid: stateValue.selectedBranch?.branch_id,
         // validator_name: userLoginData.complete_name,
       };
-      getData("tracking/validateFiltering", data).then((res) => {
-        updateDetails(data);
+      formData.append('data',JSON.stringify(data))
+      axios.post("https://api.workflow.gzonetechph.com/tracking/validateFilteringWithAttachments/" + localStorage.getItem("u") + "/" + "?key=PocketHR@20190208&type=web", formData)
+      .then((response) => {
+        updateDetails(data,response.data);
         dispatch({ type: "loading_map", data: false });
-      });
+
+      })
+      // getData("tracking/validateFiltering", data).then((res) => {
+      //   updateDetails(data);
+      //   dispatch({ type: "loading_map", data: false });
+      // });
     },
     [stateValue]
   );
@@ -137,7 +160,33 @@ const SmartComponentValidation = (
       isCancelled = true;
     };
   }, [stateValue.openValidationModal]);
-  return { ...stateValue, handleChange, onSubmit };
+
+  const onChangeFile=(e)=>{
+    const newFile = e.target.files;
+    const newData = [];
+    for (let index = 0; index < newFile.length; index++) {
+      const element = newFile[index];
+      newData.push(element);
+    }
+    setState((prev) => ({
+      ...prev,
+      files: newData,
+    }));
+  }
+  const onRightRotate=()=>{
+    setState((prev) => ({
+      ...prev,
+      degree: state.degree + 90,
+    }));
+  }
+  const onLeftRotate=()=>{
+    console.log("test")
+    setState((prev) => ({
+      ...prev,
+      degree: state.degree - 90,
+    }));
+  }
+  return { ...stateValue, handleChange, onSubmit ,onChangeFile,onRightRotate,onLeftRotate};
 };
 
 export default SmartComponentValidation;
