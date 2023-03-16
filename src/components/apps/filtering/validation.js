@@ -11,10 +11,20 @@ import {
   TableRow,
   TableCell,
   Table,
+  IconButton,
+  Divider
 } from "@material-ui/core";
 import { CheckCircleOutlined, CheckCircleSharp } from "@material-ui/icons";
 import React from "react";
-
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+import ClearIcon from "@material-ui/icons/Clear";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import RotateRightIcon from "@material-ui/icons/RotateRight";
+import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import Carousel from "react-material-ui-carousel";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 const ValidationFiltering = (props) => {
   const { ...param } = props;
   console.log(param);
@@ -74,7 +84,10 @@ const ValidationFiltering = (props) => {
                           </Select>
                         </FormControl>
                       </Grid>
-                      <Grid item xs={12} md={12}>
+                     
+                    </>
+                  ) : null}
+                    <Grid item xs={12} md={12}>
                         <TextField
                           label="Correct Reading"
                           fullWidth
@@ -84,9 +97,7 @@ const ValidationFiltering = (props) => {
                           value={param.reading}
                         />
                       </Grid>
-                    </>
-                  ) : null}
-
+                  
                   <Grid item xs={12} md={12}>
                     <TextField
                       label="Comment"
@@ -97,6 +108,17 @@ const ValidationFiltering = (props) => {
                       name="comment"
                       onChange={param.handleChange}
                       value={String(param.comment)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      label="File"
+                      multiple
+                      placeholdel="Type..."
+                      type = "file"
+                      fullWidth
+                      name="file"
+                      onChange={param.onChangeFile}
                     />
                   </Grid>
                   {param.selectedJOValidation?.validator_name ? (
@@ -121,6 +143,7 @@ const ValidationFiltering = (props) => {
                       </Grid>
                     </>
                   ) : null}
+                  
 
                   <Grid item xs={12} md={12}>
                     <button
@@ -215,6 +238,246 @@ const ValidationFiltering = (props) => {
                       </TableRow>
                     </Table>
                   </Grid>
+                  {param.selectedJOValidation.validation_attachments !== "" && param.selectedJOValidation.validation_attachments !== null ?
+                  <><Grid item xs={12} md={12}>
+                  <Typography style={{ fontSize: 20, color: "#353b48" }}>
+                    Validation Attachments
+                    </Typography>
+                  </Grid>
+
+                  <Grid item xs={12} md={12}>
+                  <Card style={{ position: "relative" }} variant="outlined">
+                    {param.selectedJOValidation.validation_attachments !== "" && param.selectedJOValidation.validation_attachments !== null ? (
+                      <div style={{ position: "relative" }}>
+                        <div
+                          style={{
+                            display: param.loadingImage ? "block" : "none",
+                            width: "100%",
+                            height: "35vh",
+                            position: "absolute",
+                            backgroundColor: "#fff",
+                            zIndex: 99,
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              width: "100%",
+                              height: "100%",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Typography style={{ fontWeight: "bold" }}>
+                              Loading image...
+                            </Typography>
+                          </div>
+                        </div>
+                        <Carousel
+                          style={{
+                            display: param.loadingImage ? "none" : "block",
+                            position: "absolute",
+                          }}
+                          autoPlay={false}
+                        >
+                          {param.selectedJOValidation?.validation_attachments != null && JSON.parse(param.selectedJOValidation?.validation_attachments).map((images, index) => {
+                            return (
+                              <TransformWrapper
+                                defaultScale={1}
+                                defaultPositionX={200}
+                                defaultPositionY={100}
+                              >
+                                {({
+                                  zoomIn,
+                                  zoomOut,
+                                  resetTransform,
+                                  ...rest
+                                }) => (
+                                  <React.Fragment>
+                                    <div
+                                      className="tools"
+                                      style={{
+                                        position: "absolute",
+                                        display: "flex",
+                                        flexDirection: "row",
+
+                                        marginTop: 10,
+                                        marginLeft: 10,
+                                        marginBottom: 10,
+                                      }}
+                                    >
+                                      <IconButton
+                                        style={{
+                                          backgroundColor: "rgba(0,0,0,0.6)",
+                                          fontWeight: "bold",
+                                          color: "#fff",
+                                          borderStyle: "none",
+                                          fontSize: 20,
+                                          marginRight: 7,
+                                          width: 40,
+                                          height: 40,
+                                          borderRadius: 40 / 2,
+                                          // borderRadius: 3,
+                                          outline: "none",
+                                          zIndex: 999999999999999999,
+                                        }}
+                                        onClick={zoomIn}
+                                      >
+                                        <AddIcon
+                                          style={{
+                                            color: "#fff",
+                                            fontSize: 15,
+                                          }}
+                                        />
+                                      </IconButton>
+                                      <br />
+                                      <IconButton
+                                        style={{
+                                          backgroundColor: "rgba(0,0,0,0.6)",
+                                          fontWeight: "bold",
+                                          color: "#fff",
+                                          borderStyle: "none",
+                                          fontSize: 20,
+                                          marginRight: 7,
+                                          width: 40,
+                                          height: 40,
+                                          borderRadius: 40 / 2,
+                                          // borderRadius: 3,
+                                          outline: "none",
+                                          zIndex: 999999999999999999,
+                                        }}
+                                        onClick={zoomOut}
+                                      >
+                                        <RemoveIcon
+                                          style={{
+                                            color: "#fff",
+                                            fontSize: 22,
+                                          }}
+                                        />
+                                      </IconButton>
+                                      <br />
+                                      <IconButton
+                                        style={{
+                                          backgroundColor: "rgba(0,0,0,0.6)",
+                                          fontWeight: "bold",
+                                          color: "#fff",
+                                          borderStyle: "none",
+                                          fontSize: 20,
+                                          marginRight: 7,
+                                          width: 40,
+                                          height: 40,
+                                          borderRadius: 40 / 2,
+                                          // borderRadius: 3,
+                                          outline: "none",
+                                          zIndex: 999999999999999999,
+                                        }}
+                                        onClick={resetTransform}
+                                      >
+                                        <ClearIcon
+                                          style={{
+                                            color: "#fff",
+                                            fontSize: 22,
+                                          }}
+                                        />
+                                      </IconButton>
+                                      <IconButton
+                                        style={{
+                                          backgroundColor: "rgba(0,0,0,0.6)",
+                                          fontWeight: "bold",
+                                          color: "#fff",
+                                          borderStyle: "none",
+                                          fontSize: 20,
+                                          marginRight: 7,
+                                          width: 40,
+                                          height: 40,
+                                          borderRadius: 40 / 2,
+                                          // borderRadius: 3,
+                                          outline: "none",
+                                          zIndex: 999999999999999999,
+                                        }}
+                                        onClick={param.onLeftRotate}
+                                      >
+                                        <RotateLeftIcon
+                                          style={{
+                                            color: "#fff",
+                                            fontSize: 22,
+                                          }}
+                                        />
+                                      </IconButton>
+                                      <IconButton
+                                        style={{
+                                          backgroundColor: "rgba(0,0,0,0.6)",
+                                          fontWeight: "bold",
+                                          color: "#fff",
+                                          borderStyle: "none",
+                                          fontSize: 20,
+                                          marginRight: 7,
+                                          width: 40,
+                                          height: 40,
+                                          borderRadius: 40 / 2,
+                                          zIndex: 999999999999999999,
+                                        }}
+                                        onClick={param.onRightRotate}
+                                      >
+                                        <RotateRightIcon
+                                          style={{
+                                            color: "#fff",
+                                            fontSize: 22,
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </div>
+                                    <TransformComponent style={{ zIndex: 999 }}>
+                                      <img
+                                        // onClick={() => {
+                                        //   onCLickImage(images);
+                                        // }}
+                                        src={
+                                          "https://api.workflow.gzonetechph.com/" +
+                                          images
+                                        }
+                                        onLoad={param.imageLoaded}
+                                        alt="test"
+                                        style={{
+                                          width: window.innerWidth * 0.4,
+                                          height: window.innerHeight * 0.35,
+                                          transform:
+                                            "rotate(" +
+                                            String(param.degree) +
+                                            "deg)",
+                                        }}
+                                      />
+                                    </TransformComponent>
+                                  </React.Fragment>
+                                )}
+                              </TransformWrapper>
+                            );
+                          })}
+                        </Carousel>
+                      </div>
+                    ) : (
+                      <Carousel
+                        style={{
+                          display: param.loadingImage ? "none" : "block",
+                          position: "absolute",
+                        }}
+                        autoPlay={false}
+                      >
+                        <img
+                          src={require("../../../assets/map image/no_image.png")}
+                          alt="test"
+                          onLoad={param.imageLoaded}
+                          style={{ width: "100%", height: "35vh" }}
+                        />
+                      </Carousel>
+                    )}
+                  </Card>
+
+                  </Grid></>
+                  :null
+
+                  }
+                  
                 </Grid>
               </CardContent>
             </Card>

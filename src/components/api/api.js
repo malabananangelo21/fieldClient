@@ -33,6 +33,7 @@ export function getData(method, param, discon) {
       });
   });
 }
+
 export function cancelRequest() {
   source.cancel("Operation canceled by the user.");
   source = CancelToken.source();
