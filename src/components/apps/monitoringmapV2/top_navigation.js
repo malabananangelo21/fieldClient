@@ -253,7 +253,7 @@ export default function Home() {
         ) : undefined}
         {state.navigation.filter((val) => val === "clientMap").length > 0 &&
         state.navigation.filter((val) => val === "newmap").length == 0 ? (
-          <ListItem button onClick={() => history.push("/")}>
+          <ListItem button onClick={() => history.push("/map")}>
             <ListItemIcon>
               {" "}
               <WorkIcon style={{ color: "#115293" }} />
@@ -436,7 +436,7 @@ export default function Home() {
                 state.navigation.filter((val) => val === "newmap").length ==
                   0 ? (
                   <div
-                    onClick={() => history.push("/")}
+                    onClick={() => history.push("/map")}
                     style={{
                       display: "flex",
                       flexDirection: "column",
