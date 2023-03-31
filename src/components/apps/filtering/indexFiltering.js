@@ -115,6 +115,8 @@ const IndexFiltering = () => {
             onSelectFieldman={param.onSelectFieldman}
             selectedFieldman={param.selectedFieldman}
             selectedFieldmanName={param.selectedFieldmanName}
+            onChangeTextDate={param.onChangeTextDate}
+            date_type={param.date_type}
           />
         </Grid>
         <Grid item xs={12} md={12}>

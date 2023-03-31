@@ -14,6 +14,7 @@ const SmartComponentsFiltering = () => {
     return a["branch_name"].localeCompare(b["branch_name"]);
   });
   const [state, setState] = React.useState({
+    date_type: "",
     selectedBranch: { branch_name: "Please Select Branch" },
     selectedJobOrder: "Reading",
     selectedJobOrderDisplay: "Reading",
@@ -157,6 +158,19 @@ const SmartComponentsFiltering = () => {
     setState((prev) => ({
       ...prev,
       [name]: value,
+    }));
+    if (name === "month") {
+      handleCloseDates();
+    }
+  }, []);
+  const onChangeTextDate = React.useCallback((e, type) => {
+    console.log(type);
+    const value = e.target.value;
+    const name = e.target.name;
+    setState((prev) => ({
+      ...prev,
+      [name]: value,
+      date_type: type,
     }));
     if (name === "month") {
       handleCloseDates();
@@ -379,6 +393,7 @@ const SmartComponentsFiltering = () => {
     },
     [state.selectedFieldman]
   );
+
   const selectedBranch = state.selectedBranch;
   const selectedJobOrder = state.selectedJobOrder;
   const date_from = state.date_from;
@@ -415,17 +430,17 @@ const SmartComponentsFiltering = () => {
   const userList = React.useMemo(() => {
     return state.userList;
   }, [JSON.stringify(state.userList)]);
-  const updateDetails = (data,file = "") => {
+  const updateDetails = (data, file = "") => {
     const dataList = state.dataList.map((val) => val);
     const dataMasterList = state.dataMasterList.map((val) => val);
     let selectedJOValidation = [];
     let valid = 0;
     let invalid = 0;
-    let attachment = null
-    if(file !=""){
-      attachment = file
+    let attachment = null;
+    if (file != "") {
+      attachment = file;
     }
-    console.log(file)
+    console.log(file);
     dataList.forEach((element) => {
       if (element.jo_id == data.jo_id) {
         element.validation_status_jo = data.validation_status_jo;
@@ -459,6 +474,7 @@ const SmartComponentsFiltering = () => {
       valid: valid,
     }));
   };
+  const date_type = state.date_type;
   return {
     selectedBranch,
     selectedJobOrder,
@@ -514,6 +530,8 @@ const SmartComponentsFiltering = () => {
     valid,
     invalid,
     meter_type_sixteen,
+    onChangeTextDate,
+    date_type,
   };
 };
 

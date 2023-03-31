@@ -49,8 +49,11 @@ const HeaderButtons = (props) => {
     onSubmitDate,
     date_from,
     month,
+    onChangeTextDate,
+    date_type,
     ...param
   } = props;
+  console.log(props);
   return (
     <>
       <Grid container spacing={1}>
@@ -168,7 +171,9 @@ const HeaderButtons = (props) => {
                   <DateRangeIcon style={{ fontSize: 16 }} />
                 </div>
                 <Typography style={{ fontSize: 12 }}>
-                  {moment(month).format("YYYY-MMM-DD")}
+                  {date_type == "month"
+                    ? moment(month).format("YYYY-MMM")
+                    : moment(month).format("YYYY-MMM-DD")}
                 </Typography>
                 {/* <CloseIcon style={{ color: '#115293', fontSize: 17, marginLeft: 5, cursor: 'pointer' }} /> */}
               </div>
@@ -312,10 +317,20 @@ const HeaderButtons = (props) => {
                 <Grid item xs={12} md={12}>
                   <TextField
                     style={{ width: "100%" }}
-                    label="Month"
+                    label="Date"
                     type="date"
                     InputLabelProps={{ shrink: true }}
-                    onChange={onChangeText}
+                    onChange={(e) => onChangeTextDate(e, "date")}
+                    name="month"
+                  />
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <TextField
+                    style={{ width: "100%" }}
+                    label="Month"
+                    type="month"
+                    InputLabelProps={{ shrink: true }}
+                    onChange={(e) => onChangeTextDate(e, "month")}
                     name="month"
                   />
                 </Grid>
