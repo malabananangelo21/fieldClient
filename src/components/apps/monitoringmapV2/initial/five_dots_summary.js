@@ -112,6 +112,7 @@ function FiveDotsSummary({ state, setState }) {
       { title: "NAME" }, //char width
       { title: "POSITION" },
       { title: "EMPLOYEE ACTIVITY" },
+      { title: "DATE HIRED" },
       { title: "STATUS" },
       { title: "DATE" },
       { title: "TIME IN" },
@@ -133,6 +134,7 @@ function FiveDotsSummary({ state, setState }) {
         { value: val.name },
         { value: val.position },
         { value: val.employee_activity },
+        { value: val.user_date_hired },
         { value: val.status },
         { value: val.date },
         {
