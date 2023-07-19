@@ -1994,6 +1994,7 @@ function Schedule_Table() {
                     ranges={[state.selection]}
                   />
                   <DateRange
+                    filter
                     editableDateInputs={true}
                     autoFocus={true}
                     months={2}
@@ -2306,12 +2307,7 @@ function Schedule_Table() {
               </Select>
             </FormControl>
             {state.status === "Pending" ||
-            state.status === "ALL" ? //   </InputLabel> //     Select Findings //   <InputLabel id="demo-simple-select-outlined-label"> // > //   className={classes.formControl} //   size="small" //   // required // <FormControl
-            //   <Select
-            //     labelId="demo-simple-select-outlined-label"
-            //     id="demo-simple-select-outlined"
-            //     onChange={onChange}
-            //     label="Findings"
+            state.status === "ALL" ? //     label="Findings" //     onChange={onChange} //     id="demo-simple-select-outlined" //     labelId="demo-simple-select-outlined-label" //   <Select //   </InputLabel> //     Select Findings //   <InputLabel id="demo-simple-select-outlined-label"> // > //   className={classes.formControl} //   size="small" //   // required // <FormControl
             //     name="finding"
             //     disabled
             //   >

@@ -1256,6 +1256,11 @@ const FieldmanList = forwardRef((props, ref) => {
           count: "0",
           name: "five_zero_three",
         },
+        {
+          type: "CWT",
+          count: "0",
+          name: "cwt",
+        },
       ],
     });
     setState((prev) => ({ ...prev }));
@@ -1517,6 +1522,11 @@ const FieldmanList = forwardRef((props, ref) => {
                     count: batch[index].five_zero_three,
                     name: "five_zero_three",
                   },
+                  {
+                    type: "CWT",
+                    count: "0",
+                    name: "cwt",
+                  },
                 ],
               },
             ];
@@ -1608,6 +1618,11 @@ const FieldmanList = forwardRef((props, ref) => {
                   count: "0",
                   name: "five_zero_three",
                 },
+                {
+                  type: "CWT",
+                  count: "0",
+                  name: "cwt",
+                },
               ],
             },
           ];
@@ -1685,7 +1700,7 @@ const FieldmanList = forwardRef((props, ref) => {
       });
     }
   };
-
+  console.log(state.jo_type_assign);
   return (
     <div style={{ overflowY: "auto", height: "100%" }}>
       <div style={{ marginTop: 60, paddingRight: 10 }}>
