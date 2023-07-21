@@ -1636,6 +1636,16 @@ const Home = forwardRef((props, ref) => {
                 count: batch[0].jo_reconnection,
                 name: "jo_reconnection",
               },
+              {
+                type: "503",
+                count: "0",
+                name: "five_zero_three",
+              },
+              {
+                type: "CWT",
+                count: "0",
+                name: "cwt",
+              },
             ],
           },
         ];
@@ -1720,6 +1730,21 @@ const Home = forwardRef((props, ref) => {
                 type: "Reconnection",
                 count: "0",
                 name: "jo_reconnection",
+              },
+              {
+                type: "Reconnection",
+                count: "0",
+                name: "jo_reconnection",
+              },
+              {
+                type: "503",
+                count: "0",
+                name: "five_zero_three",
+              },
+              {
+                type: "CWT",
+                count: "0",
+                name: "cwt",
               },
             ],
           },
@@ -3251,7 +3276,6 @@ const Home = forwardRef((props, ref) => {
             </Grid>
             <Grid item xs={12} md={2}>
               <Card
-                style={{ cursor: "pointer" }}
                 onClick={(e) => {
                   let data = state.fieldman.filter(
                     (val, index) =>

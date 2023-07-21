@@ -456,6 +456,7 @@ export default function Home() {
 
       // dispatch_data("loading_map", false);
     } catch (error) {
+      console.log(error);
       let res = String(error).includes("Network Error");
       if (res) {
         if (state.countRequest < 5) {
