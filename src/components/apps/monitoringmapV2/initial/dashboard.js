@@ -520,7 +520,7 @@ const Home = forwardRef((props, ref) => {
   }
   const Data_format = (data, data_filter) => {
     averageRunningAssign(data_filter);
-
+    console.log(data);
     let jo_aubd = parseInt(data.jobcount.jo_aubd);
     let jo_dn = parseInt(data.jobcount.jo_dn);
     let jo_dn_reout = parseInt(data.jobcount.jo_dn_reout);
@@ -531,6 +531,8 @@ const Home = forwardRef((props, ref) => {
     let jo_osn = parseInt(data.jobcount.jo_osn);
     let jo_soa = parseInt(data.jobcount.jo_soa);
     let jo_soa_reout = parseInt(data.jobcount.jo_soa_reout);
+    let cwt = parseInt(data.jobcount.cwt);
+
     let new_fieldman = [];
     let rescue = [];
     let absent = [];
@@ -570,6 +572,7 @@ const Home = forwardRef((props, ref) => {
       jo_soa: 0,
       jo_soa_reout: 0,
       jo_validate: 0,
+      cwt: 0,
     };
     data.fieldman.map((val) => {
       branch_name = val.branch_name;
@@ -605,6 +608,7 @@ const Home = forwardRef((props, ref) => {
         jo_assign_type.jo_soa += parseInt(val_batch.jo_soa);
         jo_assign_type.jo_soa_reout += parseInt(val_batch.jo_soa_reout);
         jo_assign_type.jo_validate += parseInt(val_batch.jo_validate);
+        jo_assign_type.cwt += parseInt(val_batch.cwt);
 
         if (val_batch.jo_rescue !== "") {
           let rescue_array = JSON.parse(val_batch.jo_rescue);
@@ -650,6 +654,8 @@ const Home = forwardRef((props, ref) => {
           jo_assign_type.jo_soa += parseInt(val_batch.jo_soa);
           jo_assign_type.jo_soa_reout += parseInt(val_batch.jo_soa_reout);
           jo_assign_type.jo_validate += parseInt(val_batch.jo_validate);
+          jo_assign_type.cwt += parseInt(val_batch.cwt);
+
           if (val_batch.jo_rescue !== "") {
             let rescue_array = JSON.parse(val_batch.jo_rescue);
             rescue_array.forEacj((val_rescue) => {
@@ -723,6 +729,12 @@ const Home = forwardRef((props, ref) => {
         assign: formatNumber(jo_assign_type.jo_soa_reout),
         diff: jo_soa_reout - jo_assign_type.jo_soa_reout,
       },
+      {
+        type: "CWT",
+        count: formatNumber(cwt),
+        assign: formatNumber(jo_assign_type.cwt),
+        diff: cwt - jo_assign_type.cwt,
+      },
     ];
 
     for (let index = 0; index < data.reout.length; index++) {
@@ -754,7 +766,15 @@ const Home = forwardRef((props, ref) => {
     // }
 
     let count_receive =
-      jo_aubd + jo_dn + jo_meco + jo_nac + jo_ncr + jo_osb + jo_osn + jo_soa;
+      jo_aubd +
+      jo_dn +
+      jo_meco +
+      jo_nac +
+      jo_ncr +
+      jo_osb +
+      jo_osn +
+      jo_soa +
+      cwt;
     let count_assign =
       jo_assign_type.jo_aubd +
       jo_assign_type.jo_dn +
@@ -763,7 +783,8 @@ const Home = forwardRef((props, ref) => {
       jo_assign_type.jo_ncr +
       jo_assign_type.jo_osb +
       jo_assign_type.jo_osn +
-      jo_assign_type.jo_soa;
+      jo_assign_type.jo_soa +
+      jo_assign_type.cwt;
     let total_jo_received = count_receive + jo_dn_reout + jo_soa_reout;
     let total_assigned =
       count_assign + jo_assign_type.jo_dn_reout + jo_assign_type.jo_soa_reout;
