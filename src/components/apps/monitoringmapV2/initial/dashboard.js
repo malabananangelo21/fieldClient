@@ -520,7 +520,7 @@ const Home = forwardRef((props, ref) => {
   }
   const Data_format = (data, data_filter) => {
     averageRunningAssign(data_filter);
-    console.log(data);
+
     let jo_aubd = parseInt(data.jobcount.jo_aubd);
     let jo_dn = parseInt(data.jobcount.jo_dn);
     let jo_dn_reout = parseInt(data.jobcount.jo_dn_reout);
@@ -590,6 +590,7 @@ const Home = forwardRef((props, ref) => {
           rescue_diff_position.push(val);
         }
       }
+      console.log(val);
       val.batch.map((val_batch) => {
         jo_assign_type.jo_aubd += parseInt(val_batch.jo_aubd);
         jo_assign_type.jo_count += parseInt(val_batch.jo_count);
@@ -764,7 +765,7 @@ const Home = forwardRef((props, ref) => {
     //   { type: "REO SOA", count: formatNumber(jo_soa_reout),assign:formatNumber(jo_assign_type.jo_soa_reout),diff:jo_soa_reout - jo_assign_type.jo_soa_reout },
     //   )
     // }
-
+    console.log(data);
     let count_receive =
       jo_aubd +
       jo_dn +
@@ -1127,6 +1128,7 @@ const Home = forwardRef((props, ref) => {
         moment(val.location_date_added).format("YYYY-MM-DD") ===
         moment(new Date()).format("YYYY-MM-DD")
     );
+
     onChangetrackAccom(
       last_fieldman_location,
       excelFile,
@@ -1278,6 +1280,7 @@ const Home = forwardRef((props, ref) => {
       },
     ];
     onClickFieldman(with_jo, data_filter.from, true, data.get_lack_of_time);
+
     setState((prev) => ({
       ...prev,
       initial_data_fetch: data,

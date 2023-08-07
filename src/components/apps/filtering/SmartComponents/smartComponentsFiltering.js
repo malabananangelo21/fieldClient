@@ -332,17 +332,26 @@ const SmartComponentsFiltering = () => {
     if (state.search != "") {
       filter = state.dataMasterList.filter((files) => {
         return (
-          files.meter_no
-            .toLowerCase()
-            .indexOf(state.search.toLocaleLowerCase()) !== -1 ||
-          files.meter_type
-            .toLowerCase()
-            .indexOf(state.search.toLocaleLowerCase()) !== -1 ||
-          files.mru.toLowerCase().indexOf(state.search.toLocaleLowerCase()) !==
-            -1 ||
-          files.completename
-            .toLowerCase()
-            .indexOf(state.search.toLocaleLowerCase()) !== -1
+          (files.meter_no != "" &&
+            files.meter_no != null &&
+            files.meter_no
+              .toLowerCase()
+              .indexOf(state.search.toLocaleLowerCase()) !== -1) ||
+          (files.meter_type != "" &&
+            files.meter_type != null &&
+            files.meter_type
+              .toLowerCase()
+              .indexOf(state.search.toLocaleLowerCase()) !== -1) ||
+          (files.mru != null &&
+            files.mru != "" &&
+            files.mru
+              .toLowerCase()
+              .indexOf(state.search.toLocaleLowerCase()) !== -1) ||
+          (files.completename != null &&
+            files.completename != "" &&
+            files.completename
+              .toLowerCase()
+              .indexOf(state.search.toLocaleLowerCase()) !== -1)
         );
       });
     }
