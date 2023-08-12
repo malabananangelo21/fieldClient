@@ -11,6 +11,7 @@ import {
 import { CheckCircleSharp } from "@material-ui/icons";
 import React from "react";
 import LineGraph from "./charts/lineChart";
+import BarGraph from "./charts/barChart";
 const columns = [
   { id: "meter_no", label: "Meter No." },
   { id: "meter_type", label: "Meter Type" },
@@ -23,7 +24,9 @@ const columns = [
 ];
 const renderPropsAreEqual = (prevProps, nextProps) => {
   return (
-    JSON.stringify(prevProps.dataList) === JSON.stringify(nextProps.dataList)
+    JSON.stringify(prevProps.dataList) === JSON.stringify(nextProps.dataList) &&
+    JSON.stringify(prevProps.validationParam) ===
+      JSON.stringify(nextProps.validationParam)
   );
 };
 const Details = (props) => {
@@ -31,13 +34,16 @@ const Details = (props) => {
   return (
     <div>
       <Grid container spacing={1}>
-        <Grid item xs={12} md={12}>
-          <LineGraph dataList={param.linegraphData} />
+        <Grid item xs={12} md={6}>
+          {param.validationView}
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <BarGraph dataList={param.linegraphData} />
         </Grid>
         <Grid item xs={12} md={12}>
           <Divider />
         </Grid>
-        <Grid item xs={12} md={12}>
+        {/* <Grid item xs={12} md={12}>
           <button
             onClick={param.handleOpenValidation}
             style={{
@@ -55,7 +61,7 @@ const Details = (props) => {
             <CheckCircleSharp style={{ fontSize: 15, marginRight: 5 }} />
             Validate
           </button>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={12}>
           <Typography>
             <b>

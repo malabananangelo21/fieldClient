@@ -59,10 +59,15 @@ export default class Example extends PureComponent {
   static demoUrl = "https://codesandbox.io/s/simple-line-chart-kec3v";
 
   render() {
+    let newData = [];
+    for (let index = 0; index < this.props.dataList.length; index++) {
+      const element = this.props.dataList[index];
+      newData.push({ consumption: parseFloat(element.consumption) });
+    }
     return (
       <ResponsiveContainer width="100%" height={250}>
         <LineChart
-          data={this.props.dataList}
+          data={newData}
           margin={{
             top: 5,
             right: 30,

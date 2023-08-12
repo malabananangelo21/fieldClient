@@ -30,6 +30,7 @@ const SmartComponentsFiltering = () => {
     normalCount: 0,
     highCount: 0,
     lowCount: 0,
+    zeroCount: 0,
     invalidCount: 0,
     fieldFindings: 0,
     negativeConsumption: 0,
@@ -198,6 +199,7 @@ const SmartComponentsFiltering = () => {
           let totalCount = 0;
           let highCount = 0;
           let lowCount = 0;
+          let zeroCount = 0;
           let invalidCount = 0;
           let normalCount = 0;
           let fieldFindings = 0;
@@ -221,6 +223,8 @@ const SmartComponentsFiltering = () => {
                 normalCount++;
               } else if (element.status === "Negative Consumption") {
                 negativeConsumption++;
+              } else if (element.status === "Zero Consumption") {
+                zeroCount++;
               }
             }
             if (element.validation_status_jo === "Valid") {
@@ -241,6 +245,7 @@ const SmartComponentsFiltering = () => {
             totalCount: res.length,
             highCount: highCount,
             lowCount: lowCount,
+            zeroCount: zeroCount,
             invalidCount: invalidCount,
             normalCount: normalCount,
             dataMasterList: res,
@@ -418,6 +423,7 @@ const SmartComponentsFiltering = () => {
   const totalCount = state.totalCount;
   const highCount = state.highCount;
   const lowCount = state.lowCount;
+  const zeroCount = state.zeroCount;
   const invalidCount = state.invalidCount;
   const normalCount = state.normalCount;
   const openModal = state.openModal;
@@ -506,6 +512,7 @@ const SmartComponentsFiltering = () => {
     totalCount,
     highCount,
     lowCount,
+    zeroCount,
     invalidCount,
     normalCount,
     formatNumber,

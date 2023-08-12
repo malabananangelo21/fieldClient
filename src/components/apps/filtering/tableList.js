@@ -19,6 +19,7 @@ const columns = [
   { id: "previous_reading", label: "Previous Reading" },
   { id: "present_reading", label: "Present Reading" },
   { id: "consumption", label: "Present Consumption" },
+  { id: "reader_tags", label: "Reader Tags" },
   { id: "average_consumption", label: "Average Consumption" },
   { id: "validation_correct_reading", label: "Correct Reading" },
   { id: "date_filter", label: "Date" },
@@ -124,7 +125,18 @@ const TableList = (props) => {
                   } else if (row.status === "Negative Consumption") {
                     bgColor = "#34495e";
                     color = "#fff";
+                  } else if (row.status === "Zero Consumption") {
+                    bgColor = "#8395a7";
+                    color = "#fff";
                   }
+                  if (row.validation_status_jo === "Invalid") {
+                    bgColor = "#c0392b";
+                    color = "#fff";
+                  } else if (row.validation_status_jo === "Valid") {
+                    bgColor = "#2ecc71";
+                    color = "#fff";
+                  }
+
                   return (
                     <TableRow
                       hover

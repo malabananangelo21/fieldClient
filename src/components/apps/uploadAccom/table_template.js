@@ -77,7 +77,6 @@ function InputData({ edit, refreshRemove, val, onChangeText }) {
   }, [refreshRemove]);
 
   return (
-
     <input
       // disabled={!edit ? true : false}
       value={inputValue}
@@ -86,7 +85,6 @@ function InputData({ edit, refreshRemove, val, onChangeText }) {
         onChangeText(e);
       }}
     />
-
   );
 }
 function SelectData({
@@ -137,7 +135,7 @@ function Index({
   jo_type,
   cancelTemplate,
   date_start_val,
-  file_name
+  file_name,
 }) {
   const home_reducer = useSelector((state) => state.home_reducer);
   const classes = styles();
@@ -161,7 +159,7 @@ function Index({
     columnAdd: [],
     refreshRemove: false,
     edit: false,
-    uploadName: []
+    uploadName: [],
   });
   let id = 0;
   function createData(name, calories, fat, carbs, protein, x, y) {
@@ -177,37 +175,41 @@ function Index({
     createData("Gingerbread", 356, 16.0, 49, 3.9, 1, 2),
   ];
   const getUploadFile = () => {
-    dispatch_data("LoadingIndex", true)
+    dispatch_data("LoadingIndex", true);
 
-    getData("audit/getUpload", { user_id: localStorage.getItem('u') }).then((res) => {
-      console.log(res)
-      setState((prev) => ({
-        ...prev,
-        uploadName: res
-      }))
-      dispatch_data("LoadingIndex", false)
-
-    })
-  }
+    getData("audit/getUpload", { user_id: localStorage.getItem("u") }).then(
+      (res) => {
+        console.log(res);
+        setState((prev) => ({
+          ...prev,
+          uploadName: res,
+        }));
+        dispatch_data("LoadingIndex", false);
+      }
+    );
+  };
   React.useEffect(() => {
-    getUploadFile()
-  }, [])
+    getUploadFile();
+  }, []);
   useEffect(() => {
     getHeaderData();
   }, [refresh_table_template]);
   const getHeaderData = () => {
-    getData("tracking/GetUploadHeaderCategories2",{branch_id:branch_id,jo_type:jo_type,ba:ba}).then((res) => {
+    getData("tracking/GetUploadHeaderCategories2", {
+      branch_id: branch_id,
+      jo_type: jo_type,
+      ba: ba,
+    }).then((res) => {
       let header = [];
       let edit = false;
-      let dynamicHeaderData = []
+      let dynamicHeaderData = [];
       for (let index = 0; index < res.headers.length; index++) {
-         dynamicHeaderData = JSON.parse(res.headers[index].header_details)
+        dynamicHeaderData = JSON.parse(res.headers[index].header_details);
       }
       if (dynamicHeaderData.length > 0) {
-      // console.log(dynamicHeaderData.length+ '-' +upload_data[0].length)
+        // console.log(dynamicHeaderData.length+ '-' +upload_data[0].length)
 
         if (dynamicHeaderData.length !== upload_data[0].length) {
-
           edit = true;
           upload_data.map((row, index) => {
             if (index === 1) {
@@ -262,13 +264,13 @@ function Index({
       date_added: moment(new Date()).format("YYYY-MM-DD HH:mm"),
       jo_type: jo_type,
     };
-    dispatch_data("LoadingIndex", true)
+    dispatch_data("LoadingIndex", true);
     getData("Schedule/saveHeader", data).then((res) => {
       setState({ ...state, edit: false });
-      dispatch_data("LoadingIndex", false)
+      dispatch_data("LoadingIndex", false);
     });
   };
-  const saveHeader = () => { };
+  const saveHeader = () => {};
   const onSelect = (e, index) => {
     state.header[index]["header"] = e.target.value;
     setState({ ...state });
@@ -288,24 +290,23 @@ function Index({
   };
   const UploadFile = () => {
     let new_upload_data = [];
-    let upload = true
+    let upload = true;
     let data_file = {
       file_name: file_name,
-      user_id: localStorage.getItem('u'),
+      user_id: localStorage.getItem("u"),
       branch_id: branch_id,
       upload_type: jo_type,
-      date_implement: moment(date_start_val).format('YYYY-MM-DD')
-    }
+      date_implement: moment(date_start_val).format("YYYY-MM-DD"),
+    };
 
     upload_data.map((val, index) => {
       if (index > 0) {
         let data = {};
-        data['bid'] = branch_id;
-        data['BA'] = ba;
-        data['upload_type'] = jo_type;
-        data['date_filter'] = moment(date_start_val).format('YYYY-MM-DD');
+        data["bid"] = branch_id;
+        data["BA"] = ba;
+        data["upload_type"] = jo_type;
+        data["date_filter"] = moment(date_start_val).format("YYYY-MM-DD");
         state.header.map((row, index_row) => {
-
           let column_value = "";
           let header = row.header;
           if (row.type === "") {
@@ -314,7 +315,7 @@ function Index({
             column_value = row.column_value;
           }
           if (header === "") {
-            upload = false
+            upload = false;
           }
 
           if (header !== "excluded") {
@@ -325,21 +326,24 @@ function Index({
       }
     });
     if (upload) {
-      dispatch_data("LoadingIndex", true)
-      getData("Schedule/uploadDynamicData2", { file: data_file, data: new_upload_data, type: 'Accomplishments', company_id: company_id, ba: ba }).then((res) => {
+      dispatch_data("LoadingIndex", true);
+      getData("Schedule/uploadDynamicData2", {
+        file: data_file,
+        data: new_upload_data,
+        type: "Accomplishments",
+        company_id: company_id,
+        ba: ba,
+      }).then((res) => {
         if (res === true) {
           cancelTemplate();
         }
-        getUploadFile()
-        dispatch_data("LoadingIndex", false)
-
-      })
+        getUploadFile();
+        dispatch_data("LoadingIndex", false);
+      });
     } else {
-      alert('Please create a template')
+      alert("Please create a template");
     }
-
   };
-
 
   return (
     <Grid item xs={12} md={12}>
@@ -410,7 +414,7 @@ function Index({
                               return (
                                 <TableCell component="th" scope="row">
                                   {index === 1 ? (
-                                    state.edit ?
+                                    state.edit ? (
                                       <InputData
                                         edit={state.edit}
                                         refreshRemove={state.refreshRemove}
@@ -419,7 +423,10 @@ function Index({
                                           val.column_value = e.target.value;
                                           setState({ ...state });
                                         }}
-                                      /> : val.column_value
+                                      />
+                                    ) : (
+                                      val.column_value
+                                    )
                                   ) : undefined}
                                 </TableCell>
                               );
@@ -553,33 +560,67 @@ function Index({
           </form>
         ) : (
           <>
-            <TableContainer  style={{ height: 600, overflow: 'auto' }}>
+            <TableContainer style={{ height: 600, overflow: "auto" }}>
               <Table stickyHeader>
-                <TableHead  >
+                <TableHead>
                   <TableRow>
-                    <TableCell style={{backgroundColor: "rgba(6,86,147)", color: '#fff' }}>#</TableCell>
-                    <TableCell style={{backgroundColor: "rgba(6,86,147)", color: '#fff' }}>Date</TableCell>
-                    <TableCell style={{backgroundColor: "rgba(6,86,147)", color: '#fff' }}>File Name</TableCell>
-                    <TableCell style={{backgroundColor: "rgba(6,86,147)", color: '#fff' }}>Upload Type</TableCell>
-                    <TableCell style={{backgroundColor: "rgba(6,86,147)", color: '#fff' }}>Date Uploaded</TableCell>
+                    <TableCell
+                      style={{
+                        backgroundColor: "rgba(6,86,147)",
+                        color: "#fff",
+                      }}
+                    >
+                      #
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        backgroundColor: "rgba(6,86,147)",
+                        color: "#fff",
+                      }}
+                    >
+                      Date
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        backgroundColor: "rgba(6,86,147)",
+                        color: "#fff",
+                      }}
+                    >
+                      File Name
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        backgroundColor: "rgba(6,86,147)",
+                        color: "#fff",
+                      }}
+                    >
+                      Upload Type
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        backgroundColor: "rgba(6,86,147)",
+                        color: "#fff",
+                      }}
+                    >
+                      Date Uploaded
+                    </TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody >
+                <TableBody>
                   {state.uploadName.map((val, index) => {
-                    return <TableRow>
-                      <TableCell>{state.uploadName.length - index}</TableCell>
-                      <TableCell>{val.date_implement}</TableCell>
-                      <TableCell>{val.file_name}</TableCell>
-                      <TableCell>{val.upload_type}</TableCell>
-                      <TableCell>{val.date_posted}</TableCell>
-                    </TableRow>
-                  })
-                  }
-
+                    return (
+                      <TableRow>
+                        <TableCell>{state.uploadName.length - index}</TableCell>
+                        <TableCell>{val.date_implement}</TableCell>
+                        <TableCell>{val.file_name}</TableCell>
+                        <TableCell>{val.upload_type}</TableCell>
+                        <TableCell>{val.date_posted}</TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
-
           </>
 
           // <div
