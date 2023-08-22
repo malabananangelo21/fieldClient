@@ -205,6 +205,24 @@ const CardStatus = (props) => {
             </Typography>
           </Card>
         </Grid>
+        <Grid item xs={12} md={2}>
+          <Card
+            onClick={() => param.onSelectStatus("Reader Tags")}
+            style={{
+              padding: 10,
+              backgroundColor: "#45aaf2",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            <Typography style={{ fontWeight: "bold", fontSize: 26 }}>
+              {param.formatNumber(param.readerTagsCount)}
+            </Typography>
+            <Typography style={{ fontWeight: "bold", fontSize: 11 }}>
+              Reader Tags
+            </Typography>
+          </Card>
+        </Grid>
       </Grid>
     </>
   );

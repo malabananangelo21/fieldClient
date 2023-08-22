@@ -9,7 +9,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Icon from "@material-ui/core/Icon";
-
+import SwapVertIcon from "@material-ui/icons/SwapVert";
 import { Tooltip } from "recharts";
 
 const columns = [
@@ -57,7 +57,7 @@ const useStyles = makeStyles({
     width: "100%",
   },
   container: {
-    maxHeight: 360,
+    maxHeight: 550,
   },
 });
 
@@ -100,6 +100,14 @@ const TableList = (props) => {
                     }}
                   >
                     {column.label}
+                    {(column.label == "Present Consumption" ||
+                      column.label == "Reader Tags") && (
+                      // <div style={{ cursor: "pointer" }}>
+                      <SwapVertIcon
+                        onClick={() => param.onArrangeData(column.label)}
+                      />
+                      // </div>
+                    )}
                   </TableCell>
                 ))}
               </TableRow>

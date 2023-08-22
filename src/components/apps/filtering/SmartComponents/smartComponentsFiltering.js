@@ -34,6 +34,7 @@ const SmartComponentsFiltering = () => {
     invalidCount: 0,
     fieldFindings: 0,
     negativeConsumption: 0,
+    readerTagsCount: 0,
     valid: 0,
     invalid: 0,
     dataMasterList: [],
@@ -48,6 +49,8 @@ const SmartComponentsFiltering = () => {
     selectedFieldman: "",
     selectedFieldmanName: "",
     meter_type_sixteen: 0,
+    pc: "",
+    rt: "",
   });
   const handleClickBranch = React.useCallback(
     (event) => {
@@ -207,6 +210,7 @@ const SmartComponentsFiltering = () => {
           let valid = 0;
           let invalid = 0;
           let meter_type_sixteen = 0;
+          let readerTagsCount = 0;
 
           for (let index = 0; index < res.length; index++) {
             const element = res[index];
@@ -226,6 +230,9 @@ const SmartComponentsFiltering = () => {
               } else if (element.status === "Zero Consumption") {
                 zeroCount++;
               }
+            }
+            if (element.reader_tags != null && element.reader_tags != "") {
+              readerTagsCount++;
             }
             if (element.validation_status_jo === "Valid") {
               valid++;
@@ -256,6 +263,7 @@ const SmartComponentsFiltering = () => {
             valid: valid,
             invalid: invalid,
             meter_type_sixteen: meter_type_sixteen,
+            readerTagsCount: readerTagsCount,
           }));
         }
         dispatch({ type: "loading_map", data: false });
@@ -287,6 +295,11 @@ const SmartComponentsFiltering = () => {
       filter = state.dataMasterList.filter(
         (val) =>
           val.field_findings_value != 0 && val.field_findings_value != null
+      );
+    }
+    if (status === "Reader Tags") {
+      filter = state.dataMasterList.filter(
+        (val) => val.reader_tags != "" && val.reader_tags != null
       );
     }
     setState((prev) => ({
@@ -441,7 +454,7 @@ const SmartComponentsFiltering = () => {
   const valid = state.valid;
   const invalid = state.invalid;
   const meter_type_sixteen = state.meter_type_sixteen;
-
+  const readerTagsCount = state.readerTagsCount;
   const userList = React.useMemo(() => {
     return state.userList;
   }, [JSON.stringify(state.userList)]);
@@ -487,6 +500,44 @@ const SmartComponentsFiltering = () => {
       selectedJOValidation: selectedJOValidation,
       invalid: invalid,
       valid: valid,
+    }));
+  };
+  const onArrangeData = (type) => {
+    const data = state.dataList.map((val) => val);
+    let appnav_priv = data;
+    let pc = state.pc;
+    let rt = state.rt;
+    console.log(pc);
+    if (type == "Present Consumption") {
+      if (pc == "") {
+        appnav_priv.sort(function (a, b) {
+          return b["consumption"] - a["consumption"];
+        });
+        pc = "desc";
+      } else {
+        appnav_priv.sort(function (a, b) {
+          return a["consumption"] - b["consumption"];
+        });
+        pc = "";
+      }
+    } else if (type == "Reader Tags") {
+      if (rt == "") {
+        appnav_priv.sort(function (a, b) {
+          return b["reader_tags"] - a["reader_tags"];
+        });
+        rt = "desc";
+      } else {
+        appnav_priv.sort(function (a, b) {
+          return a["consumption"] - b["consumption"];
+        });
+        rt = "";
+      }
+    }
+    setState((prev) => ({
+      ...prev,
+      dataList: appnav_priv,
+      pc: pc,
+      rt: rt,
     }));
   };
   const date_type = state.date_type;
@@ -548,6 +599,8 @@ const SmartComponentsFiltering = () => {
     meter_type_sixteen,
     onChangeTextDate,
     date_type,
+    readerTagsCount,
+    onArrangeData,
   };
 };
 

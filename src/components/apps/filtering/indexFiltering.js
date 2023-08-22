@@ -134,6 +134,7 @@ const IndexFiltering = () => {
             invalid={param.invalid}
             meter_type_sixteen={param.meter_type_sixteen}
             zeroCount={param.zeroCount}
+            readerTagsCount={param.readerTagsCount}
           />
         </Grid>
         <Grid item xs={12} md={12}>
@@ -147,6 +148,7 @@ const IndexFiltering = () => {
           <TableList
             dataList={param.dataList}
             onSelectItem={param.onSelectItem}
+            onArrangeData={param.onArrangeData}
           />
         </Grid>
       </Grid>
