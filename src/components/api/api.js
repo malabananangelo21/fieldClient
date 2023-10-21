@@ -2,7 +2,7 @@ import axios from "axios";
 // import swal from "sweetalert/dist/sweetalert.min.js";
 // let serverurl = "http://api.pacificweb.com.ph/";
 // let serverurl = "http://localhost/api";
-let serverurl = "https://fieldplusapi.greenzoneph.com/";
+let serverurl = "https://workflowapi.greenzoneph.com/";
 // let serverurl ="http://192.168.0.9/backend/api/";
 // let serverurl ="http://192.168.5.21/backend/beta_api/";
 // let serverurl = "http://beta.api.pacificweb.com.ph/";
@@ -39,6 +39,6 @@ export function cancelRequest() {
   source = CancelToken.source();
 }
 export const serverImageMeter =
-  "https://fieldplusapi.greenzoneph.com/assets/img/meter/";
+  "https://workflowapi.greenzoneph.com/assets/img/meter/";
 export const serverProfile =
   "https://images.workflow.gzonetechph.com/pockethr/profilepic/";

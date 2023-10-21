@@ -100,13 +100,13 @@ function App() {
     if (typeof localStorage.getItem("u") === "object") {
       if (typeof getUrlVars()["u"] !== "undefined") {
         localStorage.setItem("u", getUrlVars()["u"]);
-        window.location.replace("http://client.fieldplus.gzonetechph.com/#/");
+        window.location.replace("http://fieldplus.greenzoneph.com/#/");
         // window.location.replace('http://localhost:3000');
       } else {
         console.log(localStorage.getItem("u"));
         localStorage.setItem("cookies", 1);
         window.location.replace(
-          "https://accounts.workflow.gzonetechph.com/?goto=" +
+          "https://login.greenzoneph.com/?goto=" +
             window.location +
             "&app=" +
             state.loginData.app_id
