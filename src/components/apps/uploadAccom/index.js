@@ -31,7 +31,7 @@ import UploadFile from "./upload_file";
 import Form from "./form";
 import TableTemplate from "./table_template";
 import readXlsxFile from "read-excel-file";
-import axios from "axios"
+import axios from "axios";
 
 const UploadFileComponent = React.memo(
   ({ refesh_upload_file, handleChange, onSubmitUpload }) => {
@@ -69,8 +69,8 @@ const FormComponent = React.memo(
 );
 
 const TableTemplateComponent = React.memo(
-
-  ({ template_status,
+  ({
+    template_status,
     refresh_table_template,
     upload_data,
     dynamicHeader,
@@ -80,9 +80,9 @@ const TableTemplateComponent = React.memo(
     jo_type,
     cancelTemplate,
     date_start_val,
-    file_name
+    file_name,
   }) => {
-    console.log(dynamicHeader)
+    console.log(dynamicHeader);
     return (
       <TableTemplate
         upload_data={upload_data}
@@ -108,7 +108,7 @@ const TableTemplateComponent = React.memo(
   }
 );
 
-const AssignFieldmanComponents = React.memo(({ props }) => { });
+const AssignFieldmanComponents = React.memo(({ props }) => {});
 function Index() {
   const home_reducer = useSelector((state) => state.home_reducer);
   const classes = useStyles();
@@ -136,11 +136,11 @@ function Index() {
     jo_type: "",
     disable_form: false,
     date_start_val: new Date(),
-    file_name: ''
+    file_name: "",
   });
 
   const handleChange = (files) => {
-    console.log(files)
+    console.log(files);
     setState({
       ...state,
       files: files,
@@ -157,18 +157,25 @@ function Index() {
   // FormComponent End
   const onSubmitUpload = (e) => {
     e.preventDefault();
-    dispatch_data("LoadingIndex", true)
-    let filename = state.files[0].name
+    dispatch_data("LoadingIndex", true);
+    let filename = state.files[0].name;
 
     const formData = new FormData();
     for (let i = 0; i < state.files.length; i++) {
-      formData.append('file' + i, state.files[i])
+      formData.append("file" + i, state.files[i]);
     }
-    axios.post("https://api.workflow.gzonetechph.com/aam/uploadDynamicData/" + localStorage.getItem("u") + "/" + "?key=PocketHR@20190208&type=web", formData)
+    axios
+      .post(
+        "https://fieldplusapi.greenzoneph.com/aam/uploadDynamicData/" +
+          localStorage.getItem("u") +
+          "/" +
+          "?key=PocketHR@20190208&type=web",
+        formData
+      )
       .then((response) => {
-        if(response.data.error){
-          alert(response.data.error_message)
-        }else{
+        if (response.data.error) {
+          alert(response.data.error_message);
+        } else {
           setState({
             ...state,
             template_status: state.template_status,
@@ -177,14 +184,12 @@ function Index() {
             refesh_upload_file: !state.refesh_upload_file,
             refresh_form: !state.refresh_form,
             refresh_table_template: !state.refresh_table_template,
-            file_name:filename                                 
+            file_name: filename,
           });
-      }
-    dispatch_data("LoadingIndex", false)
-
-      })
+        }
+        dispatch_data("LoadingIndex", false);
+      });
   };
-
 
   const onOpenUpload = (
     data,
@@ -210,7 +215,7 @@ function Index() {
       company_id: company_id,
       jo_type: jo_type,
       disable_form: true,
-      date_start_val: date_start_val
+      date_start_val: date_start_val,
     });
   };
   const cancelTemplate = () => {
@@ -222,18 +227,18 @@ function Index() {
       refresh_form: !state.refresh_form,
       refresh_table_template: !state.refresh_table_template,
       upload_data: [],
-      dynamicHeader: []
-    })
-  }
+      dynamicHeader: [],
+    });
+  };
   return (
-    <div className={classes.root} style={{paddingRight:20}}>
+    <div className={classes.root} style={{ paddingRight: 20 }}>
       <Backdrop
         className={classes.backdrop}
         open={home_reducer.loadingIndex}
         // onClick={() => dispatch_data("LoadingIndex", false)}
         style={{ zIndex: 99999999 }}
       >
-        <div className='loader'></div>
+        <div className="loader"></div>
         {/* <CircularProgress color="inherit" /> */}
       </Backdrop>
       <Breadcrumbs aria-label="breadcrumb" gutterBottom>
@@ -261,7 +266,9 @@ function Index() {
             company_id={state.company_id}
             ba={state.business_area}
             jo_type={state.jo_type}
-            cancelTemplate={() => { cancelTemplate() }}
+            cancelTemplate={() => {
+              cancelTemplate();
+            }}
             date_start_val={state.date_start_val}
             file_name={state.file_name}
           />

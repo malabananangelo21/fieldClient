@@ -179,7 +179,7 @@ function Index() {
     }
     axios
       .post(
-        "https://api.workflow.gzonetechph.com/aam/uploadDynamicData/" +
+        "https://fieldplusapi.greenzoneph.com/aam/uploadDynamicData/" +
           localStorage.getItem("u") +
           "/" +
           "?key=PocketHR@20190208&type=web",
