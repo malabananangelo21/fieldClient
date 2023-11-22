@@ -352,6 +352,40 @@ function Schedule_Table() {
         sel_filter
     );
   };
+  const onDualPrintperPage = () => {
+    let sel_filter = state.selected_filter;
+    let type_param = "";
+    selected_jo_type.map((val) => {
+      if (type_param !== "") {
+        type_param += "-";
+      }
+      type_param += val;
+    });
+    if (
+      state.selected_filter === "" ||
+      state.selected_filter === "ALL" ||
+      state.selected_filter === null ||
+      state.selected_filter === undefined
+    ) {
+      sel_filter = "ALL";
+    }
+    // window.open('http://api.workflow.gzonetechph.com/test/printingPDFAccom'+momentstate.selection.startDate).format('YYYY-MM-DD')+'/'+moment(state.selection.endDate).format('YYYY-MM-DD')+'/'+[state.selected_branch]+'/'+selected_jo_type+'/'+state.selected_ba);
+    window.open(
+      // "http://192.168.0.9/backend/api/test/printingPDFAccom/" +
+      "http://api.workflow.gzonetechph.com/report/printingPDFDualAccom/" +
+        moment(state.selection.startDate).format("YYYY-MM-DD") +
+        "/" +
+        moment(state.selection.endDate).format("YYYY-MM-DD") +
+        "/" +
+        state.selected_branch +
+        "/" +
+        type_param +
+        "/" +
+        state.selected_ba +
+        "/" +
+        sel_filter
+    );
+  };
   const onPrintperImage = () => {
     let sel_filter = state.selected_filter;
     let type_param = "";
@@ -1130,6 +1164,7 @@ function Schedule_Table() {
     async function handleBranch() {
       await getHandleBranch({ user_id: localStorage.getItem("u") }).then(
         (response) => {
+          console.log(response);
           let company = [];
           response.response.map((item) => {
             let match = false;
@@ -1489,6 +1524,16 @@ function Schedule_Table() {
                     <PictureAsPdfIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText primary="IMAGES" />
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    onDualPrintperPage();
+                  }}
+                >
+                  <ListItemIcon>
+                    <PictureAsPdfIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText primary="DUAL PAGE" />
                 </MenuItem>
               </>
             )}
@@ -2307,9 +2352,7 @@ function Schedule_Table() {
               </Select>
             </FormControl>
             {state.status === "Pending" ||
-            state.status === "ALL" ? //     label="Findings" //     onChange={onChange} //     id="demo-simple-select-outlined" //     labelId="demo-simple-select-outlined-label" //   <Select //   </InputLabel> //     Select Findings //   <InputLabel id="demo-simple-select-outlined-label"> // > //   className={classes.formControl} //   size="small" //   // required // <FormControl
-            //     name="finding"
-            //     disabled
+            state.status === "ALL" ? //     disabled //     name="finding" //     label="Findings" //     onChange={onChange} //     id="demo-simple-select-outlined" //     labelId="demo-simple-select-outlined-label" //   <Select //   </InputLabel> //     Select Findings //   <InputLabel id="demo-simple-select-outlined-label"> // > //   className={classes.formControl} //   size="small" //   // required // <FormControl
             //   >
             //     <MenuItem value="ALL">ALL</MenuItem>
             //     {state.select_findings.map((val) => {
